@@ -1,12 +1,14 @@
 """
 This module requires rhinoinside (https://github.com/mcneel/rhino.inside-cpython)
-and is meant to be used to control Grasshopper files from cpython.
+and is meant to be used to control Grasshopper files from cpython. 
+It can be used, for example, to automate generation of data samples to create a dataset.
+
 To install rhinoinside, run:
 
 pip install --user rhinoinside
 
 
-Author: Aleksandra Apolinarska, GKR, ETH Zürich
+Author: Aleksandra Apolinarska, Gramazio Kohler Research, ETH Zürich (2023)
 """
 
 import os
