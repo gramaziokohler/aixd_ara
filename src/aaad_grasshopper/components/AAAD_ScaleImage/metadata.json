@@ -1,0 +1,32 @@
+{
+    "name": "Get image from string and rescale.",
+    "nickname": "Get image from string and rescale.",
+    "category": "AAAD",
+    "subcategory": "Plotter",
+    "description": "Get image from string and rescale.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "base64_imgstr",
+                "description": "Image as string.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "scale",
+                "description": "Scale factor to rescale the original image.",
+                "typeHintID": "float",
+                "scriptParamAccess": 0
+            }
+        ],
+        "outputParameters": [
+            {
+                "name": "bitmap",
+                "description": "Bitmap."
+            }
+        ]
+    }
+}
