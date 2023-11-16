@@ -13,8 +13,8 @@ import random
 import pandas as pd
 from aaad.data.data_objects import DataBool
 import numpy as np
-from aaad.data.utils_data import reformat_dataframeflat_to_dict, reformat_list_to_dict
-from aaad_grasshopper.shallow_objects import DataBool_from_shallow, DataCategorical_from_shallow, DataInt_from_shallow, DataReal_from_shallow, dataobjects_from_shallow
+from aaad.data.utils_data import reformat_dataframeflat_to_dict, reformat_list_to_dict, reformat_dict_to_dictlist
+from aaad_grasshopper.shallow_objects import dataobjects_from_shallow
 from typing import List, Dict
 
 # import torchsummary
@@ -57,6 +57,18 @@ class SessionController(object):
         self.dataset = dataset
 
         return True
+
+    def generate_dp_samples(self, n_samples, samples_per_file):
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+
+        self.dataset.sampling(n_samples=n_samples, samples_perfile=samples_per_file, callbacks_class=None, engine="random", flag_sample_distrib=False)
+
+        self.dataset.load()
+        data = self.dataset.design_par.data
+        samples_dict = reformat_dataframeflat_to_dict(data, self.dataset.design_par.dobj_list)
+        samples_dict = reformat_dict_to_dictlist(samples_dict)
+        return samples_dict
 
     def load_dataset(self):
         if not self.root_path or not self.dataset_name:

@@ -48,6 +48,22 @@ def create_dataset_object():
     return str(response)
 
 
+@app.route("/generate_dp_samples", methods=["POST"])
+def generate_dp_samples():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    n_samples = data["n_samples"]
+    samples_per_file = data["samples_per_file"]
+
+    result = sc.generate_dp_samples(n_samples, samples_per_file)
+    response = json.dumps(result, cls=DataEncoder)
+
+    return str(response)
+
+
 @app.route("/load_dataset", methods=["GET"])
 def load_dataset():
     args = request.args
