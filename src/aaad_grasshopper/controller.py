@@ -1,5 +1,6 @@
 import aaad
 from aaad.data.dataset import Dataset
+from aaad.data.data_objects import DataInt
 from aaad.data.data_blocks import DesignParameters, PerformanceAttributes, InputML, OutputML
 from aaad.visualisation.plotter import Plotter
 from aaad.mlmodel.data.data_loader import DataModule
@@ -16,6 +17,7 @@ import numpy as np
 from aaad.data.utils_data import reformat_dataframeflat_to_dict, reformat_list_to_dict, reformat_dict_to_dictlist
 from aaad_grasshopper.shallow_objects import dataobjects_from_shallow
 from typing import List, Dict
+from aaad_grasshopper.wrappers import WrapperSample
 
 # import torchsummary
 
@@ -67,8 +69,33 @@ class SessionController(object):
         self.dataset.load()
         data = self.dataset.design_par.data
         samples_dict = reformat_dataframeflat_to_dict(data, self.dataset.design_par.dobj_list)
-        samples_dict = reformat_dict_to_dictlist(samples_dict)
-        return samples_dict
+        samples_dictlist = reformat_dict_to_dictlist(samples_dict)
+        return samples_dictlist
+
+    def getdata_design_parameters(self):
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+
+        self.dataset.load()
+        data = self.dataset.design_par.data
+        dp_dict = reformat_dataframeflat_to_dict(data, self.dataset.design_par.dobj_list)  # + [DataInt(name="uid", dim=1)])
+        dp_dictlist = reformat_dict_to_dictlist(dp_dict)
+        return dp_dictlist
+
+    @property
+    def datablocks_dataobjects(self):
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+        blocks = {}
+        blocks["design_parameters"] = self.dataset.design_par.names_list
+        blocks["performance_attributes"] = self.dataset.perf_attributes.names_list
+        return blocks
+
+    @property
+    def design_parameters_names(self):
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+        return self.dataset.design_par.names_list
 
     def load_dataset(self):
         if not self.root_path or not self.dataset_name:

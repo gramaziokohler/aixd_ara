@@ -1,3 +1,6 @@
+from compas.data import Data
+
+
 class WrapperShallowDataObject(object):
     """
     Generic wrapper to store the shallow data object definitions as dictionaries.
@@ -21,7 +24,7 @@ class WrapperGH(object):
         self.data = data
 
 
-class WrapperSample(object):
+class WrapperSample(Data):
     """
     Simple wrapper class to store data of a single design sample.
     Intended to collect samples values for dataobjects.
@@ -36,4 +39,4 @@ class WrapperSample(object):
         self.dataobjects = dataobjects  # intended for an unsorted collection of dataobjects which is neither the colleciton in dp or pa.
 
     def __repr__(self):
-        pass
+        return "Sample Wrapper dp={} pa={} other={}".format(self.design_parameters, self.performance_attributes, self.dataobjects)

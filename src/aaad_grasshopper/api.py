@@ -82,6 +82,30 @@ def dataset_summary():
     return str(response)
 
 
+@app.route("/getdata_design_parameters", methods=["POST"])
+def getdata_design_parameters():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.getdata_design_parameters()
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
+@app.route("/datablocks_dataobjects", methods=["POST"])
+def datablocks_dataobjects():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+    result = sc.datablocks_dataobjects
+    print(result)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
 @app.route("/plot_distrib_attributes", methods=["GET"])
 def plot_distrib_attributes():
     args = request.args
