@@ -1,3 +1,8 @@
+"""
+This module contains methods that are intended to run in cpython in a server app. 
+Do not call it from Rhino/Grasshopper (imports will fail in IronPython).
+"""
+
 import aaad
 from aaad.data.dataset import Dataset
 from aaad.data.data_objects import DataInt
@@ -14,7 +19,7 @@ import random
 import pandas as pd
 from aaad.data.data_objects import DataBool
 import numpy as np
-from aaad.data.utils_data import reformat_dataframeflat_to_dict, reformat_list_to_dict, reformat_dict_to_dictlist
+from aaad.data.utils_data import reformat_dataframeflat_to_dict, reformat_list_to_dict, reformat_dict_to_dictlist, reformat_dict_to_dataframe, reformat_dataframe_to_dataframeflat
 from aaad_grasshopper.shallow_objects import dataobjects_from_shallow
 from typing import List, Dict
 from aaad_grasshopper.wrappers import WrapperSample
@@ -31,6 +36,7 @@ class SessionController(object):
         self.dataset = None
         self.model = None
         self.datamodule = None
+        self.samples_per_file = None
 
     @classmethod
     def create(cls, session_id):
@@ -64,6 +70,7 @@ class SessionController(object):
         if not self.dataset:
             raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
 
+        self.samples_per_file = samples_per_file  # keep it for other methods to be able to retrieve it
         self.dataset.sampling(n_samples=n_samples, samples_perfile=samples_per_file, callbacks_class=None, engine="random", flag_sample_distrib=False)
 
         self.dataset.load()
@@ -117,6 +124,27 @@ class SessionController(object):
         report = "* Loaded a total of {} samples from {} files".format(len(self.dataset.design_par.data), len(id_to_open))
 
         return report
+
+    def import_data_from_dict(self, datadict, samples_per_file=None):
+        """
+        Imports data created elsewhere (e.g. performance attributes calculated in Grasshopper) and formated as a dictionary, to the dataset and saves to files.
+        datadict: dictionary containing keys equal to object names and values are lists of data values.
+                format: datadict[object_name_as_key][nth_sample][ith_dimension]
+                TODO: must also contain an 'uid' key?
+
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+        if not samples_per_file:
+            samples_per_file = self.samples_per_file
+        if not samples_per_file:
+            raise ValueError("Argument 'samples per file' is not specified (neither in the project nor given as argument here).")
+
+        dataobjects = [d for d in self.dataset.dataobjects if d.name in datadict.keys()]
+        df = self._reformat_dict_to_dataframeflat(datadict, dataobjects)
+        self.dataset.import_data_from_df(data=df, samples_perfile=samples_per_file)
+
+        return True  # confirm it went well
 
     def dataset_summary(self):
         if not self.dataset:
@@ -416,6 +444,25 @@ class SessionController(object):
             ),
         )
         return str(pl.utilities.model_summary.ModelSummary(model, max_depth=max_depth))
+
+    def _reformat_dict_to_dataframeflat(self, datadict, dataobjects):
+        """
+        dict: dictionary containing original object names as keys, and list of (lists of) values for samples
+        datadict[objectname_as_key][nth_samples][ith_dimension]
+        """
+        n = len(list(datadict.items())[0][1])  # get number of samples, assert it's consistent across data
+        assert all([len(vals) == n for keys, vals in datadict.items()])
+
+        dataframe_flat = pd.DataFrame()
+        for dobj in dataobjects:
+            if dobj.name not in datadict.keys():
+                continue
+            names_flat = dobj.columns_df
+            for i, nf in enumerate(names_flat):
+                # i also refers to the ith dimension in multi-dim data objects
+                values = [datadict[dobj.name][j][i] for j in range(n)]  # collect values for the ith dimension for all samples
+                dataframe_flat[nf] = values
+        return dataframe_flat
 
 
 if __name__ == "__main__":
