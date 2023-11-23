@@ -19,7 +19,14 @@ import random
 import pandas as pd
 from aaad.data.data_objects import DataBool
 import numpy as np
-from aaad.data.utils_data import reformat_dataframeflat_to_dict, reformat_list_to_dict, reformat_dict_to_dictlist, reformat_dict_to_dataframe, reformat_dataframe_to_dataframeflat
+from aaad.data.utils_data import (
+    reformat_dataframeflat_to_dict,
+    reformat_list_to_dict,
+    reformat_dict_to_dictlist,
+    reformat_dict_to_dataframe,
+    reformat_dataframe_to_dataframeflat,
+    reformat_dictlist_to_dict,
+)
 from aaad_grasshopper.shallow_objects import dataobjects_from_shallow
 from typing import List, Dict
 from aaad_grasshopper.wrappers import WrapperSample
@@ -85,7 +92,7 @@ class SessionController(object):
 
         self.dataset.load()
         data = self.dataset.design_par.data
-        dp_dict = reformat_dataframeflat_to_dict(data, self.dataset.design_par.dobj_list)  # + [DataInt(name="uid", dim=1)])
+        dp_dict = reformat_dataframeflat_to_dict(data, self.dataset.design_par.dobj_list + [DataInt(name="uid", dim=1)])
         dp_dictlist = reformat_dict_to_dictlist(dp_dict)
         return dp_dictlist
 
@@ -129,9 +136,8 @@ class SessionController(object):
         """
         Imports data created elsewhere (e.g. performance attributes calculated in Grasshopper) and formated as a dictionary, to the dataset and saves to files.
         datadict: dictionary containing keys equal to object names and values are lists of data values.
-                format: datadict[object_name_as_key][nth_sample][ith_dimension]
-                TODO: must also contain an 'uid' key?
-
+                  format: list of n dictionaries datadict[nth_sample][object_name_as_key][ith_dimension]
+                  TODO: must also contain an 'uid' key?
         """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
@@ -140,6 +146,7 @@ class SessionController(object):
         if not samples_per_file:
             raise ValueError("Argument 'samples per file' is not specified (neither in the project nor given as argument here).")
 
+        datadict = reformat_dictlist_to_dict(datadict)
         dataobjects = [d for d in self.dataset.dataobjects if d.name in datadict.keys()]
         df = self._reformat_dict_to_dataframeflat(datadict, dataobjects)
         self.dataset.import_data_from_df(data=df, samples_perfile=samples_per_file)
@@ -167,6 +174,7 @@ class SessionController(object):
         return txt
 
     def get_design_parameters(self):
+        # TODO: rename
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
         print(self.dataset.design_par)
