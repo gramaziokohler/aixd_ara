@@ -91,8 +91,8 @@ def analysis_callback(ghdoc,dp_samples, pa_names):
     # save performance attributes to dataset
     return pa_samples
 
-def save_pa_to_database():
-    return http_post_request("import_data_from_dict",{"session_id":session_id})
+def save_pa_to_database(dictdata):
+    return http_post_request("import_data_from_dict",{"session_id":session_id, "dictdata":dictdata})
 
 
 #-------------------------------------------------------------------------------

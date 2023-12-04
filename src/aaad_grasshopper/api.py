@@ -94,6 +94,19 @@ def getdata_design_parameters():
     return response
 
 
+@app.route("/import_data_from_dict", methods=["POST"])
+def import_data_from_dict():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    datadict = data["datadict"]
+    sc = SessionController.create(session_id)
+
+    result = sc.import_data_from_dict(datadict)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
 @app.route("/datablocks_dataobjects", methods=["POST"])
 def datablocks_dataobjects():
     data = request.data
@@ -293,4 +306,4 @@ def _fig_to_str(fig):
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8000, debug=True)
+    app.run(host="127.0.0.1", port=8000, debug=False)
