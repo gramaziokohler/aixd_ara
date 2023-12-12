@@ -119,67 +119,52 @@ def datablocks_dataobjects():
     return response
 
 
-@app.route("/plot_distrib_attributes", methods=["GET"])
+@app.route("/plot_distrib_attributes", methods=["POST"])
 def plot_distrib_attributes():
-    args = request.args
-    session_id = args["session_id"]
-    sc = SessionController.create(session_id)
-
-    output_type = args["output_type"]
-    attributes = args["attributes"]
-    if not attributes == "all":
-        attributes = attributes.split(",")
-
-    fig = sc.plot_distrib_attributes(attributes)
-    response = _fig_output(fig, output_type)
-
-    return str(response)
-
-
-@app.route("/plot_correlations2", methods=["GET"])
-def plot_correlations2():
-    args = request.args
-    session_id = args["session_id"]
-    sc = SessionController.create(session_id)
-
-    output_type = args["output_type"]
-    attributes = args["attributes"]
-    if not attributes == "all":
-        attributes = attributes.split(",")
-    fig = sc.plot_correlations(attributes)
-    response = _fig_output(fig, output_type)
-
-    return str(response)
-
-
-@app.route("/plot_correlations", methods=["POST"])
-def plot_correlations():
     data = request.data
-    data = pickle.loads(data)
+    data = json.loads(data)
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
     output_type = data["output_type"]
     attributes = data["attributes"]
+    fig = sc.plot_distrib_attributes(dataobjects=attributes)
+    fig = _fig_output(fig, output_type)
 
-    fig = sc.plot_correlations(attributes)
-    response = _fig_output(fig, output_type)
-
-    return str(response)
+    response = json.dumps(fig, cls=DataEncoder)
+    return response
 
 
-@app.route("/plot_distrib_attributes2d", methods=["GET"])
-def plot_distrib_attributes2d():
-    args = request.args
-    session_id = args["session_id"]
+@app.route("/plot_correlations", methods=["POST"])
+def plot_correlations():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
-    output_type = args["output_type"]
+    output_type = data["output_type"]
+    attributes = data["attributes"]
+    fig = sc.plot_correlations(dataobjects=attributes)
+    fig = _fig_output(fig, output_type)
 
-    fig = sc.plot_distrib_attributes2d()
-    response = _fig_output(fig, output_type)
+    response = json.dumps(fig, cls=DataEncoder)
+    return response
 
-    return str(response)
+
+@app.route("/plot_distrib_attributes2d", methods=["POST"])
+def plot_distrib_attributes2d():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    output_type = data["output_type"]
+    attributes = data["attributes"]
+    fig = sc.plot_distrib_attributes2d(dataobjects=attributes)
+    fig = _fig_output(fig, output_type)
+
+    response = json.dumps(fig, cls=DataEncoder)
+    return response
 
 
 @app.route("/design_parameters", methods=["GET"])
@@ -306,4 +291,4 @@ def _fig_to_str(fig):
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8000, debug=False)
+    app.run(host="127.0.0.1", port=8000, debug=True)

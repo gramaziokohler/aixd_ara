@@ -3,22 +3,18 @@ This module contains methods that are intended to run in cpython in a server app
 Do not call it from Rhino/Grasshopper (imports will fail in IronPython).
 """
 
-import aaad
 from aaad.data.dataset import Dataset
 from aaad.data.data_objects import DataInt
 from aaad.data.data_blocks import DesignParameters, PerformanceAttributes, InputML, OutputML
 from aaad.visualisation.plotter import Plotter
 from aaad.mlmodel.data.data_loader import DataModule
 from aaad.mlmodel.architecture.nn_master_ae import CondAEModel
-import base64
 import os
 import pytorch_lightning as pl
 import torch
 from aaad.mlmodel.generation.generator import Generator
 import random
-import pandas as pd
 from aaad.data.data_objects import DataBool
-import numpy as np
 from aaad.data.utils_data import (
     reformat_dataframeflat_to_dict,
     reformat_list_to_dict,
@@ -30,8 +26,7 @@ from aaad.data.utils_data import (
 from aaad_grasshopper.shallow_objects import dataobjects_from_shallow
 from typing import List, Dict
 from aaad_grasshopper.wrappers import WrapperSample
-
-# import torchsummary
+from aaad.utils.utils import flatten_dict
 
 
 class SessionController(object):
@@ -147,8 +142,9 @@ class SessionController(object):
             raise ValueError("Argument 'samples per file' is not specified (neither in the project nor given as argument here).")
 
         datadict = reformat_dictlist_to_dict(datadict)
-        dataobjects = [d for d in self.dataset.dataobjects if d.name in datadict.keys()]
-        df = self._reformat_dict_to_dataframeflat(datadict, dataobjects)
+        dataobjects = [d for d in self.dataset.data_objects if d.name in datadict.keys()]
+        df = reformat_dict_to_dataframe(datadict)
+        df = reformat_dataframe_to_dataframeflat(df, dataobjects)
         self.dataset.import_data_from_df(data=df, samples_perfile=samples_per_file)
 
         return True  # confirm it went well
@@ -181,33 +177,52 @@ class SessionController(object):
         dp = self.dataset.design_par.names_list
         return dp
 
-    def plot_distrib_attributes(self, dataobject_names):
+    def plot_distrib_attributes(self, dataobjects):
+        """
+        dataobjects: list of dataobject names
+        """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
-        plotter = Plotter(self.dataset, output=None)
 
-        fig = plotter.distrib_attributes(
-            attributes=dataobject_names,
-            per_column=True,
-            bottom_top=(0.1, 0.9),
-            downsamp=1,
-        )
+        if not dataobjects:
+            block = self.dataset.perf_attributes.name  # by default, we're interested in performance attributes here
+        else:
+            block = self.blocknames_from_dataobjects(dataobjects)
+            if len(block) > 1:
+                raise ValueError("Dataobjects are not from the same block.")
+            if len(block) == 0:
+                raise ValueError("Dataobjects are not from any block.")
+
+        plotter = Plotter(self.dataset, output=None)
+        fig = plotter.distrib_attributes(block=block[0], attributes=dataobjects, per_column=True, bottom_top=(0.1, 0.9), downsamp=1, sub_figs=True)
         return fig
 
-    def plot_correlations(self, attributes):
+    def plot_correlations(self, dataobjects=[]):
+        """
+        blocks and dataobjects: lists of names
+        """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
-        plotter = Plotter(self.dataset, output=None)
 
-        fig = plotter.correlation(attributes=attributes)
+        if not dataobjects:
+            dataobjects = [d.name for d in self.dataset.data_objects]
+
+        blocks = self.blocknames_from_dataobjects(dataobjects)
+
+        plotter = Plotter(self.dataset, output=None)
+        fig = plotter.correlation(block=blocks, attributes=dataobjects)
         return fig
 
-    def plot_distrib_attributes2d(self):
+    def plot_distrib_attributes2d(self, dataobjects):
+        """
+        dataobjects: list of dataobject names
+        """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
-        plotter = Plotter(self.dataset, output=None)
+        blocks = self.blocknames_from_dataobjects(dataobjects)
 
-        fig = plotter.distrib_attributes2d()
+        plotter = Plotter(self.dataset, output=None)
+        fig = plotter.distrib_attributes2d(block=blocks, attributes=dataobjects)
         return fig
 
     def train_cae(self, inputML, outputML, latent_dim, layer_widths, batch_size, epochs):
@@ -410,29 +425,6 @@ class SessionController(object):
         generated = true_generator(n, request)
         return generated
 
-    @property
-    def _names_map_orig_flat(self):
-        m = {}
-        for do in self.all_dataobjects:
-            m[do.name_org] = do.columns_df
-        return m
-
-    @property
-    def _names_map_flat_orig(self):
-        m = {}
-        for do in self.all_dataobjects:
-            for c in do.columns_df:
-                m[c] = do.name_org
-        return m
-
-    @property
-    def all_dataobjects(self):
-        return self.dataset.design_par.dobj_list + self.dataset.perf_attributes.dobj_list
-
-    @property
-    def all_dataobjects_names(self):
-        return self.dataset.design_par.names_list + self.dataset.perf_attributes.names_list
-
     def _model_summary(self, model=None, max_depth=-1):
         if not model:
             model = self.model
@@ -453,27 +445,27 @@ class SessionController(object):
         )
         return str(pl.utilities.model_summary.ModelSummary(model, max_depth=max_depth))
 
-    def _reformat_dict_to_dataframeflat(self, datadict, dataobjects):
+    def all_block_names(self):
         """
-        dict: dictionary containing original object names as keys, and list of (lists of) values for samples
-        datadict[objectname_as_key][nth_samples][ith_dimension]
+        Returns all block names in the dataset.
         """
-        n = len(list(datadict.items())[0][1])  # get number of samples, assert it's consistent across data
-        assert all([len(vals) == n for keys, vals in datadict.items()])
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
 
-        dataframe_flat = pd.DataFrame()
-        for dobj in dataobjects:
-            if dobj.name not in datadict.keys():
-                continue
-            names_flat = dobj.columns_df
-            for i, nf in enumerate(names_flat):
-                # i also refers to the ith dimension in multi-dim data objects
-                values = [datadict[dobj.name][j][i] for j in range(n)]  # collect values for the ith dimension for all samples
-                dataframe_flat[nf] = values
-        return dataframe_flat
+        datablocks = flatten_dict(self.dataset.data_blocks)
+        names = [db.name for db in datablocks]
+        return names
 
+    def blocknames_from_dataobjects(self, dataobjects):
+        """
+        Returns the name of the block that contains the given dataobjects (given by their name).
+        """
+        datablocks = flatten_dict(self.dataset.data_blocks)  # list of all blocks
 
-if __name__ == "__main__":
-    c1 = SessionController.create("blierzgale")
-    c2 = SessionController.create("blierzgale")
-    print(c1 == c2)
+        blocknames = []
+        for block in datablocks:
+            for dobjname in dataobjects:
+                if dobjname in block.names_list:
+                    blocknames.append(block.name)
+
+        return list(set(blocknames))
