@@ -12,6 +12,8 @@ class WrapperShallowDataObject(object):
     def __repr__(self):
         return "{}: '{}' dim={} domain={}".format(self.data["datatype"], self.data["name"], self.data["dim"], self.data["domain"])
 
+    def __str__(self):
+        return self.__repr__()
 
 class WrapperGH(object):
     """

@@ -68,18 +68,25 @@ class SessionController(object):
 
         return True
 
-    def generate_dp_samples(self, n_samples, samples_per_file):
+    def generate_dp_samples(self, n_samples):
         if not self.dataset:
             raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
 
-        self.samples_per_file = samples_per_file  # keep it for other methods to be able to retrieve it
-        self.dataset.sampling(n_samples=n_samples, samples_perfile=samples_per_file, callbacks_class=None, engine="random", flag_sample_distrib=False)
-
-        self.dataset.load()
-        data = self.dataset.design_par.data
-        samples_dict = reformat_dataframeflat_to_dict(data, self.dataset.design_par.dobj_list)
-        samples_dictlist = reformat_dict_to_dictlist(samples_dict)
+        samples_dictlist = self.dataset.get_samples(n_samples=n_samples, format_out='dict_list')
         return samples_dictlist
+    
+    def save_samples(self, samples, samples_per_file):
+        """
+        Adds samples to dataset, saves them to files and saves the dataset object.
+        Samples can be in any of the formats used in the project.
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+        if not samples_per_file: samples_per_file=None
+
+        self.dataset.write_data_dp_pa(data_combined = samples, samples_perfile = samples_per_file)
+        return True
+
 
     def getdata_design_parameters(self):
         if not self.dataset:

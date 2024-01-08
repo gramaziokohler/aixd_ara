@@ -56,12 +56,26 @@ def generate_dp_samples():
     sc = SessionController.create(session_id)
 
     n_samples = data["n_samples"]
-    samples_per_file = data["samples_per_file"]
 
-    result = sc.generate_dp_samples(n_samples, samples_per_file)
+    result = sc.generate_dp_samples(n_samples)
     response = json.dumps(result, cls=DataEncoder)
 
-    return str(response)
+    return response
+
+
+@app.route("/save_samples", methods=["POST"])
+def save_samples():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    n_samples = data["samples"]
+    samples_per_file = data["samples_per_file"]
+    result = sc.save_samples(n_samples, samples_per_file)
+    response = json.dumps(result, cls=DataEncoder)
+
+    return response
 
 
 @app.route("/load_dataset", methods=["GET"])
@@ -291,4 +305,4 @@ def _fig_to_str(fig):
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8000, debug=True)
+    app.run(host="127.0.0.1", port=8000, debug=False)
