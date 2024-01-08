@@ -194,7 +194,7 @@ def get_design_parameters():
 @app.route("/run_training", methods=["POST"])
 def run_training():
     data = request.data
-    data = pickle.loads(data)
+    data = json.loads(data)
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
@@ -215,13 +215,14 @@ def run_training():
     else:
         raise ValueError("Wrong model type. Select 'CAE' or 'VAE'.")
 
-    return str(result)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
 
 
 @app.route("/request_designs", methods=["POST"])
 def request_designs():
     data = request.data
-    data = pickle.loads(data)
+    data = json.loads(data)
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
 

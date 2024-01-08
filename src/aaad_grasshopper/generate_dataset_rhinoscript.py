@@ -95,8 +95,11 @@ def analysis_callback(ghdoc, dp_samples, pa_names):
             component_name = "REAL_{}".format(pa_name)
             component = find_component_by_nickname(ghdoc, component_name)
             pa_vals = get_values(component)
+            if isinstance(pa_vals, list):
+                if len(pa_vals)==1:
+                    pa_vals = pa_vals[0] #unpack from list
             pa_dict[pa_name]=pa_vals
-        
+
         pa_samples.append(pa_dict)
        
     # save performance attributes to dataset
@@ -125,8 +128,8 @@ def combine_dp_pa(dp_samples, pa_samples):
 #save_pa_to_database(pa_vals)
 
 
-n_samples = 10
-samples_per_batch = 2
+n_samples = 1000     
+samples_per_batch = 100
 n_batches = int(math.ceil(n_samples / samples_per_batch))
 
 for batch in range(n_batches):

@@ -353,83 +353,27 @@ class SessionController(object):
         if not self.model:
             raise ValueError("NN model is not loaded.")
 
-        def fake_generator(n):
-            new_designs = []
-            for i in range(n):
-                one_design = {"design_parameters": {}, "performance_attributes": {}}
-                for dp in self.dataset.data_blocks["design_parameters"].dobj_list_orig:
-                    name = dp.name
-                    vals = list(dp.random_samples(dp.dim))
-                    if "int" in dp.dtype:
-                        vals = [int(x) for x in vals]
-                    if "float" in dp.dtype:
-                        vals = [float(x) for x in vals]
-                    if name not in one_design["design_parameters"].keys():
-                        one_design["design_parameters"][name] = []
-                    one_design["design_parameters"][name] = vals
-                new_designs.append(one_design)
 
-            return new_designs  # list of dictionaries
+        generator = Generator(self.dataset, self.model, self.datamodule, over_sample=100)
 
-        def true_generator(n, request):
-            """
-            returns a list of dictionaries containing generated ("predicted designs")
-            each dict contains two entries: "design_parameters" and "performance_attributes", their values are dicts again
-            these dicts contain names of data objects as keys, and the values (possibly list or lists of lists)
-            """
+        attributes = list(request.keys())
+        y_req = [request[k] for k in attributes]
+        all_pred = generator.generation(y_req=y_req, attributes=attributes, n_samples=n, format_out="dict_list")
 
-            def generate_novel_designs(dataset, model, datamodule, request, n_results, as_list=True):
-                generator = Generator(dataset, model, datamodule, over_sample=100)
+        # split the result into separate dictionaries for design parameters and performance attributes
+        assert len(all_pred) == n
+        samples = []
+        for d in all_pred:
+            s = {"design_parameters": {}, "performance_attributes": {}}
+            for k, v in d.items():
+                if k in self.dataset.design_par.names_list:
+                    s["design_parameters"][k] = v
+                if k in self.dataset.perf_attributes.names_list:
+                    s["performance_attributes"][k] = v
+                    print(type(v))
+            samples.append(s)
+        return samples
 
-                attributes = list(request.keys())
-                y_req = [request[k] for k in attributes]
-                dict_out = generator.generation(y_req=y_req, attributes=attributes, n_samples=n_results, flag_norm=True, flag_peratt=False)
-
-                columns_inML = []
-                for do in datamodule.input_ml_dblock.dobj_list_orig:
-                    columns_inML.extend(do.columns_df)
-
-                columns_outML = []
-                for do in datamodule.output_ml_dblock.dobj_list_orig:
-                    columns_outML.extend(do.columns_df)
-
-                x_pred = dict_out["all"]["unnormalize"]["x_gen_best"]  # n_samplesx60 -> 5 constellations + 5x11 radii
-                inML_dict = reformat_list_to_dict(x_pred, datamodule.input_ml_dblock.dobj_list_orig, as_list)
-
-                ind_best = dict_out["all"]["ind_sort"][: len(x_pred)]
-                y_pred = dict_out["all"]["unnormalize"]["y_est_all"][ind_best]
-                # y_pred = list(np.array(y_pred, dtype=float))  # converts to np.float64
-                outML_dict = reformat_list_to_dict(y_pred, datamodule.output_ml_dblock.dobj_list_orig, as_list)
-
-                if as_list:
-                    all = []
-                    for di, do in zip(inML_dict, outML_dict):
-                        di.update(do)
-                        all.append(di)
-                else:
-                    inML_dict.update(outML_dict)
-                    all = inML_dict
-
-                return all
-
-            all_pred = generate_novel_designs(self.dataset, self.model, self.datamodule, request, n)
-
-            assert len(all_pred) == n
-            samples = []
-
-            for d in all_pred:
-                s = {"design_parameters": {}, "performance_attributes": {}}
-                for k, v in d.items():
-                    if k in self.dataset.design_par.names_list:
-                        s["design_parameters"][k] = v
-                    if k in self.dataset.perf_attributes.names_list:
-                        s["performance_attributes"][k] = v
-                        print(type(v))
-                samples.append(s)
-            return samples
-
-        # generated = fake_generator(n)
-        generated = true_generator(n, request)
         return generated
 
     def _model_summary(self, model=None, max_depth=-1):
