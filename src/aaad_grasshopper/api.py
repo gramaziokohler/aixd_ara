@@ -32,6 +32,17 @@ def project_setup():
     sc.project_setup(root, dataset_name)
     return "Done!"
 
+@app.route("/project_setup_info", methods=["POST"])
+def project_setup_info():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.project_setup_info()
+    response = json.dumps(result, cls=DataEncoder)
+
+    return response
 
 @app.route("/create_dataset_object", methods=["POST"])
 def create_dataset_object():

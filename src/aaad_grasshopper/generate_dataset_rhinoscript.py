@@ -1,6 +1,9 @@
 """
-Run this file in Rhino Python Editor.
-The Grasshopper file must be the first active file. (Close all other Grasshopper files to avoid confusion.)
+Run this file in Rhino Python Editor or add it to your toolbar as a button using:
+    > right-click on a toolbar > New Button... > in the pop-up window, in Command section, add:
+    "! _-RunPythonScript "<path>\generate_dataset_rhinoscript.py" 
+The Grasshopper file must be the first active file. 
+(Close all other Grasshopper files to avoid confusion.)
 """
 
 import os
@@ -10,6 +13,7 @@ import random
 import json
 import urllib2
 import math
+import rhinoscriptsyntax as rs
 
 from aaad_grasshopper.gh_ui_helper import http_post_request, find_component_by_nickname, TYPES
 
@@ -122,18 +126,35 @@ def combine_dp_pa(dp_samples, pa_samples):
 #-------------------------------------------------------------------------------
 # RUN
 
-#dp_samples = load_dps() 
-#pa_names = get_pa_names()
-#pa_vals = analysis_callback(ghdoc,dp_samples, pa_names)
-#save_pa_to_database(pa_vals)
+def run(n_batches, samples_per_batch):
+
+    for batch in range(n_batches):
+        #print("Sampling batch {}/{}... (samples {}..{})".format(batch+1, n_batches, batch*samples_per_batch, (batch+1)*samples_per_batch-1))
+        dp_samples = generate_dp_samples(samples_per_batch)
+        pa_samples = calculate_pa_samples(ghdoc, dp_samples)
+        samples = combine_dp_pa(dp_samples, pa_samples)
+        add_samples_to_dataset(samples, samples_per_batch)
 
 
-n_samples = 1000     
-samples_per_batch = 100
+#-------------------------------------------------------------------------------
+# INPUT INTERFACE
+
+n_samples = rs.GetInteger("Number of samples to generate: ", number = 1000, minimum=1, maximum=None)
+samples_per_batch = rs.GetInteger("Number of samples per batch file: ", number = n_samples/10, minimum=1, maximum=n_samples)
+
 n_batches = int(math.ceil(n_samples / samples_per_batch))
+n_samples_final = n_batches * samples_per_batch
 
-for batch in range(n_batches):
-    dp_samples = generate_dp_samples(samples_per_batch)
-    pa_samples = calculate_pa_samples(ghdoc, dp_samples)
-    samples = combine_dp_pa(dp_samples, pa_samples)
-    add_samples_to_dataset(samples, samples_per_batch)
+
+
+pr = http_post_request("project_setup_info", {"session_id": session_id})
+root = pr['root_path']
+dataset_name = pr['dataset_name']
+target_path = os.path.join(root,dataset_name)
+
+print("\t (I will generate {} samples in {} batches and save them in {})".format(n_samples_final, n_batches, target_path))
+
+
+run(n_batches, samples_per_batch)
+
+print("\t successfully generated all {} samples in {} batch files".format(n_samples, n_batches))

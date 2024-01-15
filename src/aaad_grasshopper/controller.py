@@ -50,6 +50,9 @@ class SessionController(object):
         self.root_path = root_path
         self.dataset_name = dataset_name
 
+    def project_setup_info(self):
+        return {"root_path": self.root_path, "dataset_name": self.dataset_name}
+
     def create_dataset_object(self, design_parameters, performance_attributes):
         """
         Creates a dataset object based on given definitions of dataobjects in shallow formatting.
