@@ -228,7 +228,7 @@ def request_designs():
 
     requested_values = data["requested_values"]
     n_designs = data["n_designs"]
-    result = sc.request_designs(n_designs, requested_values)
+    result = sc.request_designs(requested_values, n_designs)
     result = json.dumps(result, cls=DataEncoder)
     return result
 
@@ -236,14 +236,13 @@ def request_designs():
 @app.route("/get_one_sample", methods=["POST"])
 def get_one_sample():
     data = request.data
-    data = pickle.loads(data)
+    data = json.loads(data)
     session_id = data["session_id"]
 
     sc = SessionController.create(session_id)
 
     item = data["item"]
     result = sc.get_one_sample(item)
-    print(result)
     result = json.dumps(result, cls=DataEncoder)
     return result
 

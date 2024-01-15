@@ -117,9 +117,10 @@ class SessionController(object):
         if not self.root_path or not self.dataset_name:
             raise ValueError("You need to first set the project root path and the dataset name.")
         try:
-            dataset = Dataset(root_path=self.root_path, name=self.dataset_name)
+            dataset = Dataset(root_path=self.root_path, name=self.dataset_name, overwrite=False)
             dataset.load_dataset_obj()
             dataset.load()
+            dataset.update_obj_domains(flag_only_perfatt=True)
         except:
             dataset = None
             raise ValueError("Loading dataset failed.")
@@ -318,7 +319,7 @@ class SessionController(object):
             dct[key] = values[item]
         sample["design_parameters"] = dct
 
-        dct = reformat_dataframeflat_to_dict(self.dataset.perf_attributes.data, self.dataset.design_par.dobj_list)
+        dct = reformat_dataframeflat_to_dict(self.dataset.perf_attributes.data, self.dataset.perf_attributes.dobj_list)
         for key, values in dct.items():
             dct[key] = values[item]
         sample["performance_attributes"] = dct
@@ -326,11 +327,12 @@ class SessionController(object):
         # for single-value entries, unpack them from a list [123] -> 123
         for x in sample.keys():
             for k, v in sample[x].items():
-                if len(v) == 1:
-                    sample[x][k] = v[0]
+                if isinstance(v,list):
+                    if len(v) == 1:
+                        sample[x][k] = v[0]
         return sample
 
-    def request_designs(self, n, request):
+    def request_designs(self, request, n_samples=1):
         """
         Parameters
         ----------
@@ -354,27 +356,22 @@ class SessionController(object):
             raise ValueError("NN model is not loaded.")
 
 
-        generator = Generator(self.dataset, self.model, self.datamodule, over_sample=100)
+        gen = Generator(model = self.model, datamodule = self.datamodule, over_sample=100)
+        new_designs = gen.generation(request = request, n_samples=n_samples, format_out="dict_list")
 
-        attributes = list(request.keys())
-        y_req = [request[k] for k in attributes]
-        all_pred = generator.generation(y_req=y_req, attributes=attributes, n_samples=n, format_out="dict_list")
-
-        # split the result into separate dictionaries for design parameters and performance attributes
-        assert len(all_pred) == n
+        #split the result into separate dictionaries for design parameters and performance attributes
+        assert len(new_designs) == n_samples
         samples = []
-        for d in all_pred:
+        for d in new_designs:
             s = {"design_parameters": {}, "performance_attributes": {}}
             for k, v in d.items():
                 if k in self.dataset.design_par.names_list:
                     s["design_parameters"][k] = v
                 if k in self.dataset.perf_attributes.names_list:
                     s["performance_attributes"][k] = v
-                    print(type(v))
             samples.append(s)
+        
         return samples
-
-        return generated
 
     def _model_summary(self, model=None, max_depth=-1):
         if not model:
