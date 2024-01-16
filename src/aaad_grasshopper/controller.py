@@ -258,15 +258,18 @@ class SessionController(object):
         datamodule = DataModule.from_dataset(self.dataset, input_ml_names=inputML, output_ml_names=outputML, batch_size=batch_size)
         self.datamodule = datamodule
 
-        cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim)
+
+        datapath = os.path.join(self.root_path, self.dataset_name)
+        cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim, datapath =datapath)
         cae.fit(
             datamodule,
             name_run="",
             max_epochs=epochs,
             callbacks=[],
             accelerator="cpu",
-            flag_wandb=False,
+            flag_wandb=True,
         )
+
         # TODO: add some callback so that we can have a progress preview in Grasshopper
 
         # TODO: store the best model in controller?
@@ -281,16 +284,14 @@ class SessionController(object):
             if not os.path.exists(checkpoint_path):
                 raise ValueError(f"The given checkpoint path does not exist: {checkpoint_path}")
         else:
-            if checkpoint_name in [None, ""]:
+            checkpoint_path = os.path.join(self.root_path,self.dataset_name, "checkpoints")
+
+        if checkpoint_name in [None, ""]:
                 checkpoint_name = "last"
-            checkpoint_path = os.path.join(
-                self.root_path,
-                self.dataset_name,
-                "checkpoints",
-                checkpoint_name + ".ckpt",
-            )
-            if not os.path.exists(checkpoint_path):
-                raise ValueError(f"The given checkpoint name or path does not exist: {checkpoint_path}")
+
+        checkpoint_path = os.path.join(checkpoint_path,checkpoint_name + ".ckpt")
+        if not os.path.exists(checkpoint_path):
+            raise ValueError(f"The given checkpoint name or path does not exist: {checkpoint_path}")
 
         cae = CondAEModel.load_model_from_checkpoint(checkpoint_path)
         self.model = cae
