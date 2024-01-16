@@ -27,6 +27,7 @@ from aaad_grasshopper.shallow_objects import dataobjects_from_shallow
 from typing import List, Dict
 from aaad_grasshopper.wrappers import WrapperSample
 from aaad.utils.utils import flatten_dict
+from pathlib import Path
 
 
 class SessionController(object):
@@ -47,8 +48,11 @@ class SessionController(object):
         return cls.instances[session_id]
 
     def project_setup(self, root_path, dataset_name):
+        root_path=Path(root_path)
+        if not os.path.exists(root_path): return {'msg':"Project path {root_path} does not exist!"}
         self.root_path = root_path
         self.dataset_name = dataset_name
+        return {'msg': True}
 
     def project_setup_info(self):
         return {"root_path": self.root_path, "dataset_name": self.dataset_name}

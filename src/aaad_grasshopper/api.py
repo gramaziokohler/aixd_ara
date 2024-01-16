@@ -14,23 +14,18 @@ from compas.data import DataEncoder, DataDecoder
 app = Flask(__name__)
 
 
-@app.route("/x", methods=["GET"])
-def x():
-    args = request.args
-    session_id = args["session_id"]
-    sc = SessionController.create(session_id)
-
-
-@app.route("/project_setup", methods=["GET"])
+@app.route("/project_setup", methods=["POST"])
 def project_setup():
-    args = request.args
-    session_id = args["session_id"]
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
-    root = args["root"]
-    dataset_name = args["dataset_name"]
-    sc.project_setup(root, dataset_name)
-    return "Done!"
+    root = data["root"]
+    dataset_name = data["dataset_name"]
+    result = sc.project_setup(root, dataset_name)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
 
 @app.route("/project_setup_info", methods=["POST"])
 def project_setup_info():
