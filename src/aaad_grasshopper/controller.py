@@ -224,16 +224,16 @@ class SessionController(object):
         fig = plotter.correlation(block=blocks, attributes=dataobjects)
         return fig
 
-    def plot_distrib_attributes2d(self, dataobjects):
+    def plot_contours(self, dataobjects):
         """
         dataobjects: list of dataobject names
         """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
-        blocks = self.blocknames_from_dataobjects(dataobjects)
+        block = self.blocknames_from_dataobjects(dataobjects)[0]
 
         plotter = Plotter(self.dataset, output=None)
-        fig = plotter.distrib_attributes2d(block=blocks, attributes=dataobjects)
+        fig = plotter.contours2d(block=block, attributes=dataobjects)
         return fig
 
     def train_cae(self, inputML, outputML, latent_dim, layer_widths, batch_size, epochs):

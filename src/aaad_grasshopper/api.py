@@ -176,8 +176,8 @@ def plot_correlations():
     return response
 
 
-@app.route("/plot_distrib_attributes2d", methods=["POST"])
-def plot_distrib_attributes2d():
+@app.route("/plot_contours", methods=["POST"])
+def plot_contours():
     data = request.data
     data = json.loads(data)
     session_id = data["session_id"]
@@ -185,7 +185,7 @@ def plot_distrib_attributes2d():
 
     output_type = data["output_type"]
     attributes = data["attributes"]
-    fig = sc.plot_distrib_attributes2d(dataobjects=attributes)
+    fig = sc.plot_contours(dataobjects=attributes)
     fig = _fig_output(fig, output_type)
 
     response = json.dumps(fig, cls=DataEncoder)
@@ -280,18 +280,17 @@ def load_model():
     return str(result)
 
 
-@app.route("/nn_summary", methods=["GET"])
+@app.route("/nn_summary", methods=["POST"])
 def nn_summary():
-    args = request.args
-    session_id = args["session_id"]
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
-    level = args["level"]
-    result = "False"
-    result = sc._model_summary(max_depth=int(level))
-
-    return str(result)
-
+    max_depth = data["max_depth"]
+    result = sc._model_summary(max_depth=int(max_depth))
+    response = json.dumps(result, cls=DataEncoder)  
+    return response
 
 def _fig_output(fig, output_type):
     if fig:
