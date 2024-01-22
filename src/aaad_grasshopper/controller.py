@@ -48,7 +48,6 @@ class SessionController(object):
         return cls.instances[session_id]
 
     def project_setup(self, root_path, dataset_name):
-        root_path=Path(root_path)
         if not os.path.exists(root_path): return {'msg':"Project path {root_path} does not exist!"}
         self.root_path = root_path
         self.dataset_name = dataset_name
