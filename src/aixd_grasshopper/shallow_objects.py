@@ -1,6 +1,6 @@
-from aaad.data.data_objects import DataBool, DataCategorical, DataInt, DataReal, DataObject
-from aaad.data.dataset import Dataset
-from aaad.data.domain_def import Options, Interval
+from aixd.data.data_objects import DataBool, DataCategorical, DataInt, DataReal, DataObject
+from aixd.data.dataset import Dataset
+from aixd.data.domain import Options, Interval
 from typing import List, Dict
 
 """

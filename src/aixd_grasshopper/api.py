@@ -2,8 +2,8 @@ import base64
 import time
 
 import plotly
-from aaad.data.dataset import Dataset
-from aaad.visualisation.plotter import Plotter
+from aixd.data.dataset import Dataset
+from aixd.visualisation.plotter import Plotter
 from flask import Flask, request, make_response
 import pickle
 

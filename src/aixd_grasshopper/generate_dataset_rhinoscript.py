@@ -15,7 +15,7 @@ import urllib2
 import math
 import rhinoscriptsyntax as rs
 
-from aaad_grasshopper.gh_ui_helper import http_post_request, find_component_by_nickname, TYPES
+from aixd_grasshopper.gh_ui_helper import http_post_request, find_component_by_nickname, TYPES
 
 try:
     import Rhino

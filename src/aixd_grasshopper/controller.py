@@ -3,19 +3,19 @@ This module contains methods that are intended to run in cpython in a server app
 Do not call it from Rhino/Grasshopper (imports will fail in IronPython).
 """
 
-from aaad.data.dataset import Dataset
-from aaad.data.data_objects import DataInt
-from aaad.data.data_blocks import DesignParameters, PerformanceAttributes, InputML, OutputML
-from aaad.visualisation.plotter import Plotter
-from aaad.mlmodel.data.data_loader import DataModule
-from aaad.mlmodel.architecture.nn_master_ae import CondAEModel
+from aixd.data.dataset import Dataset
+from aixd.data.data_objects import DataInt
+from aixd.data.data_blocks import DesignParameters, PerformanceAttributes, InputML, OutputML
+from aixd.visualisation.plotter import Plotter
+from aixd.mlmodel.data.data_loader import DataModule
+from aixd.mlmodel.architecture.cond_ae_model import CondAEModel
 import os
 import pytorch_lightning as pl
 import torch
-from aaad.mlmodel.generation.generator import Generator
+from aixd.mlmodel.generation.generator import Generator
 import random
-from aaad.data.data_objects import DataBool
-from aaad.data.utils_data import (
+from aixd.data.data_objects import DataBool
+from aixd.data.utils_data import (
     reformat_dataframeflat_to_dict,
     reformat_list_to_dict,
     reformat_dict_to_dictlist,
@@ -23,10 +23,10 @@ from aaad.data.utils_data import (
     reformat_dataframe_to_dataframeflat,
     reformat_dictlist_to_dict,
 )
-from aaad_grasshopper.shallow_objects import dataobjects_from_shallow
+from aixd_grasshopper.shallow_objects import dataobjects_from_shallow
 from typing import List, Dict
-from aaad_grasshopper.wrappers import WrapperSample
-from aaad.utils.utils import flatten_dict
+from aixd_grasshopper.wrappers import WrapperSample
+from aixd.utils.utils import flatten_dict
 from pathlib import Path
 
 
