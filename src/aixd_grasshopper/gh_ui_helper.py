@@ -71,9 +71,12 @@ def gh_request(action, arguments):
     return response_content
 
 
-def get_GH_DocumentID():
+def session_id():
     doc_key = Grasshopper.Instances.ActiveCanvas.Document.DocumentID.ToString()
     return doc_key
+
+def component_id(component, name):
+    return "{}_{}".format(component.InstanceGuid,name)
 
 
 def find_component_by_nickname(ghdoc, component_nickname):

@@ -1,16 +1,14 @@
 import base64
-import time
 
-import plotly
-from aixd.data.dataset import Dataset
-from aixd.visualisation.plotter import Plotter
-from flask import Flask, request, make_response
-import pickle
+from flask import Flask, request
+
 
 from controller import SessionController
 import json
 from compas.data import DataEncoder, DataDecoder
 
+
+from aixd_grasshopper.constants import default_port
 app = Flask(__name__)
 
 
@@ -49,8 +47,8 @@ def create_dataset_object():
     design_parameters = data["design_parameters"]
     performance_attributes = data["performance_attributes"]
 
-    response = sc.create_dataset_object(design_parameters, performance_attributes)
-
+    result = sc.create_dataset_object(design_parameters, performance_attributes)
+    response = json.dumps(result, cls=DataEncoder)
     return str(response)
 
 
@@ -84,22 +82,29 @@ def save_samples():
     return response
 
 
-@app.route("/load_dataset", methods=["GET"])
+@app.route("/load_dataset", methods=["POST"])
 def load_dataset():
-    args = request.args
-    session_id = args["session_id"]
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
     sc = SessionController.create(session_id)
-    response = sc.load_dataset()
-    return str(response)
+
+    result = sc.load_dataset()
+
+    response = json.dumps(result, cls=DataEncoder)
+    return response
 
 
-@app.route("/dataset_summary", methods=["GET"])
+@app.route("/dataset_summary", methods=["POST"])
 def dataset_summary():
-    args = request.args
-    session_id = args["session_id"]
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
     sc = SessionController.create(session_id)
-    response = sc.dataset_summary()
-    return str(response)
+
+    result = sc.dataset_summary()
+    response = json.dumps(result, cls=DataEncoder)
+    return response
 
 
 @app.route("/getdata_design_parameters", methods=["POST"])
@@ -244,25 +249,25 @@ def get_one_sample():
     data = request.data
     data = json.loads(data)
     session_id = data["session_id"]
-
     sc = SessionController.create(session_id)
 
     item = data["item"]
     result = sc.get_one_sample(item)
-    result = json.dumps(result, cls=DataEncoder)
-    return result
+    response = json.dumps(result, cls=DataEncoder)
+    return response 
 
 
-@app.route("/load_model", methods=["GET"])
+@app.route("/load_model", methods=["POST"])
 def load_model():
-    args = request.args
-    session_id = args["session_id"]
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
-    checkpoint_path = args["checkpoint_path"]
-    checkpoint_name = args["checkpoint_name"]
-    inputML = args["inputML"].split(",")
-    outputML = args["outputML"].split(",")
+    checkpoint_path = data["checkpoint_path"]
+    checkpoint_name = data["checkpoint_name"]
+    inputML = data["inputML"].split(",")
+    outputML = data["outputML"].split(",")
 
     result = "False"
     result = sc.load_cae_model(
@@ -271,8 +276,8 @@ def load_model():
         inputML=inputML,
         outputML=outputML,
     )
-
-    return str(result)
+    response = json.dumps(result, cls=DataEncoder)
+    return response 
 
 
 @app.route("/nn_summary", methods=["POST"])

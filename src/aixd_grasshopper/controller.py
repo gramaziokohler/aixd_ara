@@ -259,7 +259,7 @@ class SessionController(object):
 
 
         datapath = os.path.join(self.root_path, self.dataset_name)
-        cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim, datapath =datapath)
+        cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim)
         cae.fit(
             datamodule,
             name_run="",
@@ -274,7 +274,7 @@ class SessionController(object):
         # TODO: store the best model in controller?
         self.model = cae
 
-        # TODO: return path to best checkpoint?
+        # TODO: still saving the checkpoints in strange locations!!! return path to best checkpoint
 
         return True
 
