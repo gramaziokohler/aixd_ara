@@ -3,6 +3,7 @@ import urllib2
 import Grasshopper
 import json
 
+from aixd_grasshopper.constants import default_port
 
 TYPES = {
     "Arc": Grasshopper.Kernel.Types.GH_Arc,
@@ -39,9 +40,8 @@ def http_post_request(action, data):
         "Content-Type": "application/octet-stream",
         "Accept": "application/octet-stream",
     }
-    arguments = data
-    data = json.dumps(arguments)
-    url = "http://127.0.0.1:8000/{}".format(action)
+    data = json.dumps(data)
+    url = "http://127.0.0.1:{}/{}".format(default_port,action)
     request = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(request).read()
     response = json.loads(response)

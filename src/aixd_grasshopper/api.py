@@ -313,12 +313,12 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) ==1:
-        port = 8000
+        port = default_port
     else: 
         try:
             port = int(sys.argv[1])
         except ValueError: 
-            print("Invalid port number: ",sys.argv[1], "Setting a default port number 8000")
-            port = 8000
+            print("Invalid port number: ",sys.argv[1], "Setting a default port number {}".format(default_port))
+            port = default_port
 
     app.run(host="127.0.0.1", port=port, debug=False)
