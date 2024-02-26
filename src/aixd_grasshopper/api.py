@@ -9,6 +9,7 @@ from compas.data import DataEncoder, DataDecoder
 
 
 from aixd_grasshopper.constants import default_port
+
 app = Flask(__name__)
 
 
@@ -25,6 +26,7 @@ def project_setup():
     response = json.dumps(result, cls=DataEncoder)
     return response
 
+
 @app.route("/project_setup_info", methods=["POST"])
 def project_setup_info():
     data = request.data
@@ -34,8 +36,8 @@ def project_setup_info():
 
     result = sc.project_setup_info()
     response = json.dumps(result, cls=DataEncoder)
-
     return response
+
 
 @app.route("/create_dataset_object", methods=["POST"])
 def create_dataset_object():
@@ -46,7 +48,6 @@ def create_dataset_object():
 
     design_parameters = data["design_parameters"]
     performance_attributes = data["performance_attributes"]
-
     result = sc.create_dataset_object(design_parameters, performance_attributes)
     response = json.dumps(result, cls=DataEncoder)
     return str(response)
@@ -60,10 +61,8 @@ def generate_dp_samples():
     sc = SessionController.create(session_id)
 
     n_samples = data["n_samples"]
-
     result = sc.generate_dp_samples(n_samples)
     response = json.dumps(result, cls=DataEncoder)
-
     return response
 
 
@@ -78,7 +77,6 @@ def save_samples():
     samples_per_file = data["samples_per_file"]
     result = sc.save_samples(n_samples, samples_per_file)
     response = json.dumps(result, cls=DataEncoder)
-
     return response
 
 
@@ -90,7 +88,6 @@ def load_dataset():
     sc = SessionController.create(session_id)
 
     result = sc.load_dataset()
-
     response = json.dumps(result, cls=DataEncoder)
     return response
 
@@ -124,9 +121,9 @@ def import_data_from_dict():
     data = request.data
     data = json.loads(data)
     session_id = data["session_id"]
-    datadict = data["datadict"]
     sc = SessionController.create(session_id)
 
+    datadict = data["datadict"]
     result = sc.import_data_from_dict(datadict)
     response = json.dumps(result, cls=DataEncoder)
     return response
@@ -138,8 +135,8 @@ def datablocks_dataobjects():
     data = json.loads(data)
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
-    result = sc.datablocks_dataobjects
-    print(result)
+
+    result = sc.datablocks_dataobjects()
     response = json.dumps(result, cls=DataEncoder)
     return response
 
@@ -153,10 +150,8 @@ def plot_distrib_attributes():
 
     output_type = data["output_type"]
     attributes = data["attributes"]
-    fig = sc.plot_distrib_attributes(dataobjects=attributes)
-    fig = _fig_output(fig, output_type)
-
-    response = json.dumps(fig, cls=DataEncoder)
+    result = sc.plot_distrib_attributes(dataobjects=attributes, output_type=output_type)
+    response = json.dumps(result, cls=DataEncoder)
     return response
 
 
@@ -169,10 +164,8 @@ def plot_correlations():
 
     output_type = data["output_type"]
     attributes = data["attributes"]
-    fig = sc.plot_correlations(dataobjects=attributes)
-    fig = _fig_output(fig, output_type)
-
-    response = json.dumps(fig, cls=DataEncoder)
+    result = sc.plot_correlations(dataobjects=attributes, output_type=output_type)
+    response = json.dumps(result, cls=DataEncoder)
     return response
 
 
@@ -185,10 +178,8 @@ def plot_contours():
 
     output_type = data["output_type"]
     attributes = data["attributes"]
-    fig = sc.plot_contours(dataobjects=attributes)
-    fig = _fig_output(fig, output_type)
-
-    response = json.dumps(fig, cls=DataEncoder)
+    result = sc.plot_contours(dataobjects=attributes, output_type=output_type)
+    response = json.dumps(result, cls=DataEncoder)
     return response
 
 
@@ -212,20 +203,11 @@ def run_training():
     settings = data["settings"]
     inputML = settings["inputML"]
     outputML = settings["outputML"]
-    model_type = settings["model_type"]
     latent_dim = settings["latent_dim"]
     layer_widths = settings["layer_widths"]
     batch_size = settings["batch_size"]
     epochs = data["epochs"]
-
-    result = "False"
-    if model_type == "CAE":
-        result = sc.train_cae(inputML, outputML, latent_dim, layer_widths, batch_size, epochs)
-    elif model_type == "VAE":
-        raise NotImplementedError("API to VAE models is not implemented at the moment.")
-    else:
-        raise ValueError("Wrong model type. Select 'CAE' or 'VAE'.")
-
+    result = sc.train_cae(inputML, outputML, latent_dim, layer_widths, batch_size, epochs)
     response = json.dumps(result, cls=DataEncoder)
     return response
 
@@ -254,7 +236,7 @@ def get_one_sample():
     item = data["item"]
     result = sc.get_one_sample(item)
     response = json.dumps(result, cls=DataEncoder)
-    return response 
+    return response
 
 
 @app.route("/load_model", methods=["POST"])
@@ -277,7 +259,7 @@ def load_model():
         outputML=outputML,
     )
     response = json.dumps(result, cls=DataEncoder)
-    return response 
+    return response
 
 
 @app.route("/nn_summary", methods=["POST"])
@@ -289,41 +271,20 @@ def nn_summary():
 
     max_depth = data["max_depth"]
     result = sc._model_summary(max_depth=int(max_depth))
-    response = json.dumps(result, cls=DataEncoder)  
+    response = json.dumps(result, cls=DataEncoder)
     return response
-
-def _fig_output(fig, output_type):
-    if fig:
-        if output_type == "static":
-            fig = _fig_to_str(fig)
-            response = fig
-        elif output_type == "interactive":
-            fig.show()
-            response = True
-    else:
-        response = False
-    return str(response)
-
-
-def _fig_to_str(fig):
-    """
-    Convert a plotly figure graph to a string-encoded bytes.
-    """
-    img_bytes = base64.b64encode(fig.to_image())
-    img_string = img_bytes.decode("utf-8")
-    return img_string
 
 
 if __name__ == "__main__":
     import sys
 
-    if len(sys.argv) ==1:
+    if len(sys.argv) == 1:
         port = default_port
-    else: 
+    else:
         try:
             port = int(sys.argv[1])
-        except ValueError: 
-            print("Invalid port number: ",sys.argv[1], "Setting a default port number {}".format(default_port))
+        except ValueError:
+            print("Invalid port number: ", sys.argv[1], "Setting a default port number {}".format(default_port))
             port = default_port
 
     app.run(host="127.0.0.1", port=port, debug=False)

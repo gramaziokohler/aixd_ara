@@ -41,7 +41,7 @@ def http_post_request(action, data):
         "Accept": "application/octet-stream",
     }
     data = json.dumps(data)
-    url = "http://127.0.0.1:{}/{}".format(default_port,action)
+    url = "http://127.0.0.1:{}/{}".format(default_port, action)
     request = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(request).read()
     response = json.loads(response)
@@ -75,8 +75,9 @@ def session_id():
     doc_key = Grasshopper.Instances.ActiveCanvas.Document.DocumentID.ToString()
     return doc_key
 
+
 def component_id(component, name):
-    return "{}_{}".format(component.InstanceGuid,name)
+    return "{}_{}".format(component.InstanceGuid, name)
 
 
 def find_component_by_nickname(ghdoc, component_nickname):
@@ -123,3 +124,22 @@ def get_values(component):
     if not component.VolatileData:
         return None
     return [x.Value for x in component.VolatileData[0]]
+
+
+from System.Drawing import Bitmap, Size
+from System import Convert
+from System.IO import MemoryStream
+
+
+def convert_str_to_bitmap(base64_imgstr, scale=1.0):
+    """Get image from string and rescale."""
+
+    b64_bytearray = Convert.FromBase64String(base64_imgstr)
+    stream = MemoryStream(b64_bytearray)
+    bitmap = Bitmap(stream)
+
+    if not scale:
+        scale = 1.0
+    size = Size(bitmap.Width * scale, bitmap.Height * scale)
+    bitmap = Bitmap(bitmap, size)
+    return bitmap

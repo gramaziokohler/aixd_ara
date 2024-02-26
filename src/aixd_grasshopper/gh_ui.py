@@ -45,17 +45,16 @@ def run_training(session_id, settings, epochs):
     data = {"session_id": session_id, "settings": settings, "epochs": epochs}
     return http_post_request(action="run_training", data=data)
 
+
 def load_model(session_id, checkpoint_name, checkpoint_path, inputML, outputML):
-    data = {"session_id": session_id, 
-            "checkpoint_name":checkpoint_name, 
-            "checkpoint_path": checkpoint_path, 
-            "inputML": ",".join(inputML), 
-            "outputML": ",".join(outputML)}
+    data = {"session_id": session_id, "checkpoint_name": checkpoint_name, "checkpoint_path": checkpoint_path, "inputML": ",".join(inputML), "outputML": ",".join(outputML)}
     return http_post_request(action="load_model", data=data)
 
+
 def nn_summary(session_id, max_depth):
-    data = {"session_id": session_id, 'max_depth': max_depth}
+    data = {"session_id": session_id, "max_depth": max_depth}
     return http_post_request(action="nn_summary", data=data)
+
 
 def request_designs(session_id, request, n_designs):
     data = {"session_id": session_id, "requested_values": request, "n_designs": n_designs}

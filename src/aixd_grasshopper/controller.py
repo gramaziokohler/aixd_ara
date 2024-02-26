@@ -28,6 +28,7 @@ from typing import List, Dict
 from aixd_grasshopper.wrappers import WrapperSample
 from aixd.utils.utils import flatten_dict
 from pathlib import Path
+import base64
 
 
 class SessionController(object):
@@ -41,6 +42,12 @@ class SessionController(object):
         self.datamodule = None
         self.samples_per_file = None
 
+    @property
+    def dataset_path(self):
+        if not self.root_path or not self.dataset_name:
+            return None
+        return os.path.join(self.root_path, self.dataset_name)
+
     @classmethod
     def create(cls, session_id):
         if session_id not in cls.instances:
@@ -48,10 +55,11 @@ class SessionController(object):
         return cls.instances[session_id]
 
     def project_setup(self, root_path, dataset_name):
-        if not os.path.exists(root_path): return {'msg':"Project path {root_path} does not exist!"}
+        if not os.path.exists(root_path):
+            return {"msg": "Project path {root_path} does not exist!"}
         self.root_path = root_path
         self.dataset_name = dataset_name
-        return {'msg': True}
+        return {"msg": f"Project has been set up in: {os.path.join(self.root_path, self.dataset_name)}", "path": os.path.join(self.root_path, self.dataset_name)}
 
     def project_setup_info(self):
         return {"root_path": self.root_path, "dataset_name": self.dataset_name}
@@ -68,19 +76,20 @@ class SessionController(object):
         pa = PerformanceAttributes(name="PA", dobj_list=dataobjects_from_shallow(performance_attributes))
 
         dataset = Dataset(name=self.dataset_name, design_par=dp, perf_attributes=pa, root_path=self.root_path)
+        dataset.save_dataset_obj()
 
         # TODO: overrides an already assigned dataset - what about the datafiles if they exist?
         self.dataset = dataset
 
-        return True
+        return {"msg": "Dataset object has been created."}
 
     def generate_dp_samples(self, n_samples):
         if not self.dataset:
             raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
 
-        samples_dictlist = self.dataset.get_samples(n_samples=n_samples, format_out='dict_list')
+        samples_dictlist = self.dataset.get_samples(n_samples=n_samples, format_out="dict_list")
         return samples_dictlist
-    
+
     def save_samples(self, samples, samples_per_file):
         """
         Adds samples to dataset, saves them to files and saves the dataset object.
@@ -88,11 +97,11 @@ class SessionController(object):
         """
         if not self.dataset:
             raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
-        if not samples_per_file: samples_per_file=None
+        if not samples_per_file:
+            samples_per_file = None
 
-        self.dataset.write_data_dp_pa(data_combined = samples, samples_perfile = samples_per_file)
+        self.dataset.write_data_dp_pa(data_combined=samples, samples_perfile=samples_per_file)
         return True
-
 
     def getdata_design_parameters(self):
         if not self.dataset:
@@ -120,8 +129,10 @@ class SessionController(object):
         return self.dataset.design_par.names_list
 
     def load_dataset(self):
+        error = ""
         if not self.root_path or not self.dataset_name:
-            raise ValueError("You need to first set the project root path and the dataset name.")
+            error = "You need to first set the project root path and the dataset name."
+            raise ValueError(error)
         try:
             dataset = Dataset(root_path=self.root_path, name=self.dataset_name, overwrite=False)
             dataset.load_dataset_obj()
@@ -129,17 +140,18 @@ class SessionController(object):
             dataset.update_obj_domains(flag_only_perfatt=True)
         except:
             dataset = None
-            raise ValueError("Loading dataset failed.")
+            error = "Loading dataset failed."
+            raise ValueError(error)
 
         if not dataset:
-            return False
+            return {"msg": error}
 
         self.dataset = dataset
 
         id_to_open = self.dataset.data_gen_dp["fileid_vector"]
-        report = "* Loaded a total of {} samples from {} files".format(len(self.dataset.design_par.data), len(id_to_open))
+        report = "Loaded a total of {} samples from {} files".format(len(self.dataset.design_par.data), len(id_to_open))
 
-        return report
+        return {"msg": report}
 
     def import_data_from_dict(self, datadict, samples_per_file=None):
         """
@@ -164,8 +176,10 @@ class SessionController(object):
         return True  # confirm it went well
 
     def dataset_summary(self):
+        error = ""
         if not self.dataset:
-            raise ValueError("Dataset is not loaded.")
+            error = "Dataset is not loaded."
+            raise ValueError(error)
 
         flag_only_names = False
         txt = "-------------------------------------\n"
@@ -181,7 +195,7 @@ class SessionController(object):
             txt += f"    {x}\n"
 
         txt += "-------------------------------------"
-        return txt
+        return {"msg": error, "summary": txt}
 
     def get_design_parameters(self):
         # TODO: rename
@@ -191,7 +205,7 @@ class SessionController(object):
         dp = self.dataset.design_par.names_list
         return dp
 
-    def plot_distrib_attributes(self, dataobjects):
+    def plot_distrib_attributes(self, dataobjects, output_type):
         """
         dataobjects: list of dataobject names
         """
@@ -209,9 +223,9 @@ class SessionController(object):
 
         plotter = Plotter(self.dataset, output=None)
         fig = plotter.distrib_attributes(block=block[0], attributes=dataobjects, per_column=True, bottom_top=(0.1, 0.9), downsamp=1, sub_figs=True)
-        return fig
+        return _fig_output(fig, output_type)
 
-    def plot_correlations(self, dataobjects=[]):
+    def plot_correlations(self, dataobjects, output_type):
         """
         blocks and dataobjects: lists of names
         """
@@ -225,9 +239,9 @@ class SessionController(object):
 
         plotter = Plotter(self.dataset, output=None)
         fig = plotter.correlation(block=blocks, attributes=dataobjects)
-        return fig
+        return _fig_output(fig, output_type)
 
-    def plot_contours(self, dataobjects):
+    def plot_contours(self, dataobjects, output_type):
         """
         dataobjects: list of dataobject names
         """
@@ -237,7 +251,7 @@ class SessionController(object):
 
         plotter = Plotter(self.dataset, output=None)
         fig = plotter.contours2d(block=block, attributes=dataobjects)
-        return fig
+        return _fig_output(fig, output_type)
 
     def train_cae(self, inputML, outputML, latent_dim, layer_widths, batch_size, epochs):
         # TODO: set defaults here if missing?
@@ -257,9 +271,8 @@ class SessionController(object):
         datamodule = DataModule.from_dataset(self.dataset, input_ml_names=inputML, output_ml_names=outputML, batch_size=batch_size)
         self.datamodule = datamodule
 
-
-        datapath = os.path.join(self.root_path, self.dataset_name)
-        cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim)
+        save_dir = self.dataset_path
+        cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir)
         cae.fit(
             datamodule,
             name_run="",
@@ -268,31 +281,31 @@ class SessionController(object):
             accelerator="cpu",
             flag_wandb=True,
         )
-
-        # TODO: add some callback so that we can have a progress preview in Grasshopper
-
-        # TODO: store the best model in controller?
+        # TODO: store the best model in controller instead?
         self.model = cae
 
+        # TODO: add some callback so that we can have a progress preview in Grasshopper
         # TODO: still saving the checkpoints in strange locations!!! return path to best checkpoint
+        # TODO: add retrieve and return the name/path of the best checkpoint
 
-        return True
+        return {"msg": "Training completed!", "path": os.path.join(cae.save_dir, cae.CHECKPOINT_DIR), "best_ckpt": None}
 
     def load_cae_model(self, checkpoint_path, checkpoint_name, inputML, outputML):
+        error = None
         if checkpoint_path not in [None, ""]:
             if not os.path.exists(checkpoint_path):
-                raise ValueError(f"The given checkpoint path does not exist: {checkpoint_path}")
+                error = f"The given checkpoint path does not exist: {checkpoint_path}"
+                raise ValueError(error)
         else:
-            checkpoint_path = os.path.join(self.root_path,self.dataset_name, "checkpoints")
+            # default to the project path
+            checkpoint_path = os.path.join(self.dataset_path, "checkpoints")
 
-        if checkpoint_name in [None, ""]:
-                checkpoint_name = "last"
-
-        checkpoint_path = os.path.join(checkpoint_path,checkpoint_name + ".ckpt")
+        checkpoint_filepath = os.path.join(checkpoint_path, checkpoint_name + ".ckpt")
         if not os.path.exists(checkpoint_path):
-            raise ValueError(f"The given checkpoint name or path does not exist: {checkpoint_path}")
+            error = f"The given checkpoint path does not exist: {checkpoint_filepath}"
+            raise ValueError(error)
 
-        cae = CondAEModel.load_model_from_checkpoint(checkpoint_path)
+        cae = CondAEModel.load_model_from_checkpoint(checkpoint_filepath)
         self.model = cae
         self.datamodule = DataModule.from_dataset(
             self.dataset,
@@ -300,7 +313,8 @@ class SessionController(object):
             output_ml_names=self.model.datamodule_parameters["output_ml_dblock"].names_list,
             batch_size=self.model.datamodule_parameters["batch_size"],
         )
-        return True
+
+        return {"msg": error or f"Model loaded from checkpoint: {checkpoint_filepath}"}
 
     def get_one_sample(self, item):
         """
@@ -334,7 +348,7 @@ class SessionController(object):
         # for single-value entries, unpack them from a list [123] -> 123
         for x in sample.keys():
             for k, v in sample[x].items():
-                if isinstance(v,list):
+                if isinstance(v, list):
                     if len(v) == 1:
                         sample[x][k] = v[0]
         return sample
@@ -362,11 +376,10 @@ class SessionController(object):
         if not self.model:
             raise ValueError("NN model is not loaded.")
 
+        gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=100)
+        new_designs = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")
 
-        gen = Generator(model = self.model, datamodule = self.datamodule, over_sample=100)
-        new_designs = gen.generation(request = request, n_samples=n_samples, format_out="dict_list")
-
-        #split the result into separate dictionaries for design parameters and performance attributes
+        # split the result into separate dictionaries for design parameters and performance attributes
         assert len(new_designs) == n_samples
         samples = []
         for d in new_designs:
@@ -377,7 +390,7 @@ class SessionController(object):
                 if k in self.dataset.perf_attributes.names_list:
                     s["performance_attributes"][k] = v
             samples.append(s)
-        
+
         return samples
 
     def _model_summary(self, model=None, max_depth=-1):
@@ -424,3 +437,30 @@ class SessionController(object):
                     blocknames.append(block.name)
 
         return list(set(blocknames))
+
+
+# --------------------------------------------------------------
+# helper methods
+# --------------------------------------------------------------
+
+
+def _fig_output(fig, output_type):
+    if not fig:
+        return {"msg": "Plot failed."}
+
+    if output_type == "static":
+        imgstr = _fig_to_str(fig)
+        return {"msg": "Static plot has been created.", "imgstr": imgstr}
+
+    elif output_type == "interactive":
+        fig.show()
+        return {"msg": "Interactive plot has been launched in a new browser window."}
+
+
+def _fig_to_str(fig):
+    """
+    Convert a plotly figure graph to a string-encoded bytes.
+    """
+    img_bytes = base64.b64encode(fig.to_image())
+    img_string = img_bytes.decode("utf-8")
+    return img_string
