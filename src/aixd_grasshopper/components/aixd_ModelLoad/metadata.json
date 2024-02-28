@@ -1,0 +1,39 @@
+{
+    "name": "Load Model",
+    "nickname": "Load Model",
+    "category": "AIXD",
+    "subcategory": "Model",
+    "description": "Load an existing, pre-traind neural network model from a checkpoint.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "checkpoint_name",
+                "description": "Name of the checkpoint file to load the model from, without the file extension. The file's extension must be *.ckpt.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "checkpoint_path",
+                "description": "Path to the directory containing the checkpoint file.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "load",
+                "description": "Set to True to load the model.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "",
+                "description": ""
+            }
+        ]
+    }
+}

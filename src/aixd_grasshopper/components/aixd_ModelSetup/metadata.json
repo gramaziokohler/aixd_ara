@@ -1,0 +1,51 @@
+{
+    "name": "Model Setup",
+    "nickname": "Model Setup",
+    "category": "AIXD",
+    "subcategory": "Model",
+    "description": "Sets up the CAE neural network model.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "inputML",
+                "description": "List of variable names to be used as input to the model.",
+                "typeHintID": "str",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "outputML",
+                "description": "List of variable names to be used as output from the model.",
+                "typeHintID": "str",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "latend_dim",
+                "description": "Dimension of the latent space.",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "hidden_layers",
+                "description": "Width of each hidden layer (list of int).",
+                "typeHintID": "int",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "batch_size",
+                "description": "Size of the training batches",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "settings",
+                "description": "Model settings."
+            }
+        ]
+    }
+}

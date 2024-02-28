@@ -204,10 +204,10 @@ def run_training():
     inputML = settings["inputML"]
     outputML = settings["outputML"]
     latent_dim = settings["latent_dim"]
-    layer_widths = settings["layer_widths"]
+    hidden_layers = settings["hidden_layers"]
     batch_size = settings["batch_size"]
     epochs = data["epochs"]
-    result = sc.train_cae(inputML, outputML, latent_dim, layer_widths, batch_size, epochs)
+    result = sc.train_cae(inputML, outputML, latent_dim, hidden_layers, batch_size, epochs)
     response = json.dumps(result, cls=DataEncoder)
     return response
 
@@ -254,9 +254,7 @@ def load_model():
     result = "False"
     result = sc.load_cae_model(
         checkpoint_path=checkpoint_path,
-        checkpoint_name=checkpoint_name,
-        inputML=inputML,
-        outputML=outputML,
+        checkpoint_name=checkpoint_name
     )
     response = json.dumps(result, cls=DataEncoder)
     return response

@@ -6,7 +6,7 @@
     "description": "",
     "exposure": 4,
     "ghpython": {
-        "isAdvancedMode": true,
+        "isAdvancedMode": false,
         "iconDisplay": 0,
         "inputParameters": [
             {

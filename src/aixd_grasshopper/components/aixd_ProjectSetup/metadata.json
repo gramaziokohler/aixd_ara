@@ -2,8 +2,8 @@
     "name": "Project Setup",
     "nickname": "Project Setup",
     "category": "AIXD",
-    "subcategory": "",
-    "description": "",
+    "subcategory": "Main",
+    "description": "Set up the project in the folder given by project_folder/dataset_name.",
     "exposure": 4,
     "ghpython": {
         "isAdvancedMode": false,
@@ -17,13 +17,13 @@
             },
             {
                 "name": "project_folder",
-                "description": "",
+                "description": "Path to the project folder.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             },
             {
                 "name": "dataset_name",
-                "description": "",
+                "description": "Any name for the dataset. It will be used to create a folder with the same name in the project folder.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             }
@@ -32,11 +32,11 @@
         "outputParameters": [
             {
                 "name": "msg",
-                "description": ""
+                "description": "Messages and errors."
             },
             {
                 "name": "path",
-                "description": ""
+                "description": "Effective path to the dataset folder."
             }
         ]
     }

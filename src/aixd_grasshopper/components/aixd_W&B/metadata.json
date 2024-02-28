@@ -1,0 +1,29 @@
+{
+    "name": "Weights&Biases",
+    "nickname": "w&b",
+    "category": "AIXD",
+    "subcategory": "Model",
+    "description": "Launches Weights&Biases dashboard for model training and monitoring.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "user",
+                "description": "Part of the path containing username and project name, typically in the form of 'username/projectname'",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "launch",
+                "description": "Set to True to launch the dashboard.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+        ]
+    }
+}

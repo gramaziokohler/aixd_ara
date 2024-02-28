@@ -1,0 +1,37 @@
+{
+    "name": "GenSelect",
+    "nickname": "GenSelect",
+    "category": "AIXD",
+    "subcategory": "Generator",
+    "description": "Select one of the designs generated from the trained model.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "predictions",
+                "description": "List of generated designs.",
+                "typeHintID": "none",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "select",
+                "description": "Index of the selected design.",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "sample_summary",
+                "description": "Summary of the selected design."
+            },
+            {
+                "name": "generated_sample",
+                "description": "Sample."
+            }
+        ]
+    }
+}

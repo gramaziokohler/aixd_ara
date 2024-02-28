@@ -290,7 +290,7 @@ class SessionController(object):
 
         return {"msg": "Training completed!", "path": os.path.join(cae.save_dir, cae.CHECKPOINT_DIR), "best_ckpt": None}
 
-    def load_cae_model(self, checkpoint_path, checkpoint_name, inputML, outputML):
+    def load_cae_model(self, checkpoint_path, checkpoint_name):
         error = None
         if checkpoint_path not in [None, ""]:
             if not os.path.exists(checkpoint_path):

@@ -1,0 +1,39 @@
+{
+    "name": "Generator",
+    "nickname": "Generator",
+    "category": "AIXD",
+    "subcategory": "Generator",
+    "description": "Runs a generation campaing to create new designs using the trained model.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "requested_values",
+                "description": "List of requested values, each formatted as a string with the following format: 'variable_name:value'.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "n_designs",
+                "description": "Number of designs to generate.",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "run",
+                "description": "Set to True to start the generation process.",
+                "typeHintID": "none",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "predicions",
+                "description": "List of generated designs."
+            }
+        ]
+    }
+}

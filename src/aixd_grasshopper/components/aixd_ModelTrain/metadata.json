@@ -1,0 +1,43 @@
+{
+    "name": "Training",
+    "nickname": "Training",
+    "category": "AIXD",
+    "subcategory": "Model",
+    "description": "Runs a training campain.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "settings",
+                "description": "Model settings.",
+                "typeHintID": "none",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "epochs",
+                "description": "Number of training epochs.",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "run",
+                "description": "Set to True to start training.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "best_ckpt",
+                "description": "Filename of the best performing checkpoint."
+            },
+            {
+                "name": "path",
+                "description": "Path to all checkpoints."
+            }
+        ]
+    }
+}
