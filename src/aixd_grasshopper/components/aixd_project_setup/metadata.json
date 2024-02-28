@@ -1,0 +1,43 @@
+{
+    "name": "Project Setup",
+    "nickname": "Project Setup",
+    "category": "AIXD",
+    "subcategory": "",
+    "description": "",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "set",
+                "description": "",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "project_folder",
+                "description": "",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "dataset_name",
+                "description": "",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "msg",
+                "description": ""
+            },
+            {
+                "name": "path",
+                "description": ""
+            }
+        ]
+    }
+}
