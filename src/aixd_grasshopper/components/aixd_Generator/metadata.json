@@ -2,7 +2,7 @@
     "name": "Generator",
     "nickname": "Generator",
     "category": "AIXD",
-    "subcategory": "Generator",
+    "subcategory": "4 Generator",
     "description": "Runs a generation campaing to create new designs using the trained model.",
     "exposure": 4,
     "ghpython": {

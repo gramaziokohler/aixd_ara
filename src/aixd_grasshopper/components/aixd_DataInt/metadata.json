@@ -2,7 +2,7 @@
     "name": "DataInt",
     "nickname": "DataInt",
     "category": "AIXD",
-    "subcategory": "Data",
+    "subcategory": "1 Data",
     "description": "Defines an integer-valued variable.",
     "exposure": 4,
     "ghpython": {

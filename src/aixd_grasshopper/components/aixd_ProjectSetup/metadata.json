@@ -2,7 +2,7 @@
     "name": "Project Setup",
     "nickname": "Project Setup",
     "category": "AIXD",
-    "subcategory": "Main",
+    "subcategory": "0 Main",
     "description": "Set up the project in the folder given by project_folder/dataset_name.",
     "exposure": 4,
     "ghpython": {

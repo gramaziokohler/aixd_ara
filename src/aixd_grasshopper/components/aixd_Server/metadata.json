@@ -2,7 +2,7 @@
     "name": "Server",
     "nickname": "Server",
     "category": "AIXD",
-    "subcategory": "Main",
+    "subcategory": "0 Main",
     "description": "Starts and stops the app server.",
     "exposure": 4,
     "ghpython": {

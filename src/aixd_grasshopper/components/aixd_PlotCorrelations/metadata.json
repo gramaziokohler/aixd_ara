@@ -2,7 +2,7 @@
     "name": "Plot Correlations",
     "nickname": "Plot Correlations",
     "category": "AIXD",
-    "subcategory": "Plotter",
+    "subcategory": "5 Plotter",
     "description": "Plots correlation matrix for the given variables.",
     "exposure": 4,
     "ghpython": {

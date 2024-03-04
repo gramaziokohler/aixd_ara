@@ -2,7 +2,7 @@
     "name": "GenSampleEval",
     "nickname": "GenSampleEval",
     "category": "AIXD",
-    "subcategory": "Generator",
+    "subcategory": "4 Generator",
     "description": "Compares the requested values with the predicted and the actual values for a current design.",
     "exposure": 4,
     "ghpython": {

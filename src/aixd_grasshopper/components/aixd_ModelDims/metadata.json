@@ -1,9 +1,9 @@
 {
-    "name": "Dataset Summary",
-    "nickname": "Dataset Summary",
+    "name": "Model IO Dimensions",
+    "nickname": "Model Dims",
     "category": "AIXD",
-    "subcategory": "2 Dataset",
-    "description": "Provides a summary of the dataset.",
+    "subcategory": "3 Model",
+    "description": "Retrieves model's input and output dimensions",
     "exposure": 4,
     "ghpython": {
         "isAdvancedMode": false,
@@ -11,7 +11,7 @@
         "inputParameters": [
             {
                 "name": "get",
-                "description": "Set to True to get the summary of the dataset.",
+                "description": "Set to True to retrieve input and output dimensions of the model.",
                 "typeHintID": "bool",
                 "scriptParamAccess": 0
             }
@@ -20,7 +20,7 @@
         "outputParameters": [
             {
                 "name": "summary",
-                "description": "Summary of the dataset."
+                "description": "Summary of the model's input and output dimensions."
             }
         ]
     }

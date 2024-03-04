@@ -2,7 +2,7 @@
     "name": "DataReal",
     "nickname": "DataReal",
     "category": "AIXD",
-    "subcategory": "Data",
+    "subcategory": "1 Data",
     "description": "Defines a real-valued variable.",
     "exposure": 4,
     "ghpython": {

@@ -2,7 +2,7 @@
     "name": "DataCategorical",
     "nickname": "DataCat",
     "category": "AIXD",
-    "subcategory": "Data",
+    "subcategory": "1 Data",
     "description": "Defines a categorical variable.",
     "exposure": 4,
     "ghpython": {
@@ -23,8 +23,8 @@
             },
             {
                 "name": "options",
-                "description": "Options: list of possible values for the variable. The items can be numbers, strings etc.",
-                "typeHintID": "none",
+                "description": "Options: list of possible categories, as strings.",
+                "typeHintID": "str",
                 "scriptParamAccess": 1
             }
 

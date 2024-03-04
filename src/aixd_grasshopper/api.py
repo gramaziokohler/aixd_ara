@@ -140,6 +140,18 @@ def datablocks_dataobjects():
     response = json.dumps(result, cls=DataEncoder)
     return response
 
+@app.route("/get_dataobject_names_from_block", methods=["POST"])
+def get_dataobject_names_from_block():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    datablock_nickname = data["datablock_nickname"]
+    result = sc.get_dataobject_names_from_block(datablock_nickname)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
 
 @app.route("/plot_distrib_attributes", methods=["POST"])
 def plot_distrib_attributes():
@@ -248,10 +260,6 @@ def load_model():
 
     checkpoint_path = data["checkpoint_path"]
     checkpoint_name = data["checkpoint_name"]
-    inputML = data["inputML"].split(",")
-    outputML = data["outputML"].split(",")
-
-    result = "False"
     result = sc.load_cae_model(
         checkpoint_path=checkpoint_path,
         checkpoint_name=checkpoint_name
@@ -272,6 +280,17 @@ def nn_summary():
     response = json.dumps(result, cls=DataEncoder)
     return response
 
+
+@app.route("/model_input_output_dimensions", methods=["POST"])
+def model_input_output_dimensions():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.model_input_output_dimensions()
+    response = json.dumps(result, cls=DataEncoder)
+    return response
 
 if __name__ == "__main__":
     import sys

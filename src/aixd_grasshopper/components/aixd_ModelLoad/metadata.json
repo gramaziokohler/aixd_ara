@@ -2,7 +2,7 @@
     "name": "Load Model",
     "nickname": "Load Model",
     "category": "AIXD",
-    "subcategory": "Model",
+    "subcategory": "3 Model",
     "description": "Load an existing, pre-traind neural network model from a checkpoint.",
     "exposure": 4,
     "ghpython": {

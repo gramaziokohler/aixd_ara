@@ -2,7 +2,7 @@
     "name": "Training",
     "nickname": "Training",
     "category": "AIXD",
-    "subcategory": "Model",
+    "subcategory": "3 Model",
     "description": "Runs a training campain.",
     "exposure": 4,
     "ghpython": {

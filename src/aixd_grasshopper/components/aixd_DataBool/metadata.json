@@ -2,7 +2,7 @@
     "name": "DataBool",
     "nickname": "DataBool",
     "category": "AIXD",
-    "subcategory": "Data",
+    "subcategory": "1 Data",
     "description": "Defines a boolean variable.",
     "exposure": 4,
     "ghpython": {

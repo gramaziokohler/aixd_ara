@@ -2,7 +2,7 @@
     "name": "Create Dataset",
     "nickname": "Create Dataset",
     "category": "AIXD",
-    "subcategory": "Data",
+    "subcategory": "2 Dataset",
     "description": "Creates a dataset object.",
     "exposure": 4,
     "ghpython": {

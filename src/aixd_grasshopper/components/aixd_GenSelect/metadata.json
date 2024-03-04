@@ -2,7 +2,7 @@
     "name": "GenSelect",
     "nickname": "GenSelect",
     "category": "AIXD",
-    "subcategory": "Generator",
+    "subcategory": "4 Generator",
     "description": "Select one of the designs generated from the trained model.",
     "exposure": 4,
     "ghpython": {

@@ -21,6 +21,11 @@ def dataset_summary(session_id):
     return http_post_request(action="dataset_summary", data=data)
 
 
+def get_dataobject_names_from_block(session_id, datablock_nickname):
+    data = {"session_id": session_id, "datablock_nickname": datablock_nickname}
+    return http_post_request(action="get_dataobject_names_from_block", data=data)
+
+
 def get_one_sample(session_id, i):
     data = {"session_id": session_id, "item": i}
     return http_post_request(action="get_one_sample", data=data)
@@ -46,8 +51,8 @@ def run_training(session_id, settings, epochs):
     return http_post_request(action="run_training", data=data)
 
 
-def load_model(session_id, checkpoint_name, checkpoint_path, inputML, outputML):
-    data = {"session_id": session_id, "checkpoint_name": checkpoint_name, "checkpoint_path": checkpoint_path, "inputML": ",".join(inputML), "outputML": ",".join(outputML)}
+def load_model(session_id, checkpoint_name, checkpoint_path):
+    data = {"session_id": session_id, "checkpoint_name": checkpoint_name, "checkpoint_path": checkpoint_path}
     return http_post_request(action="load_model", data=data)
 
 
@@ -55,6 +60,9 @@ def nn_summary(session_id, max_depth):
     data = {"session_id": session_id, "max_depth": max_depth}
     return http_post_request(action="nn_summary", data=data)
 
+def model_input_output_dimensions(session_id):
+    data = {"session_id": session_id}
+    return http_post_request(action="model_input_output_dimensions", data=data)
 
 def request_designs(session_id, request, n_designs):
     data = {"session_id": session_id, "requested_values": request, "n_designs": n_designs}

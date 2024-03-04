@@ -197,6 +197,22 @@ class SessionController(object):
         txt += "-------------------------------------"
         return {"msg": error, "summary": txt}
 
+    def get_dataobject_names_from_block(self, datablock_nickname):
+        if datablock_nickname in ["design_parameters", "performance_attributes"] and not self.dataset:
+            return {'msg': f"Dataset is not loaded.", 'names': []}
+        if datablock_nickname in ["inputML", "outputML"] and not self.datamodule:
+            return {'msg': f"Model is not loaded.", 'names': []}
+
+        if datablock_nickname == "design_parameters":
+            return {'msg':"", "names": self.dataset.design_par.names_list}
+        if datablock_nickname == "performance_attributes":
+            return {'msg':"", "names": self.dataset.perf_attributes.names_list}
+        if datablock_nickname == "inputML":
+            return {'msg':"", "names": self.datamodule.input_ml_dblock.names_list}
+        if datablock_nickname == "outputML":
+            return {'msg':"", "names": self.datamodule.output_ml_dblock.names_list}
+        return {'msg': f"Wrong block nickname: {datablock_nickname}.", 'names': []}
+
     def get_design_parameters(self):
         # TODO: rename
         if not self.dataset:
@@ -283,12 +299,13 @@ class SessionController(object):
         )
         # TODO: store the best model in controller instead?
         self.model = cae
+        checkpoint_path = os.path.join(cae.save_dir, cae.CHECKPOINT_DIR)
 
         # TODO: add some callback so that we can have a progress preview in Grasshopper
         # TODO: still saving the checkpoints in strange locations!!! return path to best checkpoint
         # TODO: add retrieve and return the name/path of the best checkpoint
 
-        return {"msg": "Training completed!", "path": os.path.join(cae.save_dir, cae.CHECKPOINT_DIR), "best_ckpt": None}
+        return {"msg": "Training completed!", "path": checkpoint_path, "best_ckpt": None}
 
     def load_cae_model(self, checkpoint_path, checkpoint_name):
         error = None
@@ -412,6 +429,14 @@ class SessionController(object):
             ),
         )
         return str(pl.utilities.model_summary.ModelSummary(model, max_depth=max_depth))
+
+    def model_input_output_dimensions(self):
+        if not self.datamodule:
+            raise ValueError("DataModule is not loaded. Try loading a model first.")
+        
+        inputdim, outputdim, summary = self.datamodule.summary_input_output_dimensions()
+        return {'msg':"", "summary":summary}
+
 
     def all_block_names(self):
         """

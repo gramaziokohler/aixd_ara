@@ -2,7 +2,7 @@
     "name": "Show Folder",
     "nickname": "Show Folder",
     "category": "AIXD",
-    "subcategory": "Main",
+    "subcategory": "0 Main",
     "description": "Reveals the folder in the file explorer.",
     "exposure": 4,
     "ghpython": {

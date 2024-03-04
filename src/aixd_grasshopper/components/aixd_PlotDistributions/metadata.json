@@ -2,7 +2,7 @@
     "name": "Plot Distribution",
     "nickname": "Plot Distribution",
     "category": "AIXD",
-    "subcategory": "Plotter",
+    "subcategory": "5 Plotter",
     "description": "Plots the distribution of the given variables.",
     "exposure": 4,
     "ghpython": {

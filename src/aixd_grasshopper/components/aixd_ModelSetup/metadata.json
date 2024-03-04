@@ -2,7 +2,7 @@
     "name": "Model Setup",
     "nickname": "Model Setup",
     "category": "AIXD",
-    "subcategory": "Model",
+    "subcategory": "3 Model",
     "description": "Sets up the CAE neural network model.",
     "exposure": 4,
     "ghpython": {
@@ -22,7 +22,7 @@
                 "scriptParamAccess": 1
             },
             {
-                "name": "latend_dim",
+                "name": "latent_dim",
                 "description": "Dimension of the latent space.",
                 "typeHintID": "int",
                 "scriptParamAccess": 0
