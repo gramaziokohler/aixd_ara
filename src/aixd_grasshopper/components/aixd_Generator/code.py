@@ -2,15 +2,22 @@
 # original input should be a list of strings
 # each string should have a form: attribute_name:value
 
+if not n_designs or n_designs<1: n_designs=1
 
+request_ok = True
+try:
+    request_dict={}
+    for rv in requested_values:
+        rv = rv.strip()
+        k,v = rv.split(":")
+        v = float(v)
+        request_dict[k]=v
+    print request_dict
+    request_ok = True
 
-request_dict={}
-for rv in requested_values:
-    rv = rv.strip()
-    k,v = rv.split(":")
-    v = float(v)
-    request_dict[k]=v
-print request_dict
+except:
+    request_ok = False
+    #raise ValueError("Request could not be processed")
 
 #-------------------------------------------------------------------------------
 
@@ -28,7 +35,7 @@ from scriptcontext import sticky as st
 cid = component_id(ghenv.Component, "run_generation")
 
 
-if run: 
+if run and request_ok: 
     ghenv.Component.Message = "Running"
     st[cid] = request_designs(session_id(), request_dict, n_designs)
     ghenv.Component.Message = "Finished"

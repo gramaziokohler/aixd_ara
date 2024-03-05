@@ -13,6 +13,17 @@ from aixd_grasshopper.constants import default_port
 app = Flask(__name__)
 
 
+@app.post("/reset_session")
+def reset_session():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+    sc.reset()
+    result = {'msg':"Session reset"}
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
 @app.route("/project_setup", methods=["POST"])
 def project_setup():
     data = request.data
@@ -20,6 +31,7 @@ def project_setup():
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
+    sc.reset() # Reset the session
     root = data["root"]
     dataset_name = data["dataset_name"]
     result = sc.project_setup(root, dataset_name)
@@ -205,8 +217,8 @@ def get_design_parameters():
     return result
 
 
-@app.route("/run_training", methods=["POST"])
-def run_training():
+@app.post("/model_setup_cae")
+def model_setup_cae():
     data = request.data
     data = json.loads(data)
     session_id = data["session_id"]
@@ -218,8 +230,38 @@ def run_training():
     latent_dim = settings["latent_dim"]
     hidden_layers = settings["hidden_layers"]
     batch_size = settings["batch_size"]
+
+    result = sc.model_setup_cae(inputML, outputML, latent_dim, hidden_layers, batch_size)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
+@app.post("/model_train")
+def model_train():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
     epochs = data["epochs"]
-    result = sc.train_cae(inputML, outputML, latent_dim, hidden_layers, batch_size, epochs)
+    wb = data["wb"] 
+    result = sc.model_train(epochs,wb)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+@app.route("/model_load_cae", methods=["POST"])
+def model_load_cae():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    checkpoint_path = data["checkpoint_path"]
+    checkpoint_name = data["checkpoint_name"]
+    result = sc.model_load_cae(
+        checkpoint_path=checkpoint_path,
+        checkpoint_name=checkpoint_name
+    )
     response = json.dumps(result, cls=DataEncoder)
     return response
 
@@ -251,21 +293,7 @@ def get_one_sample():
     return response
 
 
-@app.route("/load_model", methods=["POST"])
-def load_model():
-    data = request.data
-    data = json.loads(data)
-    session_id = data["session_id"]
-    sc = SessionController.create(session_id)
 
-    checkpoint_path = data["checkpoint_path"]
-    checkpoint_name = data["checkpoint_name"]
-    result = sc.load_cae_model(
-        checkpoint_path=checkpoint_path,
-        checkpoint_name=checkpoint_name
-    )
-    response = json.dumps(result, cls=DataEncoder)
-    return response
 
 
 @app.route("/nn_summary", methods=["POST"])
@@ -276,7 +304,7 @@ def nn_summary():
     sc = SessionController.create(session_id)
 
     max_depth = data["max_depth"]
-    result = sc._model_summary(max_depth=int(max_depth))
+    result = sc.model_summary(max_depth=int(max_depth))
     response = json.dumps(result, cls=DataEncoder)
     return response
 

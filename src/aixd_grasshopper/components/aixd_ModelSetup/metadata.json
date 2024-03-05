@@ -38,13 +38,23 @@
                 "description": "Size of the training batches",
                 "typeHintID": "int",
                 "scriptParamAccess": 0
+            },
+            {
+                "name": "set",
+                "description": "Set to True to set up the model.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
             }
         ],
 
         "outputParameters": [
             {
-                "name": "settings",
-                "description": "Model settings."
+                "name": "quick_summary",
+                "description": "Quick summary of the model."
+            },
+            {
+                "name": "model_dims",
+                "description": "Input and output dimensions of the model."
             }
         ]
     }

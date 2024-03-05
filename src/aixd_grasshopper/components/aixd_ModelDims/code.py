@@ -7,6 +7,4 @@ if get:
     st[cid] = model_input_output_dimensions(session_id())
     
 if cid in st.keys():
-    if st[cid]['msg']: summary = st[cid]['msg'] #error
-    else:
-        summary = st[cid]['summary']
+    summary = st[cid]['summary']

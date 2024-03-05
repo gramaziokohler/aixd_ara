@@ -1,6 +1,11 @@
 from aixd_grasshopper.gh_ui_helper import http_post_request
 
 
+def reset_session(session_id):
+    data = {"session_id": session_id}
+    return http_post_request(action="reset_session", data=data)
+
+
 def project_setup(session_id, root_path, dataset_name):
     data = {"session_id": session_id, "root": root_path, "dataset_name": dataset_name}
     return http_post_request(action="project_setup", data=data)
@@ -46,23 +51,30 @@ def plot_correlations(session_id, attributes, output_type):
     return http_post_request(action="plot_correlations", data=data)
 
 
-def run_training(session_id, settings, epochs):
-    data = {"session_id": session_id, "settings": settings, "epochs": epochs}
-    return http_post_request(action="run_training", data=data)
+def model_setup(session_id, settings):
+    data = {"session_id": session_id, "settings": settings}
+    return http_post_request(action="model_setup_cae", data=data)
 
 
-def load_model(session_id, checkpoint_name, checkpoint_path):
+def model_train(session_id, epochs, wb):
+    data = {"session_id": session_id, "epochs": epochs, "wb" : wb}
+    return http_post_request(action="model_train", data=data)
+
+
+def model_load(session_id, checkpoint_name, checkpoint_path):
     data = {"session_id": session_id, "checkpoint_name": checkpoint_name, "checkpoint_path": checkpoint_path}
-    return http_post_request(action="load_model", data=data)
+    return http_post_request(action="model_load_cae", data=data)
 
 
 def nn_summary(session_id, max_depth):
     data = {"session_id": session_id, "max_depth": max_depth}
     return http_post_request(action="nn_summary", data=data)
 
+
 def model_input_output_dimensions(session_id):
     data = {"session_id": session_id}
     return http_post_request(action="model_input_output_dimensions", data=data)
+
 
 def request_designs(session_id, request, n_designs):
     data = {"session_id": session_id, "requested_values": request, "n_designs": n_designs}

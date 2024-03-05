@@ -16,7 +16,7 @@
                 "scriptParamAccess": 0
             },
             {
-                "name": "refresh",
+                "name": "get",
                 "description": "Retrieves the model information.",
                 "typeHintID": "bool",
                 "scriptParamAccess": 0

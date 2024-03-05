@@ -6,7 +6,7 @@ cid = component_id(ghenv.Component, "create_dataset_object")
 
 
 if plot: 
-    st[cid] = plot_distrib_attributes(session_id(), attributes, output_type) # if output_type interactive: will launch the plotly fig in browser
+    st[cid] = plot_distrib_attributes(session_id(), variables, output_type) # if output_type interactive: will launch the plotly fig in browser
 
 if cid in st.keys():
     print st[cid]

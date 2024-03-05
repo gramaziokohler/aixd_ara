@@ -41,6 +41,16 @@ class SessionController(object):
         self.model = None
         self.datamodule = None
         self.samples_per_file = None
+        self.model_is_trained = False
+
+    def reset(self):
+        self.root_path = None
+        self.dataset_name = None
+        self.dataset = None
+        self.model = None
+        self.datamodule = None
+        self.samples_per_file = None
+        self.model_is_trained = False
 
     @property
     def dataset_path(self):
@@ -113,7 +123,6 @@ class SessionController(object):
         dp_dictlist = reformat_dict_to_dictlist(dp_dict)
         return dp_dictlist
 
-    @property
     def datablocks_dataobjects(self):
         if not self.dataset:
             raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
@@ -269,7 +278,8 @@ class SessionController(object):
         fig = plotter.contours2d(block=block, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
-    def train_cae(self, inputML, outputML, latent_dim, layer_widths, batch_size, epochs):
+
+    def model_setup_cae(self, inputML, outputML, latent_dim, layer_widths, batch_size):
         # TODO: set defaults here if missing?
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
@@ -289,25 +299,39 @@ class SessionController(object):
 
         save_dir = self.dataset_path
         cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir)
-        cae.fit(
-            datamodule,
+        self.model = cae
+        self.model_is_trained = False
+
+        quick_summary = self.model_summary(self.model, max_depth=2)
+        model_dims = self.model_input_output_dimensions()
+        return {"msg": "Model has been set up.", "quick_summary": quick_summary, "model_dims": model_dims}
+    
+
+    def model_train(self, epochs,wb):
+        if not self.model:
+            raise ValueError("Model is not set up. Try setting up a model first.")
+        self.model_is_trained=False
+
+        self.model.fit(
+            self.datamodule,
             name_run="",
             max_epochs=epochs,
             callbacks=[],
             accelerator="cpu",
-            flag_wandb=True,
+            flag_wandb=wb,
         )
+        self.model_is_trained = True
         # TODO: store the best model in controller instead?
-        self.model = cae
-        checkpoint_path = os.path.join(cae.save_dir, cae.CHECKPOINT_DIR)
+        checkpoint_path = os.path.join(self.model.save_dir, self.model.CHECKPOINT_DIR)
 
         # TODO: add some callback so that we can have a progress preview in Grasshopper
         # TODO: still saving the checkpoints in strange locations!!! return path to best checkpoint
         # TODO: add retrieve and return the name/path of the best checkpoint
 
+
         return {"msg": "Training completed!", "path": checkpoint_path, "best_ckpt": None}
 
-    def load_cae_model(self, checkpoint_path, checkpoint_name):
+    def model_load_cae(self, checkpoint_path, checkpoint_name):
         error = None
         if checkpoint_path not in [None, ""]:
             if not os.path.exists(checkpoint_path):
@@ -324,14 +348,22 @@ class SessionController(object):
 
         cae = CondAEModel.load_model_from_checkpoint(checkpoint_filepath)
         self.model = cae
-        self.datamodule = DataModule.from_dataset(
+        self.model_is_trained = True
+        self.datamodule = self._datamodule_from_dataset()
+        return {"msg": error or f"Model loaded from checkpoint: {checkpoint_filepath}"}
+
+    def _datamodule_from_dataset(self):
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+        
+        datamodule = DataModule.from_dataset(
             self.dataset,
             input_ml_names=self.model.datamodule_parameters["input_ml_dblock"].names_list,
             output_ml_names=self.model.datamodule_parameters["output_ml_dblock"].names_list,
             batch_size=self.model.datamodule_parameters["batch_size"],
         )
+        return datamodule
 
-        return {"msg": error or f"Model loaded from checkpoint: {checkpoint_filepath}"}
 
     def get_one_sample(self, item):
         """
@@ -394,10 +426,10 @@ class SessionController(object):
             raise ValueError("NN model is not loaded.")
 
         gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=100)
-        new_designs = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")
+        new_designs = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")[0]
 
         # split the result into separate dictionaries for design parameters and performance attributes
-        assert len(new_designs) == n_samples
+        #assert len(new_designs) == n_samples
         samples = []
         for d in new_designs:
             s = {"design_parameters": {}, "performance_attributes": {}}
@@ -408,9 +440,10 @@ class SessionController(object):
                     s["performance_attributes"][k] = v
             samples.append(s)
 
-        return samples
+        return {'msg':"", "generated": samples}
 
-    def _model_summary(self, model=None, max_depth=-1):
+    def model_summary(self, model=None, max_depth=-1):
+        
         if not model:
             model = self.model
         if not model:
@@ -428,7 +461,8 @@ class SessionController(object):
                 ),
             ),
         )
-        return str(pl.utilities.model_summary.ModelSummary(model, max_depth=max_depth))
+        summary = str(pl.utilities.model_summary.ModelSummary(model, max_depth=max_depth))
+        return {"summary":summary}
 
     def model_input_output_dimensions(self):
         if not self.datamodule:
@@ -436,7 +470,6 @@ class SessionController(object):
         
         inputdim, outputdim, summary = self.datamodule.summary_input_output_dimensions()
         return {'msg':"", "summary":summary}
-
 
     def all_block_names(self):
         """
