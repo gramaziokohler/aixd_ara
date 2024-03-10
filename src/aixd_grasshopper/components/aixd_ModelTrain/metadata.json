@@ -16,13 +16,18 @@
                 "scriptParamAccess": 0
             },
             {
+                "name": "wb",
+                "description": "Weights&Biases: username or team name. If not set, W&B will not be used.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
                 "name": "run",
                 "description": "Set to True to start training.",
                 "typeHintID": "bool",
                 "scriptParamAccess": 0
             }
         ],
-
         "outputParameters": [
             {
                 "name": "best_ckpt",

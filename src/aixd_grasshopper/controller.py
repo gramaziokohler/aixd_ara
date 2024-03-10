@@ -208,19 +208,19 @@ class SessionController(object):
 
     def get_dataobject_names_from_block(self, datablock_nickname):
         if datablock_nickname in ["design_parameters", "performance_attributes"] and not self.dataset:
-            return {'msg': f"Dataset is not loaded.", 'names': []}
+            return {"msg": f"Dataset is not loaded.", "names": []}
         if datablock_nickname in ["inputML", "outputML"] and not self.datamodule:
-            return {'msg': f"Model is not loaded.", 'names': []}
+            return {"msg": f"Model is not loaded.", "names": []}
 
         if datablock_nickname == "design_parameters":
-            return {'msg':"", "names": self.dataset.design_par.names_list}
+            return {"msg": "", "names": self.dataset.design_par.names_list}
         if datablock_nickname == "performance_attributes":
-            return {'msg':"", "names": self.dataset.perf_attributes.names_list}
+            return {"msg": "", "names": self.dataset.perf_attributes.names_list}
         if datablock_nickname == "inputML":
-            return {'msg':"", "names": self.datamodule.input_ml_dblock.names_list}
+            return {"msg": "", "names": self.datamodule.input_ml_dblock.names_list}
         if datablock_nickname == "outputML":
-            return {'msg':"", "names": self.datamodule.output_ml_dblock.names_list}
-        return {'msg': f"Wrong block nickname: {datablock_nickname}.", 'names': []}
+            return {"msg": "", "names": self.datamodule.output_ml_dblock.names_list}
+        return {"msg": f"Wrong block nickname: {datablock_nickname}.", "names": []}
 
     def get_design_parameters(self):
         # TODO: rename
@@ -278,7 +278,6 @@ class SessionController(object):
         fig = plotter.contours2d(block=block, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
-
     def model_setup_cae(self, inputML, outputML, latent_dim, layer_widths, batch_size):
         # TODO: set defaults here if missing?
         if not self.dataset:
@@ -305,21 +304,18 @@ class SessionController(object):
         quick_summary = self.model_summary(self.model, max_depth=2)
         model_dims = self.model_input_output_dimensions()
         return {"msg": "Model has been set up.", "quick_summary": quick_summary, "model_dims": model_dims}
-    
 
-    def model_train(self, epochs,wb):
+    def model_train(self, epochs, wb):
         if not self.model:
             raise ValueError("Model is not set up. Try setting up a model first.")
-        self.model_is_trained=False
+        self.model_is_trained = False
 
-        self.model.fit(
-            self.datamodule,
-            name_run="",
-            max_epochs=epochs,
-            callbacks=[],
-            accelerator="cpu",
-            flag_wandb=wb,
-        )
+        if not wb:
+            log_wb = False
+        else:
+            log_wb = True
+
+        self.model.fit(self.datamodule, name_run="", max_epochs=epochs, callbacks=[], accelerator="cpu", flag_wandb=log_wb, wandb_entity=wb)
         self.model_is_trained = True
         # TODO: store the best model in controller instead?
         checkpoint_path = os.path.join(self.model.save_dir, self.model.CHECKPOINT_DIR)
@@ -327,7 +323,6 @@ class SessionController(object):
         # TODO: add some callback so that we can have a progress preview in Grasshopper
         # TODO: still saving the checkpoints in strange locations!!! return path to best checkpoint
         # TODO: add retrieve and return the name/path of the best checkpoint
-
 
         return {"msg": "Training completed!", "path": checkpoint_path, "best_ckpt": None}
 
@@ -355,7 +350,7 @@ class SessionController(object):
     def _datamodule_from_dataset(self):
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
-        
+
         datamodule = DataModule.from_dataset(
             self.dataset,
             input_ml_names=self.model.datamodule_parameters["input_ml_dblock"].names_list,
@@ -363,7 +358,6 @@ class SessionController(object):
             batch_size=self.model.datamodule_parameters["batch_size"],
         )
         return datamodule
-
 
     def get_one_sample(self, item):
         """
@@ -429,7 +423,7 @@ class SessionController(object):
         new_designs = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")[0]
 
         # split the result into separate dictionaries for design parameters and performance attributes
-        #assert len(new_designs) == n_samples
+        # assert len(new_designs) == n_samples
         samples = []
         for d in new_designs:
             s = {"design_parameters": {}, "performance_attributes": {}}
@@ -440,10 +434,10 @@ class SessionController(object):
                     s["performance_attributes"][k] = v
             samples.append(s)
 
-        return {'msg':"", "generated": samples}
+        return {"msg": "", "generated": samples}
 
     def model_summary(self, model=None, max_depth=-1):
-        
+
         if not model:
             model = self.model
         if not model:
@@ -462,14 +456,14 @@ class SessionController(object):
             ),
         )
         summary = str(pl.utilities.model_summary.ModelSummary(model, max_depth=max_depth))
-        return {"summary":summary}
+        return {"summary": summary}
 
     def model_input_output_dimensions(self):
         if not self.datamodule:
             raise ValueError("DataModule is not loaded. Try loading a model first.")
-        
+
         inputdim, outputdim, summary = self.datamodule.summary_input_output_dimensions()
-        return {'msg':"", "summary":summary}
+        return {"msg": "", "summary": summary}
 
     def all_block_names(self):
         """

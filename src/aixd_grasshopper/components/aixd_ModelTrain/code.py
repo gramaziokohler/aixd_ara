@@ -1,4 +1,4 @@
-from aixd_grasshopper.gh_ui import model_train
+from aixd_grasshopper.gh_ui import model_train, project_setup_info
 from aixd_grasshopper.gh_ui_helper import session_id, component_id
 from scriptcontext import sticky as st
 
@@ -7,8 +7,17 @@ cid = component_id(ghenv.Component, "model_train")
 
 if not epochs or epochs < 1:
     epochs = 1
-if not wb:
-    wb = False
+
+if wb:
+    import webbrowser
+
+    projectname = project_setup_info(session_id())["dataset_name"]  # project name == dataset name
+
+    if run:
+        url = "https://wandb.ai/{}/{}".format(wb, projectname)
+        webbrowser.open(url)
+        # TODO: check login and add interface to login if needed
+
 
 if run:
     st[cid] = model_train(session_id(), epochs, wb)

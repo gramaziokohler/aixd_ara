@@ -20,9 +20,10 @@ def reset_session():
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
     sc.reset()
-    result = {'msg':"Session reset"}
+    result = {"msg": "Session reset"}
     response = json.dumps(result, cls=DataEncoder)
     return response
+
 
 @app.route("/project_setup", methods=["POST"])
 def project_setup():
@@ -31,7 +32,7 @@ def project_setup():
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
-    sc.reset() # Reset the session
+    sc.reset()  # Reset the session
     root = data["root"]
     dataset_name = data["dataset_name"]
     result = sc.project_setup(root, dataset_name)
@@ -152,6 +153,7 @@ def datablocks_dataobjects():
     response = json.dumps(result, cls=DataEncoder)
     return response
 
+
 @app.route("/get_dataobject_names_from_block", methods=["POST"])
 def get_dataobject_names_from_block():
     data = request.data
@@ -244,10 +246,11 @@ def model_train():
     sc = SessionController.create(session_id)
 
     epochs = data["epochs"]
-    wb = data["wb"] 
-    result = sc.model_train(epochs,wb)
+    wb = data["wb"]
+    result = sc.model_train(epochs, wb)
     response = json.dumps(result, cls=DataEncoder)
     return response
+
 
 @app.route("/model_load_cae", methods=["POST"])
 def model_load_cae():
@@ -258,10 +261,7 @@ def model_load_cae():
 
     checkpoint_path = data["checkpoint_path"]
     checkpoint_name = data["checkpoint_name"]
-    result = sc.model_load_cae(
-        checkpoint_path=checkpoint_path,
-        checkpoint_name=checkpoint_name
-    )
+    result = sc.model_load_cae(checkpoint_path=checkpoint_path, checkpoint_name=checkpoint_name)
     response = json.dumps(result, cls=DataEncoder)
     return response
 
@@ -293,9 +293,6 @@ def get_one_sample():
     return response
 
 
-
-
-
 @app.route("/nn_summary", methods=["POST"])
 def nn_summary():
     data = request.data
@@ -319,6 +316,7 @@ def model_input_output_dimensions():
     result = sc.model_input_output_dimensions()
     response = json.dumps(result, cls=DataEncoder)
     return response
+
 
 if __name__ == "__main__":
     import sys

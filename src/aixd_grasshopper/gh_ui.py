@@ -11,6 +11,11 @@ def project_setup(session_id, root_path, dataset_name):
     return http_post_request(action="project_setup", data=data)
 
 
+def project_setup_info(session_id):
+    data = {"session_id": session_id}
+    return http_post_request(action="project_setup_info", data=data)
+
+
 def create_dataset_object(session_id, design_parameters, performance_attributes):
     data = {"session_id": session_id, "design_parameters": design_parameters, "performance_attributes": performance_attributes}
     return http_post_request(action="create_dataset_object", data=data)
@@ -57,7 +62,7 @@ def model_setup(session_id, settings):
 
 
 def model_train(session_id, epochs, wb):
-    data = {"session_id": session_id, "epochs": epochs, "wb" : wb}
+    data = {"session_id": session_id, "epochs": epochs, "wb": wb}
     return http_post_request(action="model_train", data=data)
 
 
