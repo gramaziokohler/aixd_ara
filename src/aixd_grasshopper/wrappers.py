@@ -10,10 +10,13 @@ class WrapperShallowDataObject(object):
         self.data = data
 
     def __repr__(self):
-        return "{}: '{}' dim={} domain={}".format(self.data["datatype"], self.data["name"], self.data["dim"], self.data["domain"])
+        return "{}: '{}' dim={} domain={}".format(
+            self.data["datatype"], self.data["name"], self.data["dim"], self.data["domain"]
+        )
 
     def __str__(self):
         return self.__repr__()
+
 
 class WrapperGH(object):
     """
@@ -41,4 +44,6 @@ class WrapperSample(Data):
         self.dataobjects = dataobjects  # intended for an unsorted collection of dataobjects which is neither the colleciton in dp or pa.
 
     def __repr__(self):
-        return "Sample Wrapper dp={} pa={} other={}".format(self.design_parameters, self.performance_attributes, self.dataobjects)
+        return "Sample Wrapper dp={} pa={} other={}".format(
+            self.design_parameters, self.performance_attributes, self.dataobjects
+        )

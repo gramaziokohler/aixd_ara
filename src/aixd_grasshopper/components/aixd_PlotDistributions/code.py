@@ -1,11 +1,14 @@
-from aixd_grasshopper.gh_ui import plot_distrib_attributes
-from aixd_grasshopper.gh_ui_helper import session_id, component_id, convert_str_to_bitmap
 from scriptcontext import sticky as st
+
+from aixd_grasshopper.gh_ui import plot_distrib_attributes
+from aixd_grasshopper.gh_ui_helper import component_id
+from aixd_grasshopper.gh_ui_helper import convert_str_to_bitmap
+from aixd_grasshopper.gh_ui_helper import session_id
+
 cid = component_id(ghenv.Component, "create_dataset_object")
 
 
-
-if plot: 
+if plot:
     st[cid] = plot_distrib_attributes(session_id(), variables, output_type) # if output_type interactive: will launch the plotly fig in browser
 
 if cid in st.keys():

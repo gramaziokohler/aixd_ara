@@ -69,7 +69,10 @@ class SessionController(object):
             return {"msg": "Project path {root_path} does not exist!"}
         self.root_path = root_path
         self.dataset_name = dataset_name
-        return {"msg": f"Project has been set up in: {os.path.join(self.root_path, self.dataset_name)}", "path": os.path.join(self.root_path, self.dataset_name)}
+        return {
+            "msg": f"Project has been set up in: {os.path.join(self.root_path, self.dataset_name)}",
+            "path": os.path.join(self.root_path, self.dataset_name),
+        }
 
     def project_setup_info(self):
         return {"root_path": self.root_path, "dataset_name": self.dataset_name}
@@ -174,7 +177,9 @@ class SessionController(object):
         if not samples_per_file:
             samples_per_file = self.samples_per_file
         if not samples_per_file:
-            raise ValueError("Argument 'samples per file' is not specified (neither in the project nor given as argument here).")
+            raise ValueError(
+                "Argument 'samples per file' is not specified (neither in the project nor given as argument here)."
+            )
 
         datadict = reformat_dictlist_to_dict(datadict)
         dataobjects = [d for d in self.dataset.data_objects if d.name in datadict.keys()]
@@ -195,12 +200,16 @@ class SessionController(object):
         txt += "Data blocks and elements in dataset\n\n"
 
         txt += "* Design parameters\n"
-        for x in [f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.design_par.dobj_list]:
+        for x in [
+            f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.design_par.dobj_list
+        ]:
             txt += f"    {x}\n"
 
         txt += "\n"
         txt += "* Performance attributes\n"
-        for x in [f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.perf_attributes.dobj_list]:
+        for x in [
+            f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.perf_attributes.dobj_list
+        ]:
             txt += f"    {x}\n"
 
         txt += "-------------------------------------"
@@ -247,7 +256,9 @@ class SessionController(object):
                 raise ValueError("Dataobjects are not from any block.")
 
         plotter = Plotter(self.dataset, output=None)
-        fig = plotter.distrib_attributes(block=block[0], attributes=dataobjects, per_column=True, bottom_top=(0.1, 0.9), downsamp=1, sub_figs=True)
+        fig = plotter.distrib_attributes(
+            block=block[0], attributes=dataobjects, per_column=True, bottom_top=(0.1, 0.9), downsamp=1, sub_figs=True
+        )
         return _fig_output(fig, output_type)
 
     def plot_correlations(self, dataobjects, output_type):
@@ -293,11 +304,15 @@ class SessionController(object):
         if outputML == ["performance_attributes"]:
             outputML = self.dataset.perf_attributes.names_list
 
-        datamodule = DataModule.from_dataset(self.dataset, input_ml_names=inputML, output_ml_names=outputML, batch_size=batch_size)
+        datamodule = DataModule.from_dataset(
+            self.dataset, input_ml_names=inputML, output_ml_names=outputML, batch_size=batch_size
+        )
         self.datamodule = datamodule
 
         save_dir = self.dataset_path
-        cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir)
+        cae = CondAEModel.from_datamodule(
+            datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir
+        )
         self.model = cae
         self.model_is_trained = False
 
@@ -315,7 +330,15 @@ class SessionController(object):
         else:
             log_wb = True
 
-        self.model.fit(self.datamodule, name_run="", max_epochs=epochs, callbacks=[], accelerator="cpu", flag_wandb=log_wb, wandb_entity=wb)
+        self.model.fit(
+            self.datamodule,
+            name_run="",
+            max_epochs=epochs,
+            callbacks=[],
+            accelerator="cpu",
+            flag_wandb=log_wb,
+            wandb_entity=wb,
+        )
         self.model_is_trained = True
         # TODO: store the best model in controller instead?
         checkpoint_path = os.path.join(self.model.save_dir, self.model.CHECKPOINT_DIR)

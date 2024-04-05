@@ -17,7 +17,11 @@ def project_setup_info(session_id):
 
 
 def create_dataset_object(session_id, design_parameters, performance_attributes):
-    data = {"session_id": session_id, "design_parameters": design_parameters, "performance_attributes": performance_attributes}
+    data = {
+        "session_id": session_id,
+        "design_parameters": design_parameters,
+        "performance_attributes": performance_attributes,
+    }
     return http_post_request(action="create_dataset_object", data=data)
 
 
