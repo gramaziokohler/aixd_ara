@@ -1,5 +1,6 @@
 [tool.black]
 line-length = 120
+extend-exclude = "src/aixd_grasshopper/components"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
