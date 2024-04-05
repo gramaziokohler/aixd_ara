@@ -3,7 +3,7 @@ import urllib2
 import Grasshopper
 import json
 
-from aixd_grasshopper.constants import default_port
+from aixd_grasshopper.constants import DEFAULT_PORT
 
 TYPES = {
     "Arc": Grasshopper.Kernel.Types.GH_Arc,
@@ -41,7 +41,7 @@ def http_post_request(action, data):
         "Accept": "application/octet-stream",
     }
     data = json.dumps(data)
-    url = "http://127.0.0.1:{}/{}".format(default_port, action)
+    url = "http://127.0.0.1:{}/{}".format(DEFAULT_PORT, action)
     request = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(request).read()
     response = json.loads(response)

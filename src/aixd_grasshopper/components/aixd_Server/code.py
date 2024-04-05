@@ -15,7 +15,7 @@ from scriptcontext import sticky as st
 
 from ghpythonlib.componentbase import executingcomponent as component
 
-from aixd_grasshopper.constants import default_port
+from aixd_grasshopper.constants import DEFAULT_PORT
 
 try:
     from subprocess import Popen
@@ -30,7 +30,7 @@ class ApiRunner(object):
         package=None,
         python=None,
         url="http://127.0.0.1",
-        port=default_port,
+        port=DEFAULT_PORT,
         service=None,
         max_conn_attempts=100,
         autoreload=True,
@@ -118,7 +118,7 @@ class ApiRunnerComponent(component):
         key = create_id(self, "api_runner")
 
         if not port:
-            port = default_port
+            port = DEFAULT_PORT
         print("*", port)
 
         if not start:

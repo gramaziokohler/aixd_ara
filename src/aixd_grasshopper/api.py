@@ -1,14 +1,11 @@
-import base64
-
-from flask import Flask, request
-
-
-from controller import SessionController
 import json
-from compas.data import DataEncoder, DataDecoder
 
+from compas.data import DataEncoder
+from flask import Flask
+from flask import request
 
-from aixd_grasshopper.constants import default_port
+from aixd_grasshopper.constants import DEFAULT_PORT
+from aixd_grasshopper.controller import SessionController
 
 app = Flask(__name__)
 
@@ -322,12 +319,12 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) == 1:
-        port = default_port
+        port = DEFAULT_PORT
     else:
         try:
             port = int(sys.argv[1])
         except ValueError:
-            print("Invalid port number: ", sys.argv[1], "Setting a default port number {}".format(default_port))
-            port = default_port
+            print("Invalid port number: ", sys.argv[1], "Setting a default port number {}".format(DEFAULT_PORT))
+            port = DEFAULT_PORT
 
     app.run(host="127.0.0.1", port=port, debug=False)
