@@ -1,17 +1,12 @@
 """
 Run this file in Rhino Python Editor or add it to your toolbar as a button using:
     > right-click on a toolbar > New Button... > in the pop-up window, in Command section, add:
-    "! _-RunPythonScript "<path>\generate_dataset_rhinoscript.py" 
-The Grasshopper file must be the first active file. 
+    "! _-RunPythonScript "<path>/generate_dataset_rhinoscript.py"
+The Grasshopper file must be the first active file.
 (Close all other Grasshopper files to avoid confusion.)
 """
 
 import os
-import pickle
-import time, datetime
-import random
-import json
-import urllib2
 import math
 import rhinoscriptsyntax as rs
 
@@ -22,7 +17,7 @@ try:
 
     Grasshopper = Rhino.RhinoApp.GetPlugInObject("Grasshopper")
     import Grasshopper
-except:
+except:  # noqa: E722
     # because the first try sometimes doesn't work after "Reset Script Engine"
     import clr
 
@@ -139,7 +134,8 @@ def combine_dp_pa(dp_samples, pa_samples):
 def run(n_batches, samples_per_batch):
 
     for batch in range(n_batches):
-        # print("Sampling batch {}/{}... (samples {}..{})".format(batch+1, n_batches, batch*samples_per_batch, (batch+1)*samples_per_batch-1))
+        # print("Sampling batch {}/{}...
+        # (samples {}..{})".format(batch+1, n_batches, batch*samples_per_batch, (batch+1)*samples_per_batch-1))
         dp_samples = generate_dp_samples(samples_per_batch)
         pa_samples = calculate_pa_samples(ghdoc, dp_samples)
         samples = combine_dp_pa(dp_samples, pa_samples)

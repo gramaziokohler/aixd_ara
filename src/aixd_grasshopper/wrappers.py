@@ -41,7 +41,9 @@ class WrapperSample(Data):
     def __init__(self, dp={}, pa={}, dataobjects={}):
         self.design_parameters = dp
         self.performance_attributes = pa
-        self.dataobjects = dataobjects  # intended for an unsorted collection of dataobjects which is neither the colleciton in dp or pa.
+        self.dataobjects = (
+            dataobjects  # intended for an unsorted collection of dobj which is neither the collection in dp or pa
+        )
 
     def __repr__(self):
         return "Sample Wrapper dp={} pa={} other={}".format(

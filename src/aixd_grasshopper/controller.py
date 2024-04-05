@@ -1,34 +1,30 @@
 """
-This module contains methods that are intended to run in cpython in a server app. 
+This module contains methods that are intended to run in cpython in a server app.
 Do not call it from Rhino/Grasshopper (imports will fail in IronPython).
 """
 
-from aixd.data.dataset import Dataset
-from aixd.data.data_objects import DataInt
-from aixd.data.data_blocks import DesignParameters, PerformanceAttributes, InputML, OutputML
-from aixd.visualisation.plotter import Plotter
-from aixd.mlmodel.data.data_loader import DataModule
-from aixd.mlmodel.architecture.cond_ae_model import CondAEModel
+import base64
 import os
+import random
+
 import pytorch_lightning as pl
 import torch
+from aixd.data.data_blocks import DesignParameters
+from aixd.data.data_blocks import PerformanceAttributes
+from aixd.data.data_objects import DataInt
+from aixd.data.dataset import Dataset
+from aixd.data.utils_data import reformat_dataframe_to_dataframeflat
+from aixd.data.utils_data import reformat_dataframeflat_to_dict
+from aixd.data.utils_data import reformat_dict_to_dataframe
+from aixd.data.utils_data import reformat_dict_to_dictlist
+from aixd.data.utils_data import reformat_dictlist_to_dict
+from aixd.mlmodel.architecture.cond_ae_model import CondAEModel
+from aixd.mlmodel.data.data_loader import DataModule
 from aixd.mlmodel.generation.generator import Generator
-import random
-from aixd.data.data_objects import DataBool
-from aixd.data.utils_data import (
-    reformat_dataframeflat_to_dict,
-    reformat_list_to_dict,
-    reformat_dict_to_dictlist,
-    reformat_dict_to_dataframe,
-    reformat_dataframe_to_dataframeflat,
-    reformat_dictlist_to_dict,
-)
-from aixd_grasshopper.shallow_objects import dataobjects_from_shallow
-from typing import List, Dict
-from aixd_grasshopper.wrappers import WrapperSample
 from aixd.utils.utils import flatten_dict
-from pathlib import Path
-import base64
+from aixd.visualisation.plotter import Plotter
+
+from aixd_grasshopper.shallow_objects import dataobjects_from_shallow
 
 
 class SessionController(object):
@@ -150,7 +146,7 @@ class SessionController(object):
             dataset.load_dataset_obj()
             dataset.load()
             dataset.update_obj_domains(flag_only_perfatt=True)
-        except:
+        except:  # noqa: E722
             dataset = None
             error = "Loading dataset failed."
             raise ValueError(error)
@@ -167,7 +163,8 @@ class SessionController(object):
 
     def import_data_from_dict(self, datadict, samples_per_file=None):
         """
-        Imports data created elsewhere (e.g. performance attributes calculated in Grasshopper) and formated as a dictionary, to the dataset and saves to files.
+        Imports data created elsewhere (e.g. performance attributes calculated in Grasshopper) and
+        formated as a dictionary, to the dataset and saves to files.
         datadict: dictionary containing keys equal to object names and values are lists of data values.
                   format: list of n dictionaries datadict[nth_sample][object_name_as_key][ith_dimension]
                   TODO: must also contain an 'uid' key?
@@ -195,7 +192,7 @@ class SessionController(object):
             error = "Dataset is not loaded."
             raise ValueError(error)
 
-        flag_only_names = False
+        # flag_only_names = False
         txt = "-------------------------------------\n"
         txt += "Data blocks and elements in dataset\n\n"
 
@@ -217,9 +214,9 @@ class SessionController(object):
 
     def get_dataobject_names_from_block(self, datablock_nickname):
         if datablock_nickname in ["design_parameters", "performance_attributes"] and not self.dataset:
-            return {"msg": f"Dataset is not loaded.", "names": []}
+            return {"msg": "Dataset is not loaded.", "names": []}
         if datablock_nickname in ["inputML", "outputML"] and not self.datamodule:
-            return {"msg": f"Model is not loaded.", "names": []}
+            return {"msg": "Model is not loaded.", "names": []}
 
         if datablock_nickname == "design_parameters":
             return {"msg": "", "names": self.dataset.design_par.names_list}
@@ -294,7 +291,8 @@ class SessionController(object):
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
 
-        # TODO: move this check to the resp. datablocks so that they recognize "design_parameters" and "performance_attributes" as argument?
+        # TODO: move this check to the resp. datablocks so that
+        # they recognize "design_parameters" and "performance_attributes" as argument?
         if inputML == ["design_parameters"]:
             inputML = self.dataset.design_par.names_list
         if outputML == ["design_parameters"]:
@@ -395,7 +393,7 @@ class SessionController(object):
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
 
-        if item == None or item < 0:
+        if item is None or item < 0:
             n = len(self.dataset.design_par.data)
             item = random.randint(0, n)
 
@@ -434,7 +432,8 @@ class SessionController(object):
         Returns
         -------
         List[Dict]
-            List containing generated samples. Each sample is represented by a dictionary containing dataobject names as keys and values (requested, generated or predicted)
+            List containing generated samples. Each sample is represented by a dictionary containing
+            dataobject names as keys and values (requested, generated or predicted)
 
         """
         if not self.dataset:

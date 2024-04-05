@@ -4,9 +4,7 @@ from typing import List
 from aixd.data.data_objects import DataBool
 from aixd.data.data_objects import DataCategorical
 from aixd.data.data_objects import DataInt
-from aixd.data.data_objects import DataObject
 from aixd.data.data_objects import DataReal
-from aixd.data.dataset import Dataset
 from aixd.data.domain import Interval
 from aixd.data.domain import Options
 
@@ -71,7 +69,8 @@ def dataobjects_from_shallow(shallow_dobjs: List[Dict]):  # -> List[DataObject]:
             dobj_list.append(DataReal_from_shallow(sh_dobj))
         else:
             raise ValueError(
-                f"Unknow data type {sh_dobj['datatype']} in a shallow data object. Allowed values (string) are: 'DataBool', 'DataCategorical', 'DataInt', 'DataReal'."
+                f"Unknow data type {sh_dobj['datatype']} in a shallow data object."
+                + "Allowed values (string) are: 'DataBool', 'DataCategorical', 'DataInt', 'DataReal'."
             )
 
     return dobj_list

@@ -2,26 +2,22 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import json
-import time
 import compas
 import compas._os
-
-import Grasshopper, GhPython
-import System
-import Rhino
-import rhinoscriptsyntax as rs
-from scriptcontext import sticky as st
-
 from ghpythonlib.componentbase import executingcomponent as component
+from scriptcontext import sticky as st
 
 from aixd_grasshopper.constants import DEFAULT_PORT
 
 try:
-    from subprocess import Popen
     from subprocess import PIPE
+    from subprocess import Popen
 except ImportError:
     from System.Diagnostics import Process
+
+import os
+
+import aixd_grasshopper as ag
 
 
 class ApiRunner(object):
@@ -100,9 +96,6 @@ class ApiRunner(object):
             pass
 
 
-import os
-import aixd_grasshopper as ag
-
 api_path = os.path.dirname(ag.__file__)
 
 print(api_path)
@@ -138,8 +131,9 @@ class ApiRunnerComponent(component):
 
         if start:
             # self.check_port_available(port)
+            # cwd = r"C:\Users\aapolina\CODE\aaad\src\aaad_grasshopper"
             # runner = ApiRunner(python=python, capture_output=capture_output)
-            # runner = ApiRunner(python=python, capture_output=capture_output, working_directory=r"C:\Users\aapolina\CODE\aaad\src\aaad_grasshopper")
+            # runner = ApiRunner(python=python, capture_output=capture_output, working_directory=cwd)
             runner = ApiRunner(python=python, port=port, capture_output=capture_output, working_directory=api_path)
             st[key] = runner
 
@@ -148,7 +142,8 @@ class ApiRunnerComponent(component):
         return runner
 
     def check_port_available(self, port):
-        import socket, errno
+        import errno
+        import socket
 
         print("start checking...")
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -1,7 +1,12 @@
-import urllib
-import urllib2
-import Grasshopper
 import json
+import urllib
+
+import Grasshopper
+import urllib2
+from System import Convert
+from System.Drawing import Bitmap
+from System.Drawing import Size
+from System.IO import MemoryStream
 
 from aixd_grasshopper.constants import DEFAULT_PORT
 
@@ -93,12 +98,12 @@ def find_component_by_nickname(ghdoc, component_nickname):
         print("No ghcomponent found with a nickname {}.".format(component_nickname))
         return
     if len(found) > 1:
-        print("{len(found)} ghcomponents found with the nickname {} - will return None.".format(component_nickname))
+        print("{} ghcomponents found with the nickname {} - will return None.".format(len(found), component_nickname))
         return
     return found[0]
 
 
-### set&get values methods (rhinopythonscript style)
+# set & get values methods (rhinopythonscript style)
 
 
 def set_value(component, val):
@@ -124,11 +129,6 @@ def get_values(component):
     if not component.VolatileData:
         return None
     return [x.Value for x in component.VolatileData[0]]
-
-
-from System.Drawing import Bitmap, Size
-from System import Convert
-from System.IO import MemoryStream
 
 
 def convert_str_to_bitmap(base64_imgstr, scale=1.0):
