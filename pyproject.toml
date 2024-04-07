@@ -4,7 +4,7 @@ extend-exclude = "src/aixd_grasshopper/components"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-testpaths = ["tests", "src/aixd_grasshopper"]
+testpaths = ["tests"]
 python_files = [
     "test_*.py",
     "tests.py"
