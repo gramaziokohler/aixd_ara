@@ -50,7 +50,7 @@ setup(
     ],
     keywords=[],
     project_urls={},
-    packages=["aixd_grasshopper"],
+    packages=["aixd_grasshopper", "compas_aixd"],
     package_dir={"": "src"},
     package_data={},
     data_files=[],
