@@ -36,24 +36,24 @@ pip install --upgrade git+https://github.com/gramaziokohler/aixd_grasshopper.git
 
 If you are going to develop on this repository, perform an installation from source:
 
-```
+```bash
 git clone https://github.com/gramaziokohler/aixd_grasshopper.git
 cd aixd_grasshopper
 ```
 
 Then, install using conda, to install all the dependencies into a new environment called `aixd_gh`:
-```
+```bash
 conda env create -f environment.yml
 ```
 
 Or using pip:
-```
+```bash
 pip install -e ".[dev]"
 ```
 
 Finally, build Grasshopper components and install on Rhino/GH:
 
-```
+```bash
 invoke build-ghuser-components
 python -m compas_rhino.install -v 7.0
 ```
