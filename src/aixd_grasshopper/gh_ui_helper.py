@@ -1,9 +1,14 @@
-import urllib
-import urllib2
-import Grasshopper
 import json
+import urllib
 
-from aixd_grasshopper.constants import default_port
+import Grasshopper
+import urllib2
+from System import Convert
+from System.Drawing import Bitmap
+from System.Drawing import Size
+from System.IO import MemoryStream
+
+from aixd_grasshopper.constants import DEFAULT_PORT
 
 TYPES = {
     "Arc": Grasshopper.Kernel.Types.GH_Arc,
@@ -41,7 +46,7 @@ def http_post_request(action, data):
         "Accept": "application/octet-stream",
     }
     data = json.dumps(data)
-    url = "http://127.0.0.1:{}/{}".format(default_port, action)
+    url = "http://127.0.0.1:{}/{}".format(DEFAULT_PORT, action)
     request = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(request).read()
     response = json.loads(response)
@@ -93,12 +98,12 @@ def find_component_by_nickname(ghdoc, component_nickname):
         print("No ghcomponent found with a nickname {}.".format(component_nickname))
         return
     if len(found) > 1:
-        print("{len(found)} ghcomponents found with the nickname {} - will return None.".format(component_nickname))
+        print("{} ghcomponents found with the nickname {} - will return None.".format(len(found), component_nickname))
         return
     return found[0]
 
 
-### set&get values methods (rhinopythonscript style)
+# set & get values methods (rhinopythonscript style)
 
 
 def set_value(component, val):
@@ -124,11 +129,6 @@ def get_values(component):
     if not component.VolatileData:
         return None
     return [x.Value for x in component.VolatileData[0]]
-
-
-from System.Drawing import Bitmap, Size
-from System import Convert
-from System.IO import MemoryStream
 
 
 def convert_str_to_bitmap(base64_imgstr, scale=1.0):

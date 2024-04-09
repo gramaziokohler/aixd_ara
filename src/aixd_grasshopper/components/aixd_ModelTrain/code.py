@@ -1,6 +1,11 @@
-from aixd_grasshopper.gh_ui import model_train, project_setup_info
-from aixd_grasshopper.gh_ui_helper import session_id, component_id
+# flake8: noqa
+
 from scriptcontext import sticky as st
+
+from aixd_grasshopper.gh_ui import model_train
+from aixd_grasshopper.gh_ui import project_setup_info
+from aixd_grasshopper.gh_ui_helper import component_id
+from aixd_grasshopper.gh_ui_helper import session_id
 
 cid = component_id(ghenv.Component, "model_train")
 

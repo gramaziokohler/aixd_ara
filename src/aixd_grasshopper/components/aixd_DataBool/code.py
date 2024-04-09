@@ -1,3 +1,4 @@
+# flake8: noqa
 from aixd_grasshopper.wrappers import WrapperShallowDataObject
 
 if not dim or dim < 1:

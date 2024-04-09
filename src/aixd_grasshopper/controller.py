@@ -1,34 +1,30 @@
 """
-This module contains methods that are intended to run in cpython in a server app. 
+This module contains methods that are intended to run in cpython in a server app.
 Do not call it from Rhino/Grasshopper (imports will fail in IronPython).
 """
 
-from aixd.data.dataset import Dataset
-from aixd.data.data_objects import DataInt
-from aixd.data.data_blocks import DesignParameters, PerformanceAttributes, InputML, OutputML
-from aixd.visualisation.plotter import Plotter
-from aixd.mlmodel.data.data_loader import DataModule
-from aixd.mlmodel.architecture.cond_ae_model import CondAEModel
+import base64
 import os
+import random
+
 import pytorch_lightning as pl
 import torch
+from aixd.data.data_blocks import DesignParameters
+from aixd.data.data_blocks import PerformanceAttributes
+from aixd.data.data_objects import DataInt
+from aixd.data.dataset import Dataset
+from aixd.data.utils_data import reformat_dataframe_to_dataframeflat
+from aixd.data.utils_data import reformat_dataframeflat_to_dict
+from aixd.data.utils_data import reformat_dict_to_dataframe
+from aixd.data.utils_data import reformat_dict_to_dictlist
+from aixd.data.utils_data import reformat_dictlist_to_dict
+from aixd.mlmodel.architecture.cond_ae_model import CondAEModel
+from aixd.mlmodel.data.data_loader import DataModule
 from aixd.mlmodel.generation.generator import Generator
-import random
-from aixd.data.data_objects import DataBool
-from aixd.data.utils_data import (
-    reformat_dataframeflat_to_dict,
-    reformat_list_to_dict,
-    reformat_dict_to_dictlist,
-    reformat_dict_to_dataframe,
-    reformat_dataframe_to_dataframeflat,
-    reformat_dictlist_to_dict,
-)
-from aixd_grasshopper.shallow_objects import dataobjects_from_shallow
-from typing import List, Dict
-from aixd_grasshopper.wrappers import WrapperSample
 from aixd.utils.utils import flatten_dict
-from pathlib import Path
-import base64
+from aixd.visualisation.plotter import Plotter
+
+from aixd_grasshopper.shallow_objects import dataobjects_from_shallow
 
 
 class SessionController(object):
@@ -69,7 +65,10 @@ class SessionController(object):
             return {"msg": "Project path {root_path} does not exist!"}
         self.root_path = root_path
         self.dataset_name = dataset_name
-        return {"msg": f"Project has been set up in: {os.path.join(self.root_path, self.dataset_name)}", "path": os.path.join(self.root_path, self.dataset_name)}
+        return {
+            "msg": f"Project has been set up in: {os.path.join(self.root_path, self.dataset_name)}",
+            "path": os.path.join(self.root_path, self.dataset_name),
+        }
 
     def project_setup_info(self):
         return {"root_path": self.root_path, "dataset_name": self.dataset_name}
@@ -147,7 +146,7 @@ class SessionController(object):
             dataset.load_dataset_obj()
             dataset.load()
             dataset.update_obj_domains(flag_only_perfatt=True)
-        except:
+        except:  # noqa: E722
             dataset = None
             error = "Loading dataset failed."
             raise ValueError(error)
@@ -164,7 +163,8 @@ class SessionController(object):
 
     def import_data_from_dict(self, datadict, samples_per_file=None):
         """
-        Imports data created elsewhere (e.g. performance attributes calculated in Grasshopper) and formated as a dictionary, to the dataset and saves to files.
+        Imports data created elsewhere (e.g. performance attributes calculated in Grasshopper) and
+        formated as a dictionary, to the dataset and saves to files.
         datadict: dictionary containing keys equal to object names and values are lists of data values.
                   format: list of n dictionaries datadict[nth_sample][object_name_as_key][ith_dimension]
                   TODO: must also contain an 'uid' key?
@@ -174,7 +174,9 @@ class SessionController(object):
         if not samples_per_file:
             samples_per_file = self.samples_per_file
         if not samples_per_file:
-            raise ValueError("Argument 'samples per file' is not specified (neither in the project nor given as argument here).")
+            raise ValueError(
+                "Argument 'samples per file' is not specified (neither in the project nor given as argument here)."
+            )
 
         datadict = reformat_dictlist_to_dict(datadict)
         dataobjects = [d for d in self.dataset.data_objects if d.name in datadict.keys()]
@@ -190,17 +192,21 @@ class SessionController(object):
             error = "Dataset is not loaded."
             raise ValueError(error)
 
-        flag_only_names = False
+        # flag_only_names = False
         txt = "-------------------------------------\n"
         txt += "Data blocks and elements in dataset\n\n"
 
         txt += "* Design parameters\n"
-        for x in [f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.design_par.dobj_list]:
+        for x in [
+            f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.design_par.dobj_list
+        ]:
             txt += f"    {x}\n"
 
         txt += "\n"
         txt += "* Performance attributes\n"
-        for x in [f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.perf_attributes.dobj_list]:
+        for x in [
+            f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.perf_attributes.dobj_list
+        ]:
             txt += f"    {x}\n"
 
         txt += "-------------------------------------"
@@ -208,9 +214,9 @@ class SessionController(object):
 
     def get_dataobject_names_from_block(self, datablock_nickname):
         if datablock_nickname in ["design_parameters", "performance_attributes"] and not self.dataset:
-            return {"msg": f"Dataset is not loaded.", "names": []}
+            return {"msg": "Dataset is not loaded.", "names": []}
         if datablock_nickname in ["inputML", "outputML"] and not self.datamodule:
-            return {"msg": f"Model is not loaded.", "names": []}
+            return {"msg": "Model is not loaded.", "names": []}
 
         if datablock_nickname == "design_parameters":
             return {"msg": "", "names": self.dataset.design_par.names_list}
@@ -247,7 +253,9 @@ class SessionController(object):
                 raise ValueError("Dataobjects are not from any block.")
 
         plotter = Plotter(self.dataset, output=None)
-        fig = plotter.distrib_attributes(block=block[0], attributes=dataobjects, per_column=True, bottom_top=(0.1, 0.9), downsamp=1, sub_figs=True)
+        fig = plotter.distrib_attributes(
+            block=block[0], attributes=dataobjects, per_column=True, bottom_top=(0.1, 0.9), downsamp=1, sub_figs=True
+        )
         return _fig_output(fig, output_type)
 
     def plot_correlations(self, dataobjects, output_type):
@@ -283,7 +291,8 @@ class SessionController(object):
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
 
-        # TODO: move this check to the resp. datablocks so that they recognize "design_parameters" and "performance_attributes" as argument?
+        # TODO: move this check to the resp. datablocks so that
+        # they recognize "design_parameters" and "performance_attributes" as argument?
         if inputML == ["design_parameters"]:
             inputML = self.dataset.design_par.names_list
         if outputML == ["design_parameters"]:
@@ -293,11 +302,15 @@ class SessionController(object):
         if outputML == ["performance_attributes"]:
             outputML = self.dataset.perf_attributes.names_list
 
-        datamodule = DataModule.from_dataset(self.dataset, input_ml_names=inputML, output_ml_names=outputML, batch_size=batch_size)
+        datamodule = DataModule.from_dataset(
+            self.dataset, input_ml_names=inputML, output_ml_names=outputML, batch_size=batch_size
+        )
         self.datamodule = datamodule
 
         save_dir = self.dataset_path
-        cae = CondAEModel.from_datamodule(datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir)
+        cae = CondAEModel.from_datamodule(
+            datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir
+        )
         self.model = cae
         self.model_is_trained = False
 
@@ -315,7 +328,15 @@ class SessionController(object):
         else:
             log_wb = True
 
-        self.model.fit(self.datamodule, name_run="", max_epochs=epochs, callbacks=[], accelerator="cpu", flag_wandb=log_wb, wandb_entity=wb)
+        self.model.fit(
+            self.datamodule,
+            name_run="",
+            max_epochs=epochs,
+            callbacks=[],
+            accelerator="cpu",
+            flag_wandb=log_wb,
+            wandb_entity=wb,
+        )
         self.model_is_trained = True
         # TODO: store the best model in controller instead?
         checkpoint_path = os.path.join(self.model.save_dir, self.model.CHECKPOINT_DIR)
@@ -372,7 +393,7 @@ class SessionController(object):
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
 
-        if item == None or item < 0:
+        if item is None or item < 0:
             n = len(self.dataset.design_par.data)
             item = random.randint(0, n)
 
@@ -411,7 +432,8 @@ class SessionController(object):
         Returns
         -------
         List[Dict]
-            List containing generated samples. Each sample is represented by a dictionary containing dataobject names as keys and values (requested, generated or predicted)
+            List containing generated samples. Each sample is represented by a dictionary containing
+            dataobject names as keys and values (requested, generated or predicted)
 
         """
         if not self.dataset:

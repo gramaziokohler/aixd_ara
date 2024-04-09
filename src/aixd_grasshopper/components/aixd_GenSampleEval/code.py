@@ -1,3 +1,4 @@
+# flake8: noqa
 summarytxt = {}  # key =obj name, values= [req, pred, real]
 
 request_dict = {}

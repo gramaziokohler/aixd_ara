@@ -12,7 +12,7 @@ In short, this is how that works.
 3. Install development dependencies:
 
    ```bash
-   pip install -r requirements-dev.txt
+   pip install -e ".[dev]"
    ```
 
 4. Make sure all tests pass:
@@ -21,7 +21,7 @@ In short, this is how that works.
    invoke test
    ```
 
-5. Start making your changes to the **master** branch (or branch off of it).
+5. Start making your changes to the **main** branch (or branch off of it).
 6. Make sure all tests still pass:
 
    ```bash
@@ -39,6 +39,7 @@ command line to ease recurring operations:
 * `invoke check`: Run various code and documentation style checks.
 * `invoke docs`: Generate documentation.
 * `invoke test`: Run all tests and checks in one swift command.
+* `invoke build-ghuser-components`: Build Grasshopper components.
 * `invoke`: Show available tasks.
 
 ## Bug reports

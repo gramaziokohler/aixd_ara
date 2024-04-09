@@ -1,7 +1,9 @@
-from aixd_grasshopper.gh_ui import get_one_sample
-from aixd_grasshopper.gh_ui_helper import session_id, component_id
+# flake8: noqa
 import Grasshopper
 
+from aixd_grasshopper.gh_ui import get_one_sample
+from aixd_grasshopper.gh_ui_helper import component_id
+from aixd_grasshopper.gh_ui_helper import session_id
 
 if not item:
     item = -1

@@ -116,5 +116,6 @@ temp/**
 .vscode
 
 docs/api/generated/
+src/aixd_grasshopper/components/ghuser/
 
 conda.recipe/

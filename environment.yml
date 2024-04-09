@@ -1,0 +1,11 @@
+name: aixd_gh
+channels:
+    - conda-forge
+dependencies:
+   - python=3.9
+   - compas >2,<3
+   - flask
+   - pip
+   - pip:
+     - -e ".[dev]"
+prefix: "/opt/conda"
