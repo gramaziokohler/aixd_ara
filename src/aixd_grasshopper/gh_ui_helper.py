@@ -4,6 +4,7 @@ import urllib
 import Grasshopper
 import urllib2
 from System import Convert
+from System import Guid
 from System.Drawing import Bitmap
 from System.Drawing import Size
 from System.IO import MemoryStream
@@ -83,6 +84,47 @@ def session_id():
 
 def component_id(component, name):
     return "{}_{}".format(component.InstanceGuid, name)
+
+
+def clear_sticky(ghenv, st):
+    """
+    Removes all keys from the sticky dictionary.
+    Resets all components that used the sticky to hold data.
+    TODO: clear only keys from this session
+
+
+    Parameters:
+    -----------
+    ghenv: Grasshopper environment object `GhPython.Component.PythonEnvironment`
+    st: sticky dictionary
+    """
+    
+    ghdoc = ghenv.Component.OnPingDocument()
+
+    keys = st.keys()
+    
+    st.clear()  # TODO: clear only keys from this session
+    
+    for key in keys:
+        guid_str = key.split('_')[0]
+        reset_component(ghdoc, guid_str)    
+
+
+def reset_component(ghdoc, guid_str):
+    """
+    adapted from: https://github.com/compas-dev/compas/blob/ea4b5b5191a350d24cbb479c6770daa68dbe53fd/src/compas_ghpython/timer.py#L8
+    """
+
+    guid = Guid(guid_str)
+    ghcomp = ghdoc.FindComponent(guid)
+
+    def callback(ghdoc):
+
+        if ghdoc.SolutionState != Grasshopper.Kernel.GH_ProcessStep.Process:
+            ghcomp.ExpireSolution(False)
+
+    delay = 1  # [ms]
+    ghdoc.ScheduleSolution(delay, Grasshopper.Kernel.GH_Document.GH_ScheduleDelegate(callback))
 
 
 def find_component_by_nickname(ghdoc, component_nickname):
