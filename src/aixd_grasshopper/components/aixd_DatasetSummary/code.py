@@ -3,7 +3,7 @@ from aixd_grasshopper.gh_ui import dataset_summary
 from aixd_grasshopper.gh_ui_helper import session_id, component_id
 from scriptcontext import sticky as st
 
-cid = component_id(session_id(), ghenv.Component, "dataset_summary")
+cid = component_id(session_id(), ghenv.Component, "DatasetSummary")
 
 if get:
     st[cid] = dataset_summary(session_id())

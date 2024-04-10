@@ -3,7 +3,7 @@ from aixd_grasshopper.gh_ui import model_load
 from aixd_grasshopper.gh_ui_helper import session_id, component_id
 from scriptcontext import sticky as st
 
-cid = component_id(session_id(), ghenv.Component, "model_load")
+cid = component_id(session_id(), ghenv.Component, "ModelLoad")
 
 if not checkpoint_path:
     checkpoint_path = ""

@@ -10,7 +10,7 @@ if project_folder and dataset_name:
         print("The path {} does not exist and will be now created.".format(complete_path))
         os.mkdir(complete_path)
 
-    cid = component_id(session_id(), ghenv.Component, "project_setup")
+    cid = component_id(session_id(), ghenv.Component, "ProjectSetup")
 
     if set:
         clear_sticky(ghenv, st)

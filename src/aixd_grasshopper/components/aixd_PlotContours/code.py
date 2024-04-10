@@ -6,7 +6,7 @@ from aixd_grasshopper.gh_ui_helper import component_id
 from aixd_grasshopper.gh_ui_helper import convert_str_to_bitmap
 from aixd_grasshopper.gh_ui_helper import session_id
 
-cid = component_id(session_id(), ghenv.Component, "create_dataset_object")
+cid = component_id(session_id(), ghenv.Component, "PlotContours")
 
 
 if plot:
