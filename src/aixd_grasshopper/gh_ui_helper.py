@@ -82,32 +82,33 @@ def session_id():
     return doc_key
 
 
-def component_id(component, name):
-    return "{}_{}".format(component.InstanceGuid, name)
+def component_id(session_id, component, name):
+    return "{}_{}_{}".format(session_id, component.InstanceGuid, name)
 
 
 def clear_sticky(ghenv, st):
     """
     Removes all keys from the sticky dictionary.
     Resets all components that used the sticky to hold data.
-    TODO: clear only keys from this session
-
 
     Parameters:
     -----------
     ghenv: Grasshopper environment object `GhPython.Component.PythonEnvironment`
     st: sticky dictionary
     """
-    
+
     ghdoc = ghenv.Component.OnPingDocument()
+    ghdoc_id = ghdoc.DocumentID.ToString()
 
     keys = st.keys()
-    
-    st.clear()  # TODO: clear only keys from this session
-    
+
     for key in keys:
-        guid_str = key.split('_')[0]
-        reset_component(ghdoc, guid_str)    
+        session_id = key.split("_")[0]
+        guid_str = key.split("_")[1]
+
+        if session_id == ghdoc_id:
+            reset_component(ghdoc, guid_str)
+            st.pop(key)
 
 
 def reset_component(ghdoc, guid_str):
