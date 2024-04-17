@@ -10,12 +10,6 @@
         "iconDisplay": 0,
         "inputParameters": [
             {
-                "name": "port",
-                "description": "Port number, optional.",
-                "typeHintID": "int",
-                "scriptParamAccess": 0
-            },
-            {
                 "name": "start",
                 "description": "Starts the server.",
                 "typeHintID": "bool",
@@ -29,7 +23,7 @@
             },
             {
                 "name": "show_window",
-                "description": "If True, the server window will be shown. If False, the server window will be hidden.",
+                "description": "If True, the server window will be shown. If False, the server window will be hidden. Default: True.",
                 "typeHintID": "bool",
                 "scriptParamAccess": 0
             }

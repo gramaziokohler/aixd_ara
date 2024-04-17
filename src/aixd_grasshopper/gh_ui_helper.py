@@ -55,28 +55,6 @@ def http_post_request(action, data):
     return response
 
 
-def gh_request(action, arguments):
-    """
-    Parameters:
-    -----------
-    action: string, must match a methods in API
-    arguments: dictionary, keys must match the arcuments read in the corresponding method called
-
-    Returns:
-    --------
-    response content if any
-    """
-
-    server_url = "http://127.0.0.1:8000"  # Change this to your server's URL
-    action = "/{}".format(action)
-    route = "?{}".format(urllib.urlencode(arguments))
-    url = server_url + action + route
-    request = urllib2.Request(url)
-    response = urllib2.urlopen(request)
-    response_content = response.read()
-    return response_content
-
-
 def session_id():
     doc_key = Grasshopper.Instances.ActiveCanvas.Document.DocumentID.ToString()
     return doc_key
