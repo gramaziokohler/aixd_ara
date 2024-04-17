@@ -1,5 +1,5 @@
 import json
-import urllib
+
 
 import Grasshopper
 import urllib2
@@ -55,28 +55,6 @@ def http_post_request(action, data):
     return response
 
 
-def gh_request(action, arguments):
-    """
-    Parameters:
-    -----------
-    action: string, must match a methods in API
-    arguments: dictionary, keys must match the arcuments read in the corresponding method called
-
-    Returns:
-    --------
-    response content if any
-    """
-
-    server_url = "http://127.0.0.1:8000"  # Change this to your server's URL
-    action = "/{}".format(action)
-    route = "?{}".format(urllib.urlencode(arguments))
-    url = server_url + action + route
-    request = urllib2.Request(url)
-    response = urllib2.urlopen(request)
-    response_content = response.read()
-    return response_content
-
-
 def session_id():
     doc_key = Grasshopper.Instances.ActiveCanvas.Document.DocumentID.ToString()
     return doc_key
@@ -106,17 +84,19 @@ def clear_sticky(ghenv, st):
     # There might be other keys in the sticky dictionary, so we need to filter them out.
     for key in keys:
 
+        session_id = None
+        guid_str = None
         try:
             session_id = key.split("_")[0]
             guid_str = key.split("_")[1]
-        except:
-            session_id = None
-            guid_str = None
+        except Exception:
+            pass
 
         if not session_id or not guid_str:
             continue
 
-        # The retrieved session_id and guid_str may either come from a different Grasshopper document, or from some other process and be incorrect/meaningless.
+        # The retrieved session_id and guid_str may either come from a different Grasshopper document,
+        # or from some other process and be incorrect/meaningless.
         # In these cases, the following code will do nothing anyway.
         if session_id == ghdoc_id:
             reset_component(ghdoc, guid_str)
@@ -125,7 +105,8 @@ def clear_sticky(ghenv, st):
 
 def reset_component(ghdoc, guid_str):
     """
-    adapted from: https://github.com/compas-dev/compas/blob/ea4b5b5191a350d24cbb479c6770daa68dbe53fd/src/compas_ghpython/timer.py#L8
+    adapted from:
+    https://github.com/compas-dev/compas/blob/ea4b5b5191a350d24cbb479c6770daa68dbe53fd/src/compas_ghpython/timer.py#L8
     """
 
     guid = Guid(guid_str)

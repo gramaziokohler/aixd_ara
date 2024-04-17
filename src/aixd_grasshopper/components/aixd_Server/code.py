@@ -101,18 +101,19 @@ api_path = os.path.dirname(ag.__file__)
 print(api_path)
 
 
-def create_id(component, name):
+def create_api_runner_id(component):
+    name = "api-runner"
     return "{}_{}".format(name, component.InstanceGuid)
 
 
 class ApiRunnerComponent(component):
 
-    def RunScript(self, port, start, stop, show_window):
-        key = create_id(self, "api_runner")
+    def RunScript(self, start, stop, show_window):
+        key = create_api_runner_id(self)
+        if not show_window:
+            show_window = True  # default
 
-        if not port:
-            port = DEFAULT_PORT
-        print("*", port)
+        port = DEFAULT_PORT
 
         if not start:
             return None
@@ -123,17 +124,11 @@ class ApiRunnerComponent(component):
             python = "pythonw"
             capture_output = True
 
-        if stop or start:
-            # stop previous API runner if any
-            previous_api_runner = st.get(key)
-            if previous_api_runner:
-                previous_api_runner.stop_server()
+        if stop:
+            self.stop_previous(key)
 
         if start:
-            # self.check_port_available(port)
-            # cwd = r"C:\Users\aapolina\CODE\aaad\src\aaad_grasshopper"
-            # runner = ApiRunner(python=python, capture_output=capture_output)
-            # runner = ApiRunner(python=python, capture_output=capture_output, working_directory=cwd)
+            self.stop_previous(key)
             runner = ApiRunner(python=python, port=port, capture_output=capture_output, working_directory=api_path)
             st[key] = runner
 
@@ -141,24 +136,9 @@ class ApiRunnerComponent(component):
 
         return runner
 
-    def check_port_available(self, port):
-        import errno
-        import socket
-
-        print("start checking...")
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        try:
-            print("check binding...")
-            s.bind(("127.0.0.1", int(port)))
-        except socket.error as e:
-            if e.errno == errno.EADDRINUSE:
-                print("Port is already in use")
-            else:
-                # something else raised the socket.error exception
-                print(e)
-        finally:
-            s.close()
-            s = None
-            del s
-            print("done!")
+    def stop_previous(self, key):
+        # stop previous API runner if any
+        previous_api_runner = st.get(key)
+        if previous_api_runner:
+            previous_api_runner.stop_server()
+            st.pop(key)
