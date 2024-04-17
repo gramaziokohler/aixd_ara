@@ -5,7 +5,7 @@ from aixd_grasshopper.gh_ui import model_setup
 from aixd_grasshopper.gh_ui_helper import component_id
 from aixd_grasshopper.gh_ui_helper import session_id
 
-cid = component_id(ghenv.Component, "model_setup")
+cid = component_id(session_id(), ghenv.Component, "ModelSetup")
 
 settings = {
     "inputML": inputML,

@@ -40,7 +40,7 @@ from aixd_grasshopper.gh_ui import request_designs
 from aixd_grasshopper.gh_ui_helper import session_id, component_id
 from scriptcontext import sticky as st
 
-cid = component_id(ghenv.Component, "run_generation")
+cid = component_id(session_id(), ghenv.Component, "Generator")
 
 
 if run and request_ok:

@@ -4,6 +4,7 @@ import urllib
 import Grasshopper
 import urllib2
 from System import Convert
+from System import Guid
 from System.Drawing import Bitmap
 from System.Drawing import Size
 from System.IO import MemoryStream
@@ -81,8 +82,63 @@ def session_id():
     return doc_key
 
 
-def component_id(component, name):
-    return "{}_{}".format(component.InstanceGuid, name)
+def component_id(session_id, component, name):
+    return "{}_{}_{}".format(session_id, component.InstanceGuid, name)
+
+
+def clear_sticky(ghenv, st):
+    """
+    Removes all items from the sticky dictionary use by Grasshopper components in the given document.
+    Resets all components that used the sticky to hold data.
+
+    Parameters
+    ----------
+    ghenv: Grasshopper environment object `GhPython.Component.PythonEnvironment`
+    st: sticky dictionary
+    """
+
+    ghdoc = ghenv.Component.OnPingDocument()
+    ghdoc_id = ghdoc.DocumentID.ToString()
+
+    keys = st.keys()
+
+    # The keys we are looking for are strings of the form "{session_id}_{guid_str}_{ghcomponent_nickname}".
+    # There might be other keys in the sticky dictionary, so we need to filter them out.
+    for key in keys:
+
+        try:
+            session_id = key.split("_")[0]
+            guid_str = key.split("_")[1]
+        except:
+            session_id = None
+            guid_str = None
+
+        if not session_id or not guid_str:
+            continue
+
+        # The retrieved session_id and guid_str may either come from a different Grasshopper document, or from some other process and be incorrect/meaningless.
+        # In these cases, the following code will do nothing anyway.
+        if session_id == ghdoc_id:
+            reset_component(ghdoc, guid_str)
+            st.pop(key)
+
+
+def reset_component(ghdoc, guid_str):
+    """
+    adapted from: https://github.com/compas-dev/compas/blob/ea4b5b5191a350d24cbb479c6770daa68dbe53fd/src/compas_ghpython/timer.py#L8
+    """
+
+    guid = Guid(guid_str)
+    ghcomp = ghdoc.FindComponent(guid)
+
+    def callback(ghdoc):
+        if ghdoc.SolutionState != Grasshopper.Kernel.GH_ProcessStep.Process:
+            ghcomp.ExpireSolution(False)
+
+    if not ghcomp:
+        return
+    delay = 1  # [ms]
+    ghdoc.ScheduleSolution(delay, Grasshopper.Kernel.GH_Document.GH_ScheduleDelegate(callback))
 
 
 def find_component_by_nickname(ghdoc, component_nickname):

@@ -5,7 +5,7 @@ from aixd_grasshopper.gh_ui import nn_summary
 from aixd_grasshopper.gh_ui_helper import component_id
 from aixd_grasshopper.gh_ui_helper import session_id
 
-cid = component_id(ghenv.Component, "model_summary")
+cid = component_id(session_id(), ghenv.Component, "ModelSummary")
 
 
 if not max_depth:

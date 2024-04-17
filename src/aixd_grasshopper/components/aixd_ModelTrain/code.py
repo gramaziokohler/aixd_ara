@@ -7,7 +7,7 @@ from aixd_grasshopper.gh_ui import project_setup_info
 from aixd_grasshopper.gh_ui_helper import component_id
 from aixd_grasshopper.gh_ui_helper import session_id
 
-cid = component_id(ghenv.Component, "model_train")
+cid = component_id(session_id(), ghenv.Component, "ModelTrain")
 
 
 if not epochs or epochs < 1:
