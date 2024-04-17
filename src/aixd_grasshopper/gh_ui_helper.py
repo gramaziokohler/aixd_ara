@@ -91,8 +91,8 @@ def clear_sticky(ghenv, st):
     Removes all keys from the sticky dictionary.
     Resets all components that used the sticky to hold data.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     ghenv: Grasshopper environment object `GhPython.Component.PythonEnvironment`
     st: sticky dictionary
     """
