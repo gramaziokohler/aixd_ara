@@ -36,9 +36,11 @@ class wrapper:
 # -------------------------------------------------------------------------------
 
 
-from aixd_grasshopper.gh_ui import request_designs
-from aixd_grasshopper.gh_ui_helper import session_id, component_id
 from scriptcontext import sticky as st
+
+from aixd_grasshopper.gh_ui import request_designs
+from aixd_grasshopper.gh_ui_helper import component_id
+from aixd_grasshopper.gh_ui_helper import session_id
 
 cid = component_id(ghenv.Component, "run_generation")
 
