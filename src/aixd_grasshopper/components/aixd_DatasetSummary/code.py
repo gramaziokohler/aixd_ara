@@ -1,9 +1,7 @@
 # flake8: noqa
-from scriptcontext import sticky as st
-
 from aixd_grasshopper.gh_ui import dataset_summary
-from aixd_grasshopper.gh_ui_helper import component_id
-from aixd_grasshopper.gh_ui_helper import session_id
+from aixd_grasshopper.gh_ui_helper import session_id, component_id
+from scriptcontext import sticky as st
 
 cid = component_id(ghenv.Component, "dataset_summary")
 

@@ -6,14 +6,11 @@ The Grasshopper file must be the first active file.
 (Close all other Grasshopper files to avoid confusion.)
 """
 
-import math
 import os
-
+import math
 import rhinoscriptsyntax as rs
 
-from aixd_grasshopper.gh_ui_helper import TYPES
-from aixd_grasshopper.gh_ui_helper import find_component_by_nickname
-from aixd_grasshopper.gh_ui_helper import http_post_request
+from aixd_grasshopper.gh_ui_helper import http_post_request, find_component_by_nickname, TYPES
 
 try:
     import Rhino

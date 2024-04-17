@@ -3,9 +3,10 @@
 # TODO: turn orange if index out of range
 
 
+from ghpythonlib.treehelpers import list_to_tree
+
 # from aixd_grasshopper.rhino_inside import find_component_by_nickname
 import Grasshopper
-from ghpythonlib.treehelpers import list_to_tree
 
 dp_pred = predictions[select].dict["design_parameters"]
 pa_pred = predictions[select].dict["performance_attributes"]

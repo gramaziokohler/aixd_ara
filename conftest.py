@@ -1,10 +1,8 @@
-import math
-
-import compas
-import numpy
 import pytest
-
+import compas
 import aixd_grasshopper
+import math
+import numpy
 
 
 def pytest_ignore_collect(path):
