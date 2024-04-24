@@ -4,7 +4,7 @@
     "category": "AIXD",
     "subcategory": "3 Model",
     "description": "Runs a training campain.",
-    "exposure": 4,
+    "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,

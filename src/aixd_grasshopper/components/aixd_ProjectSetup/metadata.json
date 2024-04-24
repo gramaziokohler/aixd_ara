@@ -4,7 +4,7 @@
     "category": "AIXD",
     "subcategory": "0 Main",
     "description": "Set up the project in the folder given by project_folder/dataset_name.",
-    "exposure": 4,
+    "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,

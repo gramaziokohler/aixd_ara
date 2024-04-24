@@ -4,7 +4,7 @@
     "category": "AIXD",
     "subcategory": "3 Model",
     "description": "Sets up the CAE neural network model.",
-    "exposure": 4,
+    "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,

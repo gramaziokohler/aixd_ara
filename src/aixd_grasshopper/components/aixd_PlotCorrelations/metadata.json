@@ -4,7 +4,7 @@
     "category": "AIXD",
     "subcategory": "5 Plotter",
     "description": "Plots correlation matrix for the given variables.",
-    "exposure": 4,
+    "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,

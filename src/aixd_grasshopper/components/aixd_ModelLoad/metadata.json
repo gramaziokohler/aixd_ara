@@ -4,7 +4,7 @@
     "category": "AIXD",
     "subcategory": "3 Model",
     "description": "Load an existing, pre-traind neural network model from a checkpoint.",
-    "exposure": 4,
+    "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,
@@ -31,8 +31,8 @@
 
         "outputParameters": [
             {
-                "name": "",
-                "description": ""
+                "name": "msg",
+                "description": "Confirmation of the model loading, or an error message."
             }
         ]
     }
