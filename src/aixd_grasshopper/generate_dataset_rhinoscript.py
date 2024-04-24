@@ -11,9 +11,7 @@ import os
 
 import rhinoscriptsyntax as rs
 
-from aixd_grasshopper.gh_ui_helper import TYPES
-from aixd_grasshopper.gh_ui_helper import find_component_by_nickname
-from aixd_grasshopper.gh_ui_helper import http_post_request
+from aixd_grasshopper.gh_ui_helper import TYPES, find_component_by_nickname, http_post_request
 
 try:
     import Rhino
@@ -48,12 +46,16 @@ def set_values(component, vals):
         vals = [vals]
     for v in vals:
         component.PersistentData.Append(ghtype(v))
-    component.ExpireSolution(True)
+    component.ExpireSolution(False)
 
 
 def get_values(component):
+    component.CollectData()
+    component.ComputeData()
+
     if not component.VolatileData:
         return None
+
     return [x.Value for x in component.VolatileData[0]]
 
 
@@ -114,9 +116,7 @@ def analysis_callback(ghdoc, dp_samples, pa_names):
 
 
 def add_samples_to_dataset(samples, samples_per_file=None):
-    return http_post_request(
-        "save_samples", {"session_id": session_id, "samples": samples, "samples_per_file": samples_per_file}
-    )
+    return http_post_request("save_samples", {"session_id": session_id, "samples": samples, "samples_per_file": samples_per_file})
 
 
 def combine_dp_pa(dp_samples, pa_samples):
@@ -137,9 +137,9 @@ def combine_dp_pa(dp_samples, pa_samples):
 def run(n_batches, samples_per_batch):
 
     for batch in range(n_batches):
-        # print("Sampling batch {}/{}...
-        # (samples {}..{})".format(batch+1, n_batches, batch*samples_per_batch, (batch+1)*samples_per_batch-1))
+        # print("Sampling batch {}/{}... (samples {}..{})".format(batch+1, n_batches, batch*samples_per_batch, (batch+1)*samples_per_batch-1))
         dp_samples = generate_dp_samples(samples_per_batch)
+        # ghdoc.NewSolution(True)
         pa_samples = calculate_pa_samples(ghdoc, dp_samples)
         samples = combine_dp_pa(dp_samples, pa_samples)
         add_samples_to_dataset(samples, samples_per_batch)
@@ -149,9 +149,7 @@ def run(n_batches, samples_per_batch):
 # INPUT INTERFACE
 
 n_samples = rs.GetInteger("Number of samples to generate: ", number=1000, minimum=1, maximum=None)
-samples_per_batch = rs.GetInteger(
-    "Number of samples per batch file: ", number=n_samples / 10, minimum=1, maximum=n_samples
-)
+samples_per_batch = rs.GetInteger("Number of samples per batch file: ", number=n_samples / 10, minimum=1, maximum=n_samples)
 
 n_batches = int(math.ceil(n_samples / samples_per_batch))
 n_samples_final = n_batches * samples_per_batch
@@ -162,9 +160,7 @@ root = pr["root_path"]
 dataset_name = pr["dataset_name"]
 target_path = os.path.join(root, dataset_name)
 
-print(
-    "\t (I will generate {} samples in {} batches and save them in {})".format(n_samples_final, n_batches, target_path)
-)
+print("\t (I will generate {} samples in {} batches and save them in {})".format(n_samples_final, n_batches, target_path))
 
 
 run(n_batches, samples_per_batch)
