@@ -11,7 +11,11 @@ import os
 
 import rhinoscriptsyntax as rs
 
-from aixd_grasshopper.gh_ui_helper import TYPES, find_component_by_nickname, http_post_request
+from aixd_grasshopper.gh_ui_helper import TYPES
+from aixd_grasshopper.gh_ui_helper import find_component_by_nickname
+from aixd_grasshopper.gh_ui_helper import ghparam_get_values
+from aixd_grasshopper.gh_ui_helper import ghparam_set_values
+from aixd_grasshopper.gh_ui_helper import http_post_request
 
 try:
     import Rhino
@@ -31,37 +35,7 @@ session_id = ghdoc.DocumentID.ToString()
 
 
 # -------------------------------------------------------------------------------
-# GH interface
-
-
-def set_values(component, vals):
-    """
-    Data type of vals must match the type of the component.
-    See TYPES list.
-    """
-    ghtype = TYPES[component.TypeName]
-
-    component.Script_ClearPersistentData()
-    if not isinstance(vals, list):
-        vals = [vals]
-    for v in vals:
-        component.PersistentData.Append(ghtype(v))
-    component.ExpireSolution(False)
-
-
-def get_values(component):
-    component.CollectData()
-    component.ComputeData()
-
-    if not component.VolatileData:
-        return None
-
-    return [x.Value for x in component.VolatileData[0]]
-
-
-# -------------------------------------------------------------------------------
 # API app
-
 
 def generate_dp_samples(n_samples):
     return http_post_request("generate_dp_samples", {"session_id": session_id, "n_samples": n_samples})
@@ -95,7 +69,7 @@ def analysis_callback(ghdoc, dp_samples, pa_names):
             # if dp_name == 'uid': continue
             component_name = "GENERATED_{}".format(dp_name)
             component = find_component_by_nickname(ghdoc, component_name)
-            set_values(component, dp_vals)
+            ghparam_set_values(component, dp_vals, expire=False)
 
         pa_dict = {k: [] for k in pa_names}
         # pa_dict['uid']=uid
@@ -103,7 +77,7 @@ def analysis_callback(ghdoc, dp_samples, pa_names):
 
             component_name = "REAL_{}".format(pa_name)
             component = find_component_by_nickname(ghdoc, component_name)
-            pa_vals = get_values(component)
+            pa_vals = ghparam_get_values(component, compute=True)
             if isinstance(pa_vals, list):
                 if len(pa_vals) == 1:
                     pa_vals = pa_vals[0]  # unpack from list

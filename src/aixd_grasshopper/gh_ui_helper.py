@@ -143,13 +143,7 @@ def find_component_by_nickname(ghdoc, component_nickname):
 # set & get values methods (rhinopythonscript style)
 
 
-def set_value(component, val):
-    component.Script_ClearPersistentData()
-    component.AddPersistentData(val)
-    component.ExpireSolution(True)
-
-
-def set_values(component, vals):
+def ghparam_set_values(component, vals, expire=True):
     """
     Data type of vals must match the type of the component.
     See TYPES list.
@@ -157,14 +151,21 @@ def set_values(component, vals):
     ghtype = TYPES[component.TypeName]
 
     component.Script_ClearPersistentData()
+    if not isinstance(vals, list):
+        vals = [vals]
     for v in vals:
         component.PersistentData.Append(ghtype(v))
-    component.ExpireSolution(True)
+    component.ExpireSolution(expire)
 
 
-def get_values(component):
+def ghparam_get_values(component, compute=False):
+    if compute:
+        component.CollectData()
+        component.ComputeData()
+
     if not component.VolatileData:
         return None
+
     return [x.Value for x in component.VolatileData[0]]
 
 
