@@ -31,8 +31,8 @@
 
         "outputParameters": [
             {
-                "name": "",
-                "description": ""
+                "name": "msg",
+                "description": "Confirmation of the model loading, or an error message."
             }
         ]
     }
