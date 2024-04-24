@@ -1,0 +1,30 @@
+{
+    "name": "DataObjectsNames",
+    "nickname": "DataObjectsNames",
+    "category": "AIXD",
+    "subcategory": "1 Data",
+    "description": "This component generates panels with list of names of dataobjects for all or selected datablocks. Datablock names are: 'design_parameters','performance_attributes','inputML','outputML'. " ,
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "datablock",
+                "description": "Name(s) of the datablock(s).",
+                "typeHintID": "str",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "get_names",
+                "description": "Set to True to run.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+
+        ]
+    }
+}
