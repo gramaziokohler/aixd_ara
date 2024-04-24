@@ -4,7 +4,7 @@
     "category": "AIXD",
     "subcategory": "4 Generator",
     "description": "Compares the requested values with the predicted and the actual values for a current design.",
-    "exposure": 4,
+    "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,

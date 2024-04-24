@@ -4,7 +4,7 @@
     "category": "AIXD",
     "subcategory": "4 Generator",
     "description": "Runs a generation campaing to create new designs using the trained model.",
-    "exposure": 4,
+    "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,
