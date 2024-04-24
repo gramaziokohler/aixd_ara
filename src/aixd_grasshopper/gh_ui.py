@@ -40,6 +40,11 @@ def get_dataobject_names_from_block(session_id, datablock_nickname):
     return http_post_request(action="get_dataobject_names_from_block", data=data)
 
 
+def get_dataobject_types(session_id):
+    data = {"session_id": session_id}
+    return http_post_request(action="get_dataobject_types", data=data)
+
+
 def get_one_sample(session_id, i):
     data = {"session_id": session_id, "item": i}
     return http_post_request(action="get_one_sample", data=data)

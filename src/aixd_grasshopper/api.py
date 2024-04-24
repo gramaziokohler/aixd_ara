@@ -164,6 +164,18 @@ def get_dataobject_names_from_block():
     return response
 
 
+@app.route("/get_dataobject_types", methods=["POST"])
+def get_dataobject_types():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.get_dataobject_types()
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
 @app.route("/plot_distrib_attributes", methods=["POST"])
 def plot_distrib_attributes():
     data = request.data

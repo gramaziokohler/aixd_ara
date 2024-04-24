@@ -11,7 +11,7 @@ import pytorch_lightning as pl
 import torch
 from aixd.data.data_blocks import DesignParameters
 from aixd.data.data_blocks import PerformanceAttributes
-from aixd.data.data_objects import DataInt
+from aixd.data.data_objects import DataInt, DataBool, DataCategorical, DataReal
 from aixd.data.dataset import Dataset
 from aixd.data.utils_data import reformat_dataframe_to_dataframeflat
 from aixd.data.utils_data import reformat_dataframeflat_to_dict
@@ -228,6 +228,33 @@ class SessionController(object):
         if datablock_nickname == "outputML":
             return {"msg": "", "names": self.datamodule.output_ml_dblock.names_list}
         return {"msg": f"Wrong block nickname: {datablock_nickname}.", "names": []}
+
+    def get_dataobject_types(self):
+        """
+        Returns names of the data types of the dataobjects in the dataset.
+        """
+        if not self.dataset:
+            error = "Dataset is not loaded."
+            raise ValueError(error)
+
+        all_dataobjects = self.dataset.data_objects
+        # cannot use this because boolean are declared as categorical
+        # dataobject_types = {d.name: d.type for d in all_dataobjects}
+
+        dataobject_types = {}
+        for d in all_dataobjects:
+            if isinstance(d, DataInt):
+                dataobject_types[d.name] = "integer"
+            elif isinstance(d, DataReal):
+                dataobject_types[d.name] = "real"
+            elif isinstance(d, DataCategorical):
+                dataobject_types[d.name] = "categorical"
+            elif isinstance(d, DataBool):
+                dataobject_types[d.name] = "boolean"
+            else:
+                dataobject_types[d.name] = "unsupported"
+
+        return {"msg": "", "dataobject_types": dataobject_types}
 
     def get_design_parameters(self):
         # TODO: rename
