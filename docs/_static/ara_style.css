@@ -1,41 +1,25 @@
-/* h1 {
-    color: black;
-} */
-
 html[data-theme="light"] {
     --pst-color-primary: black;
 }
 
-
 html[data-theme="dark"] {
-    --pst-color-primary: rgb(226, 226, 226);
-
+    --pst-color-primary: rgb(200, 200, 200);
 }
-
-
-/* html[data-theme="light"] .h1 {
-    color: black;
-}
-
-html[data-theme="dark"] .h1 {
-    color: rgb(226, 226, 226);
-} */
 
 html[data-theme="dark"] .docutils.literal.notranslate {
-    color: rgb(45, 207, 225);
+    color: rgb(34, 163, 177);
 }
 
 html[data-theme="light"] .docutils.literal.notranslate {
-    color: rgb(45, 207, 225);
+    color: rgb(51, 191, 207);
+}
+
+.reference.external {
+    color: rgb(128, 128, 128);
+    font-style: italic;
+    /* text-decoration: underline; */
 }
 
 /* em {
     color: rgb(125, 0, 187);
 } */
-
-
-.reference.external {
-    color: rgb(152, 152, 152);
-    font-style: italic;
-    /* text-decoration: underline; */
-}
