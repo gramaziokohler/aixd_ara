@@ -111,6 +111,7 @@ Only the variables earlier defined as *targets* can be requested.
 In the request, specify the name of the variable and the requested target value(s), 
 formatted as a list of strings with colon-separaterd pairs of the variable name and the target value(s).
 Beside single target value, it is also possible to request values within a given range or a list of options.
+
 Examples:
 ``myrealvar:3.141``, ``myintvar:42``, ``mycatvar:[cat,cod]``. 
 
