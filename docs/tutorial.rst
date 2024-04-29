@@ -2,6 +2,7 @@
 Tutorial
 ********************************************************************************
 
+.. rst-class:: lead
 
 This tutorial presents the basic workflow using **ARA** in Grasshopper.
 

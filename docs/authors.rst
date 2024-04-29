@@ -1,7 +1,8 @@
 .. _authors:
-********************************************************************************
+
+*******
 Authors
-********************************************************************************
+*******
 
 **ARA** is developed by Aleksandra Anna Apolinarska, together with Gonzalo Casas at
 `ETH Zurich <https://ethz.ch/>`_

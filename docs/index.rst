@@ -4,9 +4,11 @@
 ARA
 ********************************************************************************
 
+.. rst-class:: lead
+
 Grasshopper plugin for data-driven and inverse design methods with generative AI.
 
-.. rst-class:: lead
+
 
 .. .. figure:: /_images/
      :figclass: figure
@@ -15,6 +17,7 @@ Grasshopper plugin for data-driven and inverse design methods with generative AI
 
 Introduction
 ------------
+
 **ARA** is a `Grasshopper <https://www.rhino3d.com/features/#grasshopper>`_ plugin 
 that augments the design process with data-driven and inverse design approach
 by combining parametric models built in Grasshopper with generative AI models.
@@ -33,6 +36,7 @@ such as performance metrics or design constraints.
 .. attention::
 
    **ARA** was developed for Rhino 7 on Windows. It was not tested on other versions of Rhino or other operating systems.
+
 
 
 Inverse Design

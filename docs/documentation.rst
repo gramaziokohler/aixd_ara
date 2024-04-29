@@ -4,7 +4,10 @@
 Documentation
 *************
 
+.. rst-class:: lead
+	
 This is the documentation of the Grasshopper components in **ARA**. 
+
 
 The documentation of **AIXD: AI-eXtended Design** tookit can be found `here <https://aixd.ethz.ch/docs/api.html>`_. 
 
