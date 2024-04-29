@@ -1,10 +1,12 @@
+.. _introduction:
+
 ********************************************************************************
-aixd_grasshopper
+ARA
 ********************************************************************************
+
+Grasshopper plugin for data-driven and inverse design methods with generative AI.
 
 .. rst-class:: lead
-
-Grasshopper plugin for the AIXD toolkit
 
 .. .. figure:: /_images/
      :figclass: figure
@@ -20,9 +22,9 @@ Table of Contents
 
    Introduction <self>
    installation
+   documentation
    tutorial
    examples
-   api
    license
 
 

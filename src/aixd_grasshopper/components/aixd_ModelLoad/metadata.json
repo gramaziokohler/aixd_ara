@@ -17,7 +17,7 @@
             },
             {
                 "name": "checkpoint_name",
-                "description": "Name of the checkpoint file to load the model from, without the file extension. The file's extension must be *.ckpt.",
+                "description": "Name of the checkpoint file to load the model from, without the file extension. The file's extension must be .ckpt",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             },
