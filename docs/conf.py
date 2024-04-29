@@ -134,7 +134,7 @@ html_theme_options = {
     },
     "check_switcher": False,
     "logo": {
-        "image_light": "_static/compas_icon_white.png",
+        "image_light": "_static/ara_logo.png",
         "image_dark": "_static/compas_icon_white.png",
         "text": project,
     },
@@ -151,7 +151,7 @@ html_context = {
 }
 
 html_static_path = sphinx_compas2_theme.get_html_static_path() + ["_static"]
-html_css_files = []
+html_css_files = ["ara_style.css"]
 html_extra_path = []
 html_last_updated_fmt = ""
 html_copy_source = False
