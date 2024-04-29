@@ -67,3 +67,4 @@ Table of Contents
    tutorial
    examples
    license
+   authors
