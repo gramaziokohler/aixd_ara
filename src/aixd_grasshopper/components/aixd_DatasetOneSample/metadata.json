@@ -1,6 +1,6 @@
 {
     "name": "DatasetOneSample",
-    "nickname": "OneSample",
+    "nickname": "DatasetOneSample",
     "category": "AIXD",
     "subcategory": "2 Dataset",
     "description": "Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.",
@@ -25,7 +25,7 @@
 
         "outputParameters": [
             {
-                "name": "sample",
+                "name": "sample_summary",
                 "description": "Summary of the retrieved sample."
             }
         ]
