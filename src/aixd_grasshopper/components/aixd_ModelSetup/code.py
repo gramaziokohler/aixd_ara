@@ -8,9 +8,9 @@ from aixd_grasshopper.gh_ui_helper import session_id
 cid = component_id(session_id(), ghenv.Component, "ModelSetup")
 
 settings = {
+    "model_type": model_type,
     "inputML": inputML,
     "outputML": outputML,
-    "model_type": "CAE",
     "latent_dim": latent_dim,
     "hidden_layers": hidden_layers,
     "batch_size": batch_size,
@@ -19,6 +19,7 @@ settings = {
 
 # TODO: make default settings a bit more smart
 default_settings = {
+    "model_type": "CAE",
     "inputML": "design_parameters",
     "outputML": "performance_attributes",
     "latent_dim": 8,

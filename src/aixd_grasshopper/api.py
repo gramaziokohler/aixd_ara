@@ -216,21 +216,22 @@ def get_design_parameters():
     return result
 
 
-@app.post("/model_setup_cae")
-def model_setup_cae():
+@app.post("/model_setup")
+def model_setup():
     data = request.data
     data = json.loads(data)
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
     settings = data["settings"]
+    model_type = settings["model_type"]
     inputML = settings["inputML"]
     outputML = settings["outputML"]
     latent_dim = settings["latent_dim"]
     hidden_layers = settings["hidden_layers"]
     batch_size = settings["batch_size"]
 
-    result = sc.model_setup_cae(inputML, outputML, latent_dim, hidden_layers, batch_size)
+    result = sc.model_setup(model_type, inputML, outputML, latent_dim, hidden_layers, batch_size)
     response = json.dumps(result, cls=DataEncoder)
     return response
 
@@ -249,16 +250,17 @@ def model_train():
     return response
 
 
-@app.route("/model_load_cae", methods=["POST"])
-def model_load_cae():
+@app.route("/model_load", methods=["POST"])
+def model_load():
     data = request.data
     data = json.loads(data)
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
 
+    model_type = data["model_type"]
     checkpoint_path = data["checkpoint_path"]
     checkpoint_name = data["checkpoint_name"]
-    result = sc.model_load_cae(checkpoint_path=checkpoint_path, checkpoint_name=checkpoint_name)
+    result = sc.model_load(model_type, checkpoint_path=checkpoint_path, checkpoint_name=checkpoint_name)
     response = json.dumps(result, cls=DataEncoder)
     return response
 

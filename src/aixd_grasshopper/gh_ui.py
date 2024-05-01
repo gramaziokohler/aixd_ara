@@ -62,7 +62,7 @@ def plot_correlations(session_id, attributes, output_type):
 
 def model_setup(session_id, settings):
     data = {"session_id": session_id, "settings": settings}
-    return http_post_request(action="model_setup_cae", data=data)
+    return http_post_request(action="model_setup", data=data)
 
 
 def model_train(session_id, epochs, wb):
@@ -70,9 +70,9 @@ def model_train(session_id, epochs, wb):
     return http_post_request(action="model_train", data=data)
 
 
-def model_load(session_id, checkpoint_name, checkpoint_path):
-    data = {"session_id": session_id, "checkpoint_name": checkpoint_name, "checkpoint_path": checkpoint_path}
-    return http_post_request(action="model_load_cae", data=data)
+def model_load(session_id, model_type, checkpoint_name, checkpoint_path):
+    data = {"session_id": session_id, "model_type": model_type, "checkpoint_name": checkpoint_name, "checkpoint_path": checkpoint_path}
+    return http_post_request(action="model_load", data=data)
 
 
 def nn_summary(session_id, max_depth):

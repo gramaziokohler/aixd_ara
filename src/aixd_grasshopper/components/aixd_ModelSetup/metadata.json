@@ -10,6 +10,12 @@
         "iconDisplay": 0,
         "inputParameters": [
             {
+                "name": "model_type",
+                "description": "Select the type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
                 "name": "inputML",
                 "description": "List of variable names to be used as input to the model.",
                 "typeHintID": "str",
