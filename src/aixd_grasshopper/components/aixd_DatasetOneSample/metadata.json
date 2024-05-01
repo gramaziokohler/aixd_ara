@@ -1,9 +1,9 @@
 {
-    "name": "Get 1 Sample",
-    "nickname": "Get 1 Sample",
+    "name": "DatasetOneSample",
+    "nickname": "OneSample",
     "category": "AIXD",
     "subcategory": "2 Dataset",
-    "description": "Retrieve one samples from the dataset (at a given or random index) and pass it to the parametric model.",
+    "description": "Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.",
     "exposure": 4,
     "ghpython": {
         "isAdvancedMode": false,

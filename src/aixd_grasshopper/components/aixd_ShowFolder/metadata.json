@@ -1,6 +1,6 @@
 {
-    "name": "Show Folder",
-    "nickname": "Show Folder",
+    "name": "ShowFolder",
+    "nickname": "ShowFolder",
     "category": "AIXD",
     "subcategory": "0 Main",
     "description": "Reveals the folder in the file explorer.",

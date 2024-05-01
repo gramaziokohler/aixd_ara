@@ -4,10 +4,7 @@
 Documentation
 *************
 
-.. rst-class:: lead
-	
 This is the documentation of the Grasshopper components in **ARA**. 
-
 
 The documentation of **AIXD: AI-eXtended Design** tookit can be found `here <https://aixd.ethz.ch/docs/api.html>`_. 
 
@@ -77,16 +74,13 @@ DataObjectsNames
 	:height: 24
 	:width: 24
 
-This component generates panels with list of names of dataobjects for all or selected datablocks. Datablock names are: 'design_parameters','performance_attributes','inputML','outputML'. 
+Generates panels with list of names of data objects for all or selected data blocks. Data block names are: 'design_parameters','performance_attributes','inputML','outputML'. 
 
 
 **Inputs**
 
 - **datablock** *[List of (str)]* -- Name(s) of the datablock(s).
 - **get_names** *(bool)* -- Set to True to run.
-
-**Outputs**
-
 
 DataReal
 --------
@@ -108,14 +102,14 @@ Defines a real-valued variable.
 
 - **dataobject** -- Data object.
 
-Create Dataset
---------------
+DatasetCreate
+-------------
 .. image:: _images/icons/aixd_DatasetCreate.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Creates a dataset object.
+Creates a dataset object. This defines the structure of the dataset. It does not cointain any data.
 
 
 **Inputs**
@@ -128,14 +122,14 @@ Creates a dataset object.
 
 - **msg** -- Message or error.
 
-Load Dataset
-------------
+DatasetLoad
+-----------
 .. image:: _images/icons/aixd_DatasetLoad.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Loads an existing dataset from the file system, from the location specified in the project setup.
+Loads an existing dataset from the file system, from the location specified in the project setup. It loads the dataset object and the data into the app.
 
 
 **Inputs**
@@ -146,14 +140,14 @@ Loads an existing dataset from the file system, from the location specified in t
 
 - **msg** -- 
 
-Get 1 Sample
-------------
+DatasetOneSample
+----------------
 .. image:: _images/icons/aixd_DatasetOneSample.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Retrieve one samples from the dataset (at a given or random index) and pass it to the parametric model.
+Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.
 
 
 **Inputs**
@@ -165,8 +159,8 @@ Retrieve one samples from the dataset (at a given or random index) and pass it t
 
 - **sample** -- Summary of the retrieved sample.
 
-Dataset Summary
----------------
+DatasetSummary
+--------------
 .. image:: _images/icons/aixd_DatasetSummary.png
 	:align: left
 	:height: 24
@@ -230,7 +224,7 @@ GenSelect
 	:height: 24
 	:width: 24
 
-Select one of the designs generated from the trained model.
+Selects one of the designs generated from the trained model.
 
 
 **Inputs**
@@ -243,14 +237,14 @@ Select one of the designs generated from the trained model.
 - **sample_summary** -- Summary of the selected design.
 - **generated_sample** -- Sample.
 
-Model IO Dimensions
--------------------
+ModelDimensions
+---------------
 .. image:: _images/icons/aixd_ModelDims.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Retrieves model's input and output dimensions
+Retrieves dimensions of the model's input and output layers.
 
 
 **Inputs**
@@ -261,18 +255,19 @@ Retrieves model's input and output dimensions
 
 - **summary** -- Summary of the model's input and output dimensions.
 
-Load Model
-----------
+ModelLoad
+---------
 .. image:: _images/icons/aixd_ModelLoad.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Load an existing, pre-traind neural network model from a checkpoint.
+Loads an existing, pre-traind neural network model from a checkpoint.
 
 
 **Inputs**
 
+- **model_type** *(str)* -- Type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.
 - **checkpoint_name** *(str)* -- Name of the checkpoint file to load the model from, without the file extension. The file's extension must be .ckpt
 - **checkpoint_path** *(str)* -- Path to the directory containing the checkpoint file.
 - **load** *(bool)* -- Set to True to load the model.
@@ -281,18 +276,19 @@ Load an existing, pre-traind neural network model from a checkpoint.
 
 - **msg** -- Confirmation of the model loading, or an error message.
 
-Model Setup
------------
+ModelSetup
+----------
 .. image:: _images/icons/aixd_ModelSetup.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Sets up the CAE neural network model.
+Sets up an autoencoder model of the specified type with the given parameters.
 
 
 **Inputs**
 
+- **model_type** *(str)* -- Type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.
 - **inputML** *[List of (str)]* -- List of variable names to be used as input to the model.
 - **outputML** *[List of (str)]* -- List of variable names to be used as output from the model.
 - **latent_dim** *(int)* -- Dimension of the latent space.
@@ -305,14 +301,14 @@ Sets up the CAE neural network model.
 - **quick_summary** -- Quick summary of the model.
 - **model_dims** -- Input and output dimensions of the model.
 
-Model Summary
--------------
+ModelSummary
+------------
 .. image:: _images/icons/aixd_ModelSummary.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Provides a summary of the model's architecture.
+Provides a summary of the autoencoder model's architecture.
 
 
 **Inputs**
@@ -324,14 +320,14 @@ Provides a summary of the model's architecture.
 
 - **summary** -- Model summary.
 
-Training
---------
+ModelTrain
+----------
 .. image:: _images/icons/aixd_ModelTrain.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Runs a training campain.
+Runs a training campaign.
 
 
 **Inputs**
@@ -345,14 +341,14 @@ Runs a training campain.
 - **best_ckpt** -- Filename of the best performing checkpoint.
 - **path** -- Path to all checkpoints.
 
-Plot Contours
--------------
+PlotContours
+------------
 .. image:: _images/icons/aixd_PlotContours.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Plots the distribution contours for each pair of variables.
+Plots the distribution contours for each pair of variables from the data in the dataset.
 
 
 **Inputs**
@@ -366,14 +362,14 @@ Plots the distribution contours for each pair of variables.
 
 - **img** -- Bitmap image if output_type is 'static', otherwise None.
 
-Plot Correlations
------------------
+PlotCorrelations
+----------------
 .. image:: _images/icons/aixd_PlotCorrelations.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Plots correlation matrix for the given variables.
+Plots correlation matrix for the given variables from the data in the dataset.
 
 
 **Inputs**
@@ -387,14 +383,14 @@ Plots correlation matrix for the given variables.
 
 - **img** -- Bitmap image if output_type is 'static', otherwise None.
 
-Plot Distribution
------------------
+PlotDistribution
+----------------
 .. image:: _images/icons/aixd_PlotDistributions.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Plots the distribution of the given variables.
+Plots the distribution of the given variables from the data in the dataset.
 
 
 **Inputs**
@@ -408,26 +404,26 @@ Plots the distribution of the given variables.
 
 - **img** -- Bitmap image if output_type is 'static', otherwise None.
 
-Project Setup
--------------
+ProjectSetup
+------------
 .. image:: _images/icons/aixd_ProjectSetup.png
 	:align: left
 	:height: 24
 	:width: 24
 
-Set up the project in the folder given by project_folder/dataset_name.
+Sets up the project in the folder given by `project_root/project_name`.
 
 
 **Inputs**
 
 - **set** *(bool)* -- 
-- **project_folder** *(str)* -- Path to the project folder.
-- **dataset_name** *(str)* -- Any name for the dataset. It will be used to create a folder with the same name in the project folder.
+- **project_root** *(str)* -- Path to the project root folder.
+- **project_name** *(str)* -- Any name for the project. It will be used to create a folder with the same name in the project root folder. All files will be later saved here.
 
 **Outputs**
 
 - **msg** -- Messages and errors.
-- **path** -- Effective path to the dataset folder.
+- **path** -- Effective path to the project.
 
 Reset
 -----
@@ -442,9 +438,6 @@ Resets the current project running in this Grasshopper file.
 **Inputs**
 
 - **reset** *(bool)* -- Set to True to reset.
-
-**Outputs**
-
 
 Server
 ------
@@ -466,8 +459,8 @@ Starts and stops the app server.
 
 - **msg** -- Messages or errors.
 
-Show Folder
------------
+ShowFolder
+----------
 .. image:: _images/icons/aixd_ShowFolder.png
 	:align: left
 	:height: 24
@@ -481,9 +474,6 @@ Reveals the folder in the file explorer.
 - **path** *(str)* -- Path to the (local) folder.
 - **open** *(bool)* -- Set to True to open the folder in the file explorer.
 
-**Outputs**
-
-
 Weights&Biases
 --------------
 .. image:: _images/icons/aixd_W&B.png
@@ -491,14 +481,11 @@ Weights&Biases
 	:height: 24
 	:width: 24
 
-Launches Weights&Biases dashboard for model training and monitoring.
+Launches Weights&Biases dashboard for model training and monitoring in a browser.
 
 
 **Inputs**
 
 - **user** *(str)* -- Part of the path containing username and project name, typically in the form of 'username/projectname'
 - **launch** *(bool)* -- Set to True to launch the dashboard.
-
-**Outputs**
-
 

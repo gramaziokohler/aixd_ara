@@ -1,9 +1,9 @@
 {
-    "name": "Create Dataset",
-    "nickname": "Create Dataset",
+    "name": "DatasetCreate",
+    "nickname": "DatasetCreate",
     "category": "AIXD",
     "subcategory": "2 Dataset",
-    "description": "Creates a dataset object.",
+    "description": "Creates a dataset object. This defines the structure of the dataset. It does not cointain any data.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
