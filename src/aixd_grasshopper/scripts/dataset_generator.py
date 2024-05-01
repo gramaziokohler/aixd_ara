@@ -1,7 +1,7 @@
 """
 Run this file in Rhino Python Editor or add it to your toolbar as a button using:
     > right-click on a toolbar > New Button... > in the pop-up window, in Command section, add:
-    "! _-RunPythonScript "<path>/generate_dataset_rhinoscript.py"
+    "! _-RunPythonScript "<path-to-this-file>/dataset_generator.py"
 The Grasshopper file must be the first active file.
 (Close all other Grasshopper files to avoid confusion.)
 """

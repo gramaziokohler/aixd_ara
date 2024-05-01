@@ -122,6 +122,20 @@ Creates a dataset object. This defines the structure of the dataset. It does not
 
 - **msg** -- Message or error.
 
+DatasetGenerator
+----------------
+.. image:: _images/icons/aixd_DatasetGenerator.png
+	:align: left
+	:height: 24
+	:width: 24
+
+Provides instructions on how to generate random samples for the dataset.
+
+
+**Outputs**
+
+- **instructions** -- Information on how to run the `dataset_generator` script.
+
 DatasetLoad
 -----------
 .. image:: _images/icons/aixd_DatasetLoad.png
