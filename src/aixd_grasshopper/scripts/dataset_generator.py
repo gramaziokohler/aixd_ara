@@ -116,7 +116,7 @@ def run(session_id, num_samples, num_samples_per_batch):
     project_name = pr["project_name"]
     target_path = os.path.join(project_root, project_name)
 
-    print("\t (I will generate {} samples in {} batches and save them in {})".format(num_samples, num_batches, target_path))
+    print("\t ({} samples in {} batches will be generated and saved in {})".format(num_samples, num_batches, target_path))
 
     for _ in range(num_batches):
         dp_samples = generate_dp_samples(num_samples_per_batch)
