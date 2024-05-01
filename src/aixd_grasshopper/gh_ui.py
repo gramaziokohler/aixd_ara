@@ -6,8 +6,8 @@ def reset_session(session_id):
     return http_post_request(action="reset_session", data=data)
 
 
-def project_setup(session_id, root_path, dataset_name):
-    data = {"session_id": session_id, "root": root_path, "dataset_name": dataset_name}
+def project_setup(session_id, project_root, project_name):
+    data = {"session_id": session_id, "project_root": project_root, "project_name": project_name}
     return http_post_request(action="project_setup", data=data)
 
 

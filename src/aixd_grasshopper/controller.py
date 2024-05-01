@@ -32,8 +32,8 @@ class SessionController(object):
     instances = {}
 
     def __init__(self):
-        self.root_path = None
-        self.dataset_name = None
+        self.project_root = None
+        self.project_name = None
         self.dataset = None
         self.model = None
         self.datamodule = None
@@ -41,8 +41,8 @@ class SessionController(object):
         self.model_is_trained = False
 
     def reset(self):
-        self.root_path = None
-        self.dataset_name = None
+        self.project_root = None
+        self.project_name = None
         self.dataset = None
         self.model = None
         self.datamodule = None
@@ -51,9 +51,9 @@ class SessionController(object):
 
     @property
     def dataset_path(self):
-        if not self.root_path or not self.dataset_name:
+        if not self.project_root or not self.project_name:
             return None
-        return os.path.join(self.root_path, self.dataset_name)
+        return os.path.join(self.project_root, self.project_name)
 
     @classmethod
     def create(cls, session_id):
@@ -61,31 +61,31 @@ class SessionController(object):
             cls.instances[session_id] = cls()
         return cls.instances[session_id]
 
-    def project_setup(self, root_path, dataset_name):
-        if not os.path.exists(root_path):
-            return {"msg": "Project path {root_path} does not exist!"}
-        self.root_path = root_path
-        self.dataset_name = dataset_name
+    def project_setup(self, project_root, project_name):
+        if not os.path.exists(project_root):
+            return {"msg": "Project path {project_root} does not exist!"}
+        self.project_root = project_root
+        self.project_name = project_name
         return {
-            "msg": f"Project has been set up in: {os.path.join(self.root_path, self.dataset_name)}",
-            "path": os.path.join(self.root_path, self.dataset_name),
+            "msg": f"Project has been set up in: {os.path.join(self.project_root, self.project_name)}",
+            "path": os.path.join(self.project_root, self.project_name),
         }
 
     def project_setup_info(self):
-        return {"root_path": self.root_path, "dataset_name": self.dataset_name}
+        return {"project_root": self.project_root, "project_name": self.project_name}
 
     def create_dataset_object(self, design_parameters, performance_attributes):
         """
         Creates a dataset object based on given definitions of dataobjects in shallow formatting.
         """
 
-        if not self.root_path or not self.dataset_name:
+        if not self.project_root or not self.project_name:
             raise ValueError("You need to first set the project root path and the dataset name.")
 
         dp = DesignParameters(name="DP", dobj_list=dataobjects_from_shallow(design_parameters))
         pa = PerformanceAttributes(name="PA", dobj_list=dataobjects_from_shallow(performance_attributes))
 
-        dataset = Dataset(name=self.dataset_name, design_par=dp, perf_attributes=pa, root_path=self.root_path)
+        dataset = Dataset(name=self.project_name, design_par=dp, perf_attributes=pa, root_path=self.project_root)
         dataset.save_dataset_obj()
 
         # TODO: overrides an already assigned dataset - what about the datafiles if they exist?
@@ -139,11 +139,11 @@ class SessionController(object):
 
     def load_dataset(self):
         error = ""
-        if not self.root_path or not self.dataset_name:
+        if not self.project_root or not self.project_name:
             error = "You need to first set the project root path and the dataset name."
             raise ValueError(error)
         try:
-            dataset = Dataset(root_path=self.root_path, name=self.dataset_name, overwrite=False)
+            dataset = Dataset(root_path=self.project_root, name=self.project_name, overwrite=False)
             dataset.load_dataset_obj()
             dataset.load()
             dataset.update_obj_domains(flag_only_perfatt=True)

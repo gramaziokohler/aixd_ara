@@ -30,9 +30,9 @@ def project_setup():
     sc = SessionController.create(session_id)
 
     sc.reset()  # Reset the session
-    root = data["root"]
-    dataset_name = data["dataset_name"]
-    result = sc.project_setup(root, dataset_name)
+    project_root = data["project_root"]
+    project_name = data["project_name"]
+    result = sc.project_setup(project_root, project_name)
     response = json.dumps(result, cls=DataEncoder)
     return response
 

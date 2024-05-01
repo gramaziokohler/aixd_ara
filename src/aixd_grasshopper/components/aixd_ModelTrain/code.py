@@ -16,7 +16,7 @@ if not epochs or epochs < 1:
 if wb:
     import webbrowser
 
-    projectname = project_setup_info(session_id())["dataset_name"]  # project name == dataset name
+    projectname = project_setup_info(session_id())["project_name"]  # project name == dataset name
 
     if run:
         url = "https://wandb.ai/{}/{}".format(wb, projectname)
