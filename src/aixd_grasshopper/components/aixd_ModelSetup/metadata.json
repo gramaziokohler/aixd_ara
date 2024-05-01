@@ -1,9 +1,9 @@
 {
-    "name": "Model Setup",
-    "nickname": "Model Setup",
+    "name": "ModelSetup",
+    "nickname": "ModelSetup",
     "category": "AIXD",
     "subcategory": "3 Model",
-    "description": "Sets up the CAE neural network model.",
+    "description": "Sets up an autoencoder model of the specified type with the given parameters.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
@@ -11,7 +11,7 @@
         "inputParameters": [
             {
                 "name": "model_type",
-                "description": "Select the type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.",
+                "description": "Type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             },

@@ -1,9 +1,9 @@
 {
     "name": "Weights&Biases",
-    "nickname": "w&b",
+    "nickname": "W&B",
     "category": "AIXD",
     "subcategory": "3 Model",
-    "description": "Launches Weights&Biases dashboard for model training and monitoring.",
+    "description": "Launches Weights&Biases dashboard for model training and monitoring in a browser.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

@@ -1,9 +1,9 @@
 {
-    "name": "Model IO Dimensions",
-    "nickname": "Model Dims",
+    "name": "ModelDimensions",
+    "nickname": "ModelDims",
     "category": "AIXD",
     "subcategory": "3 Model",
-    "description": "Retrieves model's input and output dimensions",
+    "description": "Retrieves dimensions of the model's input and output layers.",
     "exposure": 4,
     "ghpython": {
         "isAdvancedMode": false,
