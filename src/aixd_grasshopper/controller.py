@@ -19,6 +19,7 @@ from aixd.data.utils_data import reformat_dict_to_dataframe
 from aixd.data.utils_data import reformat_dict_to_dictlist
 from aixd.data.utils_data import reformat_dictlist_to_dict
 from aixd.mlmodel.architecture.cond_ae_model import CondAEModel
+from aixd.mlmodel.architecture.cond_vae_model import CondVAEModel
 from aixd.mlmodel.data.data_loader import DataModule
 from aixd.mlmodel.generation.generator import Generator
 from aixd.utils.utils import flatten_dict
@@ -286,7 +287,7 @@ class SessionController(object):
         fig = plotter.contours2d(block=block, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
-    def model_setup_cae(self, inputML, outputML, latent_dim, layer_widths, batch_size):
+    def model_setup(self, model_type, inputML, outputML, latent_dim, layer_widths, batch_size):
         # TODO: set defaults here if missing?
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
@@ -308,10 +309,19 @@ class SessionController(object):
         self.datamodule = datamodule
 
         save_dir = self.dataset_path
-        cae = CondAEModel.from_datamodule(
-            datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir
-        )
-        self.model = cae
+        
+        if model_type == "CAE":
+            model = CondAEModel.from_datamodule(
+                datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir
+            )
+        elif model_type == "CVAE":
+            model = CondVAEModel.from_datamodule(
+                datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir
+            )
+        else:
+            raise ValueError("Model type not recognized. Choose 'CAE' or 'CVAE'.")
+        
+        self.model = model
         self.model_is_trained = False
 
         quick_summary = self.model_summary(self.model, max_depth=2)
@@ -347,7 +357,7 @@ class SessionController(object):
 
         return {"msg": "Training completed!", "path": checkpoint_path, "best_ckpt": None}
 
-    def model_load_cae(self, checkpoint_path, checkpoint_name):
+    def model_load(self, model_type, checkpoint_path, checkpoint_name):
         error = None
         if checkpoint_path not in [None, ""]:
             if not os.path.exists(checkpoint_path):
@@ -362,8 +372,14 @@ class SessionController(object):
             error = f"The given checkpoint path does not exist: {checkpoint_filepath}"
             raise ValueError(error)
 
-        cae = CondAEModel.load_model_from_checkpoint(checkpoint_filepath)
-        self.model = cae
+        if model_type == "CAE":
+            model = CondAEModel.load_model_from_checkpoint(checkpoint_filepath)
+        elif model_type == "CVAE":
+            model = CondVAEModel.load_model_from_checkpoint(checkpoint_filepath)
+        else:
+            raise ValueError("Model type not recognized. Choose 'CAE' or 'CVAE'.")
+        
+        self.model = model
         self.model_is_trained = True
         self.datamodule = self._datamodule_from_dataset()
         return {"msg": error or f"Model loaded from checkpoint: {checkpoint_filepath}"}
