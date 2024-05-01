@@ -1,9 +1,9 @@
 {
-    "name": "Model Summary",
-    "nickname": "Model Summary",
+    "name": "ModelSummary",
+    "nickname": "ModelSummary",
     "category": "AIXD",
     "subcategory": "3 Model",
-    "description": "Provides a summary of the model's architecture.",
+    "description": "Provides a summary of the autoencoder model's architecture.",
     "exposure": 4,
     "ghpython": {
         "isAdvancedMode": false,

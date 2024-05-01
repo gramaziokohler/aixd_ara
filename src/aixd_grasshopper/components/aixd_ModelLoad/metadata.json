@@ -1,9 +1,9 @@
 {
-    "name": "Load Model",
-    "nickname": "Load Model",
+    "name": "ModelLoad",
+    "nickname": "ModelLoad",
     "category": "AIXD",
     "subcategory": "3 Model",
-    "description": "Load an existing, pre-traind neural network model from a checkpoint.",
+    "description": "Loads an existing, pre-traind neural network model from a checkpoint.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
@@ -11,13 +11,13 @@
         "inputParameters": [
             {
                 "name": "model_type",
-                "description": "Select the type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.",
+                "description": "Type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             },
             {
                 "name": "checkpoint_name",
-                "description": "Name of the checkpoint file to load the model from, without the file extension. The file's extension must be *.ckpt.",
+                "description": "Name of the checkpoint file to load the model from, without the file extension. The file's extension must be .ckpt",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             },

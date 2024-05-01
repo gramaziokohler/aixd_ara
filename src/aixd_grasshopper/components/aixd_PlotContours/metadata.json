@@ -1,9 +1,9 @@
 {
-    "name": "Plot Contours",
-    "nickname": "Plot Countours",
+    "name": "PlotContours",
+    "nickname": "PlotCountours",
     "category": "AIXD",
     "subcategory": "5 Plotter",
-    "description": "Plots the distribution contours for each pair of variables.",
+    "description": "Plots the distribution contours for each pair of variables from the data in the dataset.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

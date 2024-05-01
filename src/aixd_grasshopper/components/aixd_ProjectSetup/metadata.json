@@ -1,9 +1,9 @@
 {
-    "name": "Project Setup",
-    "nickname": "Project Setup",
+    "name": "ProjectSetup",
+    "nickname": "ProjectSetup",
     "category": "AIXD",
     "subcategory": "0 Main",
-    "description": "Set up the project in the folder given by project_folder/dataset_name.",
+    "description": "Sets up the project in the folder given by `project_root/project_name`.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
@@ -16,14 +16,14 @@
                 "scriptParamAccess": 0
             },
             {
-                "name": "project_folder",
-                "description": "Path to the project folder.",
+                "name": "project_root",
+                "description": "Path to the project root folder.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             },
             {
-                "name": "dataset_name",
-                "description": "Any name for the dataset. It will be used to create a folder with the same name in the project folder.",
+                "name": "project_name",
+                "description": "Any name for the project. It will be used to create a folder with the same name in the project root folder. All files will be later saved here.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             }
@@ -36,7 +36,7 @@
             },
             {
                 "name": "path",
-                "description": "Effective path to the dataset folder."
+                "description": "Effective path to the project."
             }
         ]
     }

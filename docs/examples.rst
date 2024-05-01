@@ -1,10 +1,11 @@
-********************************************************************************
+********
 Examples
-********************************************************************************
+********
 
-.. toctree::
-   :maxdepth: 1
-   :titlesonly:
-   :glob:
+.. rst-class:: lead
 
-   examples/*
+
+Here you can find examples showinf the basic workflow using **ARA** in Grasshopper.
+
+- Bridge shell: `see here <https://github.com/gramaziokohler/aixd_grasshopper/tree/main/examples/bridge_shell>`__
+- Urban massing: `see here <https://github.com/gramaziokohler/aixd_grasshopper/tree/main/examples/urban_massing>`__

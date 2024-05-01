@@ -1,9 +1,9 @@
 {
-    "name": "Plot Correlations",
-    "nickname": "Plot Correlations",
+    "name": "PlotCorrelations",
+    "nickname": "PlotCorrelations",
     "category": "AIXD",
     "subcategory": "5 Plotter",
-    "description": "Plots correlation matrix for the given variables.",
+    "description": "Plots correlation matrix for the given variables from the data in the dataset.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

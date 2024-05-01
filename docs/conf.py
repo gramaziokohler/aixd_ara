@@ -7,7 +7,7 @@ from sphinx.writers import html5
 
 # -- General configuration ------------------------------------------------
 
-project = "aixd_grasshopper"
+project = "ARA"
 copyright = "Copyright (c) 2023-2024 ETH Zurich, Gramazio Kohler Research"
 author = "Aleksandra Apolinarska"
 package = "aixd_grasshopper"
@@ -98,12 +98,12 @@ sphinx_compas2_theme.replace(html5.HTML5Translator)
 # -- Options for HTML output ----------------------------------------------
 
 html_theme = "sidebaronly"
-html_title = project
+html_title = "ARA"
 
 favicons = [
     {
         "rel": "icon",
-        "href": "compas.ico",
+        "href": "ara_logo.png",
     }
 ]
 
@@ -134,7 +134,7 @@ html_theme_options = {
     },
     "check_switcher": False,
     "logo": {
-        "image_light": "_static/compas_icon_white.png",
+        "image_light": "_static/ara_logo.png",
         "image_dark": "_static/compas_icon_white.png",
         "text": project,
     },
@@ -151,7 +151,7 @@ html_context = {
 }
 
 html_static_path = sphinx_compas2_theme.get_html_static_path() + ["_static"]
-html_css_files = []
+html_css_files = ["ara_style.css"]
 html_extra_path = []
 html_last_updated_fmt = ""
 html_copy_source = False

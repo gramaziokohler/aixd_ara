@@ -1,9 +1,9 @@
 {
-    "name": "Training",
-    "nickname": "Training",
+    "name": "ModelTrain",
+    "nickname": "ModelTrain",
     "category": "AIXD",
     "subcategory": "3 Model",
-    "description": "Runs a training campain.",
+    "description": "Runs a training campaign.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
