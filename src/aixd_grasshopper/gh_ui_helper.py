@@ -169,6 +169,33 @@ def ghparam_get_values(component, compute=False):
     return [x.Value for x in component.VolatileData[0]]
 
 
+def sample_summary(sample_dict):
+    txt = ""
+    txt += "Design Parameters:\n\n"
+    for name, values in sample_dict["design_parameters"].items():
+        txt += "{}:  {}\n".format(name, values)
+    txt += "\n"
+    txt += "Performance Attributes:\n\n"
+    for name, values in sample_dict["performance_attributes"].items():
+        txt += "{}:  {}\n".format(name, values)
+    return txt
+
+
+def instantiate_sample(ghdoc, sample_dict):
+    """
+    Apply design parameter values to the parametric model.
+    """
+
+    for dp_name, dp_vals in sample_dict["design_parameters"].items():
+        component_name = "GENERATED_{}".format(dp_name)
+        component = find_component_by_nickname(ghdoc, component_name)
+
+        if not dp_vals:
+            print("No values for {}!".format(dp_name))
+        else:
+            ghparam_set_values(component, dp_vals)
+
+
 def convert_str_to_bitmap(base64_imgstr, scale=1.0):
     """Get image from string and rescale."""
 

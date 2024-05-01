@@ -49,7 +49,11 @@
         "outputParameters": [
             {
                 "name": "sample",
-                "description": "Selected sample to instantiate in the parametric model."
+                "description": "Selected sample."
+            },
+            {
+                "name": "sample_txt",
+                "description": "Summary of the selected sample."
             }
         ]
     }

@@ -1,8 +1,13 @@
 # flake8: noqa
 
-from aixd_grasshopper.gh_ui import request_designs, get_dataobject_types
-from aixd_grasshopper.gh_ui_helper import session_id, component_id
 from scriptcontext import sticky as st
+
+from aixd_grasshopper.gh_ui import get_dataobject_types
+from aixd_grasshopper.gh_ui import request_designs
+from aixd_grasshopper.gh_ui_helper import component_id
+from aixd_grasshopper.gh_ui_helper import instantiate_sample
+from aixd_grasshopper.gh_ui_helper import sample_summary
+from aixd_grasshopper.gh_ui_helper import session_id
 
 cid = component_id(session_id(), ghenv.Component, "run_generation")
 item = component_id(session_id(), ghenv.Component, "pick_sample")
@@ -86,5 +91,13 @@ if cid in st.keys():
     samples = st[cid]["generated"]
     n = len(samples)
     i = st[item] % n
-    sample = wrapper(samples[i])
+
     ghenv.Component.Message = "sample {}/{}".format(i + 1, n)
+
+    sample_dict = samples[i]
+    ghdoc = ghenv.Component.OnPingDocument()
+    instantiate_sample(ghdoc, sample_dict) # sends design parameter values to the parametric model
+
+    # --- output ---
+    sample_txt = sample_summary(sample_dict)
+    sample = wrapper(samples[i])
