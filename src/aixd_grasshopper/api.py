@@ -164,6 +164,18 @@ def get_dataobject_names_from_block():
     return response
 
 
+@app.route("/get_dataobject_types", methods=["POST"])
+def get_dataobject_types():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.get_dataobject_types()
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
 @app.route("/plot_distrib_attributes", methods=["POST"])
 def plot_distrib_attributes():
     data = request.data
@@ -202,6 +214,22 @@ def plot_contours():
     output_type = data["output_type"]
     attributes = data["attributes"]
     result = sc.plot_contours(dataobjects=attributes, output_type=output_type)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
+@app.route("/plot_contours_request", methods=["POST"])
+def plot_contours_request():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    output_type = data["output_type"]
+    requested_values = data["request"]
+    n_samples = data["n_samples"]
+
+    result = sc.plot_contours_request(request=requested_values, n_samples=n_samples, output_type=output_type)
     response = json.dumps(result, cls=DataEncoder)
     return response
 

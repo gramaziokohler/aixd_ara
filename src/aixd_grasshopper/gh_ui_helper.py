@@ -169,6 +169,33 @@ def ghparam_get_values(component, compute=False):
     return [x.Value for x in component.VolatileData[0]]
 
 
+def sample_summary(sample_dict):
+    txt = ""
+    txt += "Design Parameters:\n\n"
+    for name, values in sample_dict["design_parameters"].items():
+        txt += "{}:  {}\n".format(name, values)
+    txt += "\n"
+    txt += "Performance Attributes:\n\n"
+    for name, values in sample_dict["performance_attributes"].items():
+        txt += "{}:  {}\n".format(name, values)
+    return txt
+
+
+def instantiate_sample(ghdoc, sample_dict):
+    """
+    Apply design parameter values to the parametric model.
+    """
+
+    for dp_name, dp_vals in sample_dict["design_parameters"].items():
+        component_name = "GENERATED_{}".format(dp_name)
+        component = find_component_by_nickname(ghdoc, component_name)
+
+        if not dp_vals:
+            print("No values for {}!".format(dp_name))
+        else:
+            ghparam_set_values(component, dp_vals)
+
+
 def convert_str_to_bitmap(base64_imgstr, scale=1.0):
     """Get image from string and rescale."""
 
@@ -181,3 +208,44 @@ def convert_str_to_bitmap(base64_imgstr, scale=1.0):
     size = Size(bitmap.Width * scale, bitmap.Height * scale)
     bitmap = Bitmap(bitmap, size)
     return bitmap
+
+
+def recast_type(value, typename):
+    if typename == "real":
+        return float(value)
+    if typename == "integer":
+        return int(value)
+    if typename == "categorical":
+        return str(value)
+    if typename == "bool":
+        return bool(value)
+
+
+def reformat_request(request_string, variable_types):
+    """
+    Reformats the request string into a dictionary with the correct types.
+    variable_types: dictionary with variable names as keys and types ('real', 'int', 'categorical', 'bool') as values, 
+    used to restore the data type.
+    """
+    request_dict = {}
+
+    for rv in request_string:
+        rv = rv.strip()
+
+        # split into name:value(s)
+        k, v = rv.split(":")
+
+        if k not in variable_types.keys():
+            raise ValueError(
+                "'{0}' is not a valid variable name. There is not variable with this name in the dataset.".format(k)
+            )
+
+        # check if a list or a single value
+        if v[0] == "[" and v[-1] == "]":
+            v = v[1:-1]
+            v = v.split(",")
+            v = [recast_type(vi, variable_types[k]) for vi in v]
+        else:
+            v = recast_type(v, variable_types[k])
+        request_dict[k] = v
+    return request_dict

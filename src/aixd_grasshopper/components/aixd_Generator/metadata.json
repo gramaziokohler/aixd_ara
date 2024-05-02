@@ -13,7 +13,7 @@
                 "name": "requested_values",
                 "description": "List of requested values, each formatted as a string with the following format: 'variable_name:value'.",
                 "typeHintID": "str",
-                "scriptParamAccess": 0
+                "scriptParamAccess": 1
             },
             {
                 "name": "n_designs",
@@ -22,17 +22,34 @@
                 "scriptParamAccess": 0
             },
             {
-                "name": "run",
+                "name": "generate",
                 "description": "Set to True to start the generation process.",
-                "typeHintID": "none",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "clear",
+                "description": "Forget the previously generated designs.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "pick_previous",
+                "description": "Iterate backward through the list of generated designs, instantiate the previous sample.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "pick_next",
+                "description": "Iterate forward through the list of generated designs, instantiate the next sample.",
+                "typeHintID": "bool",
                 "scriptParamAccess": 0
             }
         ],
-
         "outputParameters": [
             {
-                "name": "predicions",
-                "description": "List of generated designs."
+                "name": "sample_summary",
+                "description": "Selected sample."
             }
         ]
     }

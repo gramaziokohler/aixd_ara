@@ -11,7 +11,7 @@ import pytorch_lightning as pl
 import torch
 from aixd.data.data_blocks import DesignParameters
 from aixd.data.data_blocks import PerformanceAttributes
-from aixd.data.data_objects import DataInt
+from aixd.data.data_objects import DataInt, DataBool, DataCategorical, DataReal
 from aixd.data.dataset import Dataset
 from aixd.data.utils_data import reformat_dataframe_to_dataframeflat
 from aixd.data.utils_data import reformat_dataframeflat_to_dict
@@ -229,6 +229,33 @@ class SessionController(object):
             return {"msg": "", "names": self.datamodule.output_ml_dblock.names_list}
         return {"msg": f"Wrong block nickname: {datablock_nickname}.", "names": []}
 
+    def get_dataobject_types(self):
+        """
+        Returns names of the data types of the dataobjects in the dataset.
+        """
+        if not self.dataset:
+            error = "Dataset is not loaded."
+            raise ValueError(error)
+
+        all_dataobjects = self.dataset.data_objects
+        # cannot use this because boolean are declared as categorical
+        # dataobject_types = {d.name: d.type for d in all_dataobjects}
+
+        dataobject_types = {}
+        for d in all_dataobjects:
+            if isinstance(d, DataInt):
+                dataobject_types[d.name] = "integer"
+            elif isinstance(d, DataReal):
+                dataobject_types[d.name] = "real"
+            elif isinstance(d, DataCategorical):
+                dataobject_types[d.name] = "categorical"
+            elif isinstance(d, DataBool):
+                dataobject_types[d.name] = "boolean"
+            else:
+                dataobject_types[d.name] = "unsupported"
+
+        return {"msg": "", "dataobject_types": dataobject_types}
+
     def get_design_parameters(self):
         # TODO: rename
         if not self.dataset:
@@ -287,6 +314,22 @@ class SessionController(object):
         fig = plotter.contours2d(block=block, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
+    def plot_contours_request(self, request, n_samples, output_type):
+        """
+        request: dictionary where keys are the names of dataobjects (usually performance attributes), and values the requested target value(s).
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+        if not self.model:
+            raise ValueError("Model is not loaded.")
+
+        plotter = Plotter(datamodule=self.datamodule, output=None)
+        gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=10)
+        _, detailed_results = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")
+
+        fig = plotter.generation_scatter([detailed_results], n_samples=n_samples)
+        return _fig_output(fig, output_type)
+
     def model_setup(self, model_type, inputML, outputML, latent_dim, layer_widths, batch_size):
         # TODO: set defaults here if missing?
         if not self.dataset:
@@ -309,7 +352,7 @@ class SessionController(object):
         self.datamodule = datamodule
 
         save_dir = self.dataset_path
-        
+
         if model_type == "CAE":
             model = CondAEModel.from_datamodule(
                 datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir
@@ -320,7 +363,7 @@ class SessionController(object):
             )
         else:
             raise ValueError("Model type not recognized. Choose 'CAE' or 'CVAE'.")
-        
+
         self.model = model
         self.model_is_trained = False
 
@@ -378,7 +421,7 @@ class SessionController(object):
             model = CondVAEModel.load_model_from_checkpoint(checkpoint_filepath)
         else:
             raise ValueError("Model type not recognized. Choose 'CAE' or 'CVAE'.")
-        
+
         self.model = model
         self.model_is_trained = True
         self.datamodule = self._datamodule_from_dataset()
@@ -455,7 +498,7 @@ class SessionController(object):
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
         if not self.model:
-            raise ValueError("NN model is not loaded.")
+            raise ValueError("Model is not loaded.")
 
         gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=100)
         new_designs = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")[0]

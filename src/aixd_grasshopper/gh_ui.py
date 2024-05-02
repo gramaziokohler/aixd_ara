@@ -40,6 +40,11 @@ def get_dataobject_names_from_block(session_id, datablock_nickname):
     return http_post_request(action="get_dataobject_names_from_block", data=data)
 
 
+def get_dataobject_types(session_id):
+    data = {"session_id": session_id}
+    return http_post_request(action="get_dataobject_types", data=data)
+
+
 def get_one_sample(session_id, i):
     data = {"session_id": session_id, "item": i}
     return http_post_request(action="get_one_sample", data=data)
@@ -53,6 +58,11 @@ def plot_distrib_attributes(session_id, attributes, output_type):
 def plot_contours(session_id, attributes, output_type):
     data = {"session_id": session_id, "attributes": attributes, "output_type": output_type}
     return http_post_request(action="plot_contours", data=data)
+
+
+def plot_contours_request(session_id, request, n_samples, output_type):
+    data = {"session_id": session_id, "request": request, "n_samples": n_samples, "output_type": output_type}
+    return http_post_request(action="plot_contours_request", data=data)
 
 
 def plot_correlations(session_id, attributes, output_type):
@@ -71,7 +81,12 @@ def model_train(session_id, epochs, wb):
 
 
 def model_load(session_id, model_type, checkpoint_name, checkpoint_path):
-    data = {"session_id": session_id, "model_type": model_type, "checkpoint_name": checkpoint_name, "checkpoint_path": checkpoint_path}
+    data = {
+        "session_id": session_id,
+        "model_type": model_type,
+        "checkpoint_name": checkpoint_name,
+        "checkpoint_path": checkpoint_path,
+    }
     return http_post_request(action="model_load", data=data)
 
 

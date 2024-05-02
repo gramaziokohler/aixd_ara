@@ -171,7 +171,7 @@ Retrieves one sample from the dataset (at a given or random index) and instantia
 
 **Outputs**
 
-- **sample** -- Summary of the retrieved sample.
+- **sample_summary** -- Summary of the retrieved sample.
 
 DatasetSummary
 --------------
@@ -203,53 +203,16 @@ Runs a generation campaing to create new designs using the trained model.
 
 **Inputs**
 
-- **requested_values** *(str)* -- List of requested values, each formatted as a string with the following format: 'variable_name:value'.
+- **requested_values** *[List of (str)]* -- List of requested values, each formatted as a string with the following format: 'variable_name:value'.
 - **n_designs** *(int)* -- Number of designs to generate.
-- **run** *(none)* -- Set to True to start the generation process.
+- **generate** *(bool)* -- Set to True to start the generation process.
+- **clear** *(bool)* -- Forget the previously generated designs.
+- **pick_previous** *(bool)* -- Iterate backward through the list of generated designs, instantiate the previous sample.
+- **pick_next** *(bool)* -- Iterate forward through the list of generated designs, instantiate the next sample.
 
 **Outputs**
 
-- **predicions** -- List of generated designs.
-
-GenSampleEval
--------------
-.. image:: _images/icons/aixd_GenSampleEval.png
-	:align: left
-	:height: 24
-	:width: 24
-
-Compares the requested values with the predicted and the actual values for a current design.
-
-
-**Inputs**
-
-- **request** *(none)* -- Requested values.
-- **predicted** *(none)* -- Predicted values (the generated sample).
-- **real** *(none)* -- Actual values (the current design).
-
-**Outputs**
-
-- **comparison** -- Table with the comparison of the requested, predicted and actual values.
-
-GenSelect
----------
-.. image:: _images/icons/aixd_GenSelect.png
-	:align: left
-	:height: 24
-	:width: 24
-
-Selects one of the designs generated from the trained model.
-
-
-**Inputs**
-
-- **predictions** *[List of (none)]* -- List of generated designs.
-- **select** *(int)* -- Index of the selected design.
-
-**Outputs**
-
-- **sample_summary** -- Summary of the selected design.
-- **generated_sample** -- Sample.
+- **sample_summary** -- Selected sample.
 
 ModelDimensions
 ---------------
@@ -368,6 +331,27 @@ Plots the distribution contours for each pair of variables from the data in the 
 **Inputs**
 
 - **variables** *[List of (str)]* -- List of names of the variables to be plotted.
+- **output_type** *(str)* -- Plot type: 'static' creates a bitmap image, 'interactive' launches an interactive plot in a browser.
+- **plot** *(bool)* -- Set to True to (re-)create the plot.
+- **scale** *(float)* -- Resize factor for the static plot.
+
+**Outputs**
+
+- **img** -- Bitmap image if output_type is 'static', otherwise None.
+
+PlotContoursRequest
+-------------------
+.. image:: _images/icons/aixd_PlotContoursRequest.png
+	:align: left
+	:height: 24
+	:width: 24
+
+Plots the requested and predicted values against the distribution contours for each pair of the corresponding variables.
+
+
+**Inputs**
+
+- **request** *[List of (str)]* -- List of requested values, each formatted as a string with the following format: 'variable_name:value'.
 - **output_type** *(str)* -- Plot type: 'static' creates a bitmap image, 'interactive' launches an interactive plot in a browser.
 - **plot** *(bool)* -- Set to True to (re-)create the plot.
 - **scale** *(float)* -- Resize factor for the static plot.

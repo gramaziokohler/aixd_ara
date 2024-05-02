@@ -1,17 +1,17 @@
 {
-    "name": "PlotContours",
-    "nickname": "PlotContours",
+    "name": "PlotContoursRequest",
+    "nickname": "PlotContReq",
     "category": "AIXD",
     "subcategory": "5 Plotter",
-    "description": "Plots the distribution contours for each pair of variables from the data in the dataset.",
+    "description": "Plots the requested and predicted values against the distribution contours for each pair of the corresponding variables.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,
         "inputParameters": [
             {
-                "name": "variables",
-                "description": "List of names of the variables to be plotted.",
+                "name": "request",
+                "description": "List of requested values, each formatted as a string with the following format: 'variable_name:value'.",
                 "typeHintID": "str",
                 "scriptParamAccess": 1
             },
@@ -34,7 +34,6 @@
                 "scriptParamAccess": 0
             }
         ],
-
         "outputParameters": [
             {
                 "name": "img",
