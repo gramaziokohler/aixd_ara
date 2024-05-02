@@ -208,3 +208,44 @@ def convert_str_to_bitmap(base64_imgstr, scale=1.0):
     size = Size(bitmap.Width * scale, bitmap.Height * scale)
     bitmap = Bitmap(bitmap, size)
     return bitmap
+
+
+def recast_type(value, typename):
+    if typename == "real":
+        return float(value)
+    if typename == "integer":
+        return int(value)
+    if typename == "categorical":
+        return str(value)
+    if typename == "bool":
+        return bool(value)
+
+
+def reformat_request(request_string, variable_types):
+    """
+    Reformats the request string into a dictionary with the correct types.
+    variable_types: dictionary with variable names as keys and types ('real', 'int', 'categorical', 'bool') as values, 
+    used to restore the data type.
+    """
+    request_dict = {}
+
+    for rv in request_string:
+        rv = rv.strip()
+
+        # split into name:value(s)
+        k, v = rv.split(":")
+
+        if k not in variable_types.keys():
+            raise ValueError(
+                "'{0}' is not a valid variable name. There is not variable with this name in the dataset.".format(k)
+            )
+
+        # check if a list or a single value
+        if v[0] == "[" and v[-1] == "]":
+            v = v[1:-1]
+            v = v.split(",")
+            v = [recast_type(vi, variable_types[k]) for vi in v]
+        else:
+            v = recast_type(v, variable_types[k])
+        request_dict[k] = v
+    return request_dict

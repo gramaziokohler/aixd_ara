@@ -48,12 +48,8 @@
         ],
         "outputParameters": [
             {
-                "name": "sample",
+                "name": "sample_summary",
                 "description": "Selected sample."
-            },
-            {
-                "name": "sample_txt",
-                "description": "Summary of the selected sample."
             }
         ]
     }
