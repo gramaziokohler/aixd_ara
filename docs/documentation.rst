@@ -214,46 +214,6 @@ Runs a generation campaing to create new designs using the trained model.
 
 - **sample_summary** -- Selected sample.
 
-GenSampleEval
--------------
-.. image:: _images/icons/aixd_GenSampleEval.png
-	:align: left
-	:height: 24
-	:width: 24
-
-Compares the requested values with the predicted and the actual values for a current design.
-
-
-**Inputs**
-
-- **request** *(none)* -- Requested values.
-- **predicted** *(none)* -- Predicted values (the generated sample).
-- **real** *(none)* -- Actual values (the current design).
-
-**Outputs**
-
-- **comparison** -- Table with the comparison of the requested, predicted and actual values.
-
-GenSelect
----------
-.. image:: _images/icons/aixd_GenSelect.png
-	:align: left
-	:height: 24
-	:width: 24
-
-Selects one of the designs generated from the trained model.
-
-
-**Inputs**
-
-- **predictions** *[List of (none)]* -- List of generated designs.
-- **select** *(int)* -- Index of the selected design.
-
-**Outputs**
-
-- **sample_summary** -- Summary of the selected design.
-- **generated_sample** -- Sample.
-
 ModelDimensions
 ---------------
 .. image:: _images/icons/aixd_ModelDims.png
