@@ -11,7 +11,6 @@ import os
 
 import rhinoscriptsyntax as rs
 
-from aixd_grasshopper.gh_ui_helper import TYPES
 from aixd_grasshopper.gh_ui_helper import find_component_by_nickname
 from aixd_grasshopper.gh_ui_helper import ghparam_get_values
 from aixd_grasshopper.gh_ui_helper import ghparam_set_values
@@ -38,6 +37,7 @@ session_id = ghdoc.DocumentID.ToString()
 
 
 # --- APP INTERFACE ----------------------------------------------------------------------------
+
 
 def generate_dp_samples(n_samples):
     return http_post_request("generate_dp_samples", {"session_id": session_id, "n_samples": n_samples})
@@ -104,19 +104,22 @@ def combine_dp_pa(dp_samples, pa_samples):
 
 # --- MAIN ----------------------------------------------------------------------------
 
+
 def run(session_id, num_samples, num_samples_per_batch):
 
     num_batches = int(math.ceil(num_samples / num_samples_per_batch))
 
-    #override the number of samples to be a multiple of the number of samples per batch  
-    num_samples = num_batches * num_samples_per_batch  
+    # override the number of samples to be a multiple of the number of samples per batch
+    num_samples = num_batches * num_samples_per_batch
 
     pr = http_post_request("project_setup_info", {"session_id": session_id})
     project_root = pr["project_root"]
     project_name = pr["project_name"]
     target_path = os.path.join(project_root, project_name)
 
-    print("\t ({} samples in {} batches will be generated and saved in {})".format(num_samples, num_batches, target_path))
+    print(
+        "\t ({} samples in {} batches will be generated and saved in {})".format(num_samples, num_batches, target_path)
+    )
 
     for _ in range(num_batches):
         dp_samples = generate_dp_samples(num_samples_per_batch)
@@ -124,10 +127,11 @@ def run(session_id, num_samples, num_samples_per_batch):
         samples = combine_dp_pa(dp_samples, pa_samples)
         add_samples_to_dataset(samples, num_samples_per_batch)
 
-
     print("\t successfully generated all {} samples in {} batch files".format(num_samples, num_batches))
 
+
 # --- INPUT/USER INTERFACE ----------------------------------------------------------------------------
+
 
 def get_user_input():
 
@@ -138,10 +142,7 @@ def get_user_input():
     return num_samples, num_samples_per_batch
 
 
-
-if __name__ =="__main__":
+if __name__ == "__main__":
 
     num_samples, num_samples_per_batch = get_user_input()
     run(session_id, num_samples, num_samples_per_batch)
-
-

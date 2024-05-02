@@ -316,7 +316,9 @@ class SessionController(object):
 
     def plot_contours_request(self, request, n_samples, output_type):
         """
-        request: dictionary where keys are the names of dataobjects (usually performance attributes), and values the requested target value(s).
+        request:
+            dictionary where keys are the names of dataobjects (usually performance attributes),
+            and values the requested target value(s).
         """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")

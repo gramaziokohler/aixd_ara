@@ -224,7 +224,7 @@ def recast_type(value, typename):
 def reformat_request(request_string, variable_types):
     """
     Reformats the request string into a dictionary with the correct types.
-    variable_types: dictionary with variable names as keys and types ('real', 'int', 'categorical', 'bool') as values, 
+    variable_types: dictionary with variable names as keys and types ('real', 'int', 'categorical', 'bool') as values,
     used to restore the data type.
     """
     request_dict = {}
