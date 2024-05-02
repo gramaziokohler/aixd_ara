@@ -218,6 +218,22 @@ def plot_contours():
     return response
 
 
+@app.route("/plot_contours_request", methods=["POST"])
+def plot_contours_request():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    output_type = data["output_type"]
+    requested_values = data["request"]
+    n_samples = data["n_samples"]
+
+    result = sc.plot_contours_request(request=requested_values, n_samples=n_samples, output_type=output_type)
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
 @app.route("/design_parameters", methods=["GET"])
 def get_design_parameters():
     data = request.args
