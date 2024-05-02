@@ -472,18 +472,3 @@ Reveals the folder in the file explorer.
 - **path** *(str)* -- Path to the (local) folder.
 - **open** *(bool)* -- Set to True to open the folder in the file explorer.
 
-Weights&Biases
---------------
-.. image:: _images/icons/aixd_W&B.png
-	:align: left
-	:height: 24
-	:width: 24
-
-Launches Weights&Biases dashboard for model training and monitoring in a browser.
-
-
-**Inputs**
-
-- **user** *(str)* -- Part of the path containing username and project name, typically in the form of 'username/projectname'
-- **launch** *(bool)* -- Set to True to launch the dashboard.
-
