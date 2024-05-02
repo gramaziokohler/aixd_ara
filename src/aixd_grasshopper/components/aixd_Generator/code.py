@@ -6,7 +6,7 @@ from aixd_grasshopper.gh_ui import get_dataobject_types
 from aixd_grasshopper.gh_ui import request_designs
 from aixd_grasshopper.gh_ui_helper import component_id
 from aixd_grasshopper.gh_ui_helper import instantiate_sample
-from aixd_grasshopper.gh_ui_helper import sample_summary
+from aixd_grasshopper.gh_ui_helper import sample_summary as sample_summary_f
 from aixd_grasshopper.gh_ui_helper import session_id
 
 cid = component_id(session_id(), ghenv.Component, "run_generation")
@@ -14,7 +14,6 @@ item = component_id(session_id(), ghenv.Component, "pick_sample")
 
 """
 requested_values: a multiline string with variable_name:values tuples. 
-
 """
 
 if not n_designs or n_designs < 1:
@@ -30,14 +29,6 @@ def recast_type(value, typename):
         return str(value)
     if typename == "bool":
         return bool(value)
-
-
-class wrapper:
-    def __init__(self, dict):
-        self.dict = dict
-
-    def __repr__(self):
-        return "Generated design"
 
 
 def reformat_request(request_string):
@@ -96,8 +87,7 @@ if cid in st.keys():
 
     sample_dict = samples[i]
     ghdoc = ghenv.Component.OnPingDocument()
-    instantiate_sample(ghdoc, sample_dict) # sends design parameter values to the parametric model
+    instantiate_sample(ghdoc, sample_dict)  # sends design parameter values to the parametric model
 
     # --- output ---
-    sample_txt = sample_summary(sample_dict)
-    sample = wrapper(samples[i])
+    sample_summary = "Predicted/Generated:\n--------------------\n\n" + sample_summary_f(sample_dict)
