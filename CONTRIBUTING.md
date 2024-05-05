@@ -7,7 +7,7 @@ Contributions are welcome and very much appreciated!
 We accept code contributions through pull requests.
 In short, this is how that works.
 
-1. Fork [the repository](https://github.com/gramaziokohler/aixd_grasshopper) and clone the fork.
+1. Fork [the repository](https://github.com/gramaziokohler/aixd_ara) and clone the fork.
 2. Create a virtual environment using your tool of choice (e.g. `virtualenv`, `conda`, etc).
 3. Install development dependencies:
 
@@ -44,7 +44,7 @@ command line to ease recurring operations:
 
 ## Bug reports
 
-When [reporting a bug](https://github.com/gramaziokohler/aixd_grasshopper/issues) please include:
+When [reporting a bug](https://github.com/gramaziokohler/aixd_ara/issues) please include:
 
 * Operating system name and version.
 * Any details about your local setup that might be helpful in troubleshooting.
@@ -52,7 +52,7 @@ When [reporting a bug](https://github.com/gramaziokohler/aixd_grasshopper/issues
 
 ## Feature requests
 
-When [proposing a new feature](https://github.com/gramaziokohler/aixd_grasshopper/issues) please include:
+When [proposing a new feature](https://github.com/gramaziokohler/aixd_ara/issues) please include:
 
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.

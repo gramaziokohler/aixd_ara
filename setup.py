@@ -22,12 +22,12 @@ long_description = read("README.md")
 requirements = read("requirements.txt").split("\n")
 
 setup(
-    name="aixd_grasshopper",
+    name="aixd_ara",
     version="0.1.0",
     description="Grasshopper plugin for the AIXD toolkit",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/gramaziokohler/aixd_grasshopper",
+    url="https://github.com/gramaziokohler/aixd_ara",
     author="Aleksandra Apolinarska",
     author_email="apolinarska@arch.ethz.ch",
     license="MIT license",
@@ -48,7 +48,7 @@ setup(
     ],
     keywords=[],
     project_urls={},
-    packages=["aixd_grasshopper", "compas_aixd"],
+    packages=["aixd_ara", "compas_aixd"],
     package_dir={"": "src"},
     package_data={},
     data_files=[],

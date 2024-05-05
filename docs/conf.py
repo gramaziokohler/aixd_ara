@@ -10,7 +10,7 @@ from sphinx.writers import html5
 project = "ARA"
 copyright = "Copyright (c) 2023-2024 ETH Zurich, Gramazio Kohler Research"
 author = "Aleksandra Apolinarska"
-package = "aixd_grasshopper"
+package = "aixd_ara"
 organization = "gramaziokohler"
 
 master_doc = "index"

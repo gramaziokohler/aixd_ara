@@ -26,8 +26,8 @@ ns.configure(
     {
         "base_folder": os.path.dirname(__file__),
         "ghuser": {
-            "source_dir": "src/aixd_grasshopper/components",
-            "target_dir": "src/aixd_grasshopper/components/ghuser",
+            "source_dir": "src/aixd_ara/components",
+            "target_dir": "src/aixd_ara/components/ghuser",
         },
     }
 )
