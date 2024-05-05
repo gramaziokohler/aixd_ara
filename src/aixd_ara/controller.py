@@ -1,0 +1,601 @@
+"""
+This module contains methods that are intended to run in cpython in a server app.
+Do not call it from Rhino/Grasshopper (imports will fail in IronPython).
+"""
+
+import base64
+import os
+import random
+
+import pytorch_lightning as pl
+import torch
+from aixd.data.data_blocks import DesignParameters
+from aixd.data.data_blocks import PerformanceAttributes
+from aixd.data.data_objects import DataInt, DataBool, DataCategorical, DataReal
+from aixd.data.dataset import Dataset
+from aixd.data.utils_data import reformat_dataframe_to_dataframeflat
+from aixd.data.utils_data import reformat_dataframeflat_to_dict
+from aixd.data.utils_data import reformat_dict_to_dataframe
+from aixd.data.utils_data import reformat_dict_to_dictlist
+from aixd.data.utils_data import reformat_dictlist_to_dict
+from aixd.mlmodel.architecture.cond_ae_model import CondAEModel
+from aixd.mlmodel.architecture.cond_vae_model import CondVAEModel
+from aixd.mlmodel.data.data_loader import DataModule
+from aixd.mlmodel.generation.generator import Generator
+from aixd.utils.utils import flatten_dict
+from aixd.visualisation.plotter import Plotter
+
+from aixd_ara.shallow_objects import dataobjects_from_shallow
+
+
+class SessionController(object):
+    instances = {}
+
+    def __init__(self):
+        self.project_root = None
+        self.project_name = None
+        self.dataset = None
+        self.model = None
+        self.datamodule = None
+        self.samples_per_file = None
+        self.model_is_trained = False
+
+    def reset(self):
+        self.project_root = None
+        self.project_name = None
+        self.dataset = None
+        self.model = None
+        self.datamodule = None
+        self.samples_per_file = None
+        self.model_is_trained = False
+
+    @property
+    def dataset_path(self):
+        if not self.project_root or not self.project_name:
+            return None
+        return os.path.join(self.project_root, self.project_name)
+
+    @classmethod
+    def create(cls, session_id):
+        if session_id not in cls.instances:
+            cls.instances[session_id] = cls()
+        return cls.instances[session_id]
+
+    def project_setup(self, project_root, project_name):
+        if not os.path.exists(project_root):
+            return {"msg": "Project path {project_root} does not exist!"}
+        self.project_root = project_root
+        self.project_name = project_name
+        return {
+            "msg": f"Project has been set up in: {os.path.join(self.project_root, self.project_name)}",
+            "path": os.path.join(self.project_root, self.project_name),
+        }
+
+    def project_setup_info(self):
+        return {"project_root": self.project_root, "project_name": self.project_name}
+
+    def create_dataset_object(self, design_parameters, performance_attributes):
+        """
+        Creates a dataset object based on given definitions of dataobjects in shallow formatting.
+        """
+
+        if not self.project_root or not self.project_name:
+            raise ValueError("You need to first set the project root path and the dataset name.")
+
+        dp = DesignParameters(name="DP", dobj_list=dataobjects_from_shallow(design_parameters))
+        pa = PerformanceAttributes(name="PA", dobj_list=dataobjects_from_shallow(performance_attributes))
+
+        dataset = Dataset(name=self.project_name, design_par=dp, perf_attributes=pa, root_path=self.project_root)
+        dataset.save_dataset_obj()
+
+        # TODO: overrides an already assigned dataset - what about the datafiles if they exist?
+        self.dataset = dataset
+
+        return {"msg": "Dataset object has been created."}
+
+    def generate_dp_samples(self, n_samples):
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+
+        samples_dictlist = self.dataset.get_samples(n_samples=n_samples, format_out="dict_list")
+        return samples_dictlist
+
+    def save_samples(self, samples, samples_per_file):
+        """
+        Adds samples to dataset, saves them to files and saves the dataset object.
+        Samples can be in any of the formats used in the project.
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+        if not samples_per_file:
+            samples_per_file = None
+
+        self.dataset.write_data_dp_pa(data_combined=samples, samples_perfile=samples_per_file)
+        return True
+
+    def getdata_design_parameters(self):
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+
+        self.dataset.load()
+        data = self.dataset.design_par.data
+        dp_dict = reformat_dataframeflat_to_dict(data, self.dataset.design_par.dobj_list + [DataInt(name="uid", dim=1)])
+        dp_dictlist = reformat_dict_to_dictlist(dp_dict)
+        return dp_dictlist
+
+    def datablocks_dataobjects(self):
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+        blocks = {}
+        blocks["design_parameters"] = self.dataset.design_par.names_list
+        blocks["performance_attributes"] = self.dataset.perf_attributes.names_list
+        return blocks
+
+    @property
+    def design_parameters_names(self):
+        if not self.dataset:
+            raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
+        return self.dataset.design_par.names_list
+
+    def load_dataset(self):
+        error = ""
+        if not self.project_root or not self.project_name:
+            error = "You need to first set the project root path and the dataset name."
+            raise ValueError(error)
+        try:
+            dataset = Dataset(root_path=self.project_root, name=self.project_name, overwrite=False)
+            dataset.load_dataset_obj()
+            dataset.load()
+            dataset.update_obj_domains(flag_only_perfatt=True)
+        except:  # noqa: E722
+            dataset = None
+            error = "Loading dataset failed."
+            raise ValueError(error)
+
+        if not dataset:
+            return {"msg": error}
+
+        self.dataset = dataset
+
+        id_to_open = self.dataset.data_gen_dp["fileid_vector"]
+        report = "Loaded a total of {} samples from {} files".format(len(self.dataset.design_par.data), len(id_to_open))
+
+        return {"msg": report}
+
+    def import_data_from_dict(self, datadict, samples_per_file=None):
+        """
+        Imports data created elsewhere (e.g. performance attributes calculated in Grasshopper) and
+        formated as a dictionary, to the dataset and saves to files.
+        datadict: dictionary containing keys equal to object names and values are lists of data values.
+                  format: list of n dictionaries datadict[nth_sample][object_name_as_key][ith_dimension]
+                  TODO: must also contain an 'uid' key?
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+        if not samples_per_file:
+            samples_per_file = self.samples_per_file
+        if not samples_per_file:
+            raise ValueError(
+                "Argument 'samples per file' is not specified (neither in the project nor given as argument here)."
+            )
+
+        datadict = reformat_dictlist_to_dict(datadict)
+        dataobjects = [d for d in self.dataset.data_objects if d.name in datadict.keys()]
+        df = reformat_dict_to_dataframe(datadict)
+        df = reformat_dataframe_to_dataframeflat(df, dataobjects)
+        self.dataset.import_data_from_df(data=df, samples_perfile=samples_per_file)
+
+        return True  # confirm it went well
+
+    def dataset_summary(self):
+        error = ""
+        if not self.dataset:
+            error = "Dataset is not loaded."
+            raise ValueError(error)
+
+        # flag_only_names = False
+        txt = "-------------------------------------\n"
+        txt += "Data blocks and elements in dataset\n\n"
+
+        txt += "* Design parameters\n"
+        for x in [
+            f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.design_par.dobj_list
+        ]:
+            txt += f"    {x}\n"
+
+        txt += "\n"
+        txt += "* Performance attributes\n"
+        for x in [
+            f"{dobj.name} dim={str(dobj.dim)} domain: {dobj.domain}" for dobj in self.dataset.perf_attributes.dobj_list
+        ]:
+            txt += f"    {x}\n"
+
+        txt += "-------------------------------------"
+        return {"msg": error, "summary": txt}
+
+    def get_dataobject_names_from_block(self, datablock_nickname):
+        if datablock_nickname in ["design_parameters", "performance_attributes"] and not self.dataset:
+            return {"msg": "Dataset is not loaded.", "names": []}
+        if datablock_nickname in ["inputML", "outputML"] and not self.datamodule:
+            return {"msg": "Model is not loaded.", "names": []}
+
+        if datablock_nickname == "design_parameters":
+            return {"msg": "", "names": self.dataset.design_par.names_list}
+        if datablock_nickname == "performance_attributes":
+            return {"msg": "", "names": self.dataset.perf_attributes.names_list}
+        if datablock_nickname == "inputML":
+            return {"msg": "", "names": self.datamodule.input_ml_dblock.names_list}
+        if datablock_nickname == "outputML":
+            return {"msg": "", "names": self.datamodule.output_ml_dblock.names_list}
+        return {"msg": f"Wrong block nickname: {datablock_nickname}.", "names": []}
+
+    def get_dataobject_types(self):
+        """
+        Returns names of the data types of the dataobjects in the dataset.
+        """
+        if not self.dataset:
+            error = "Dataset is not loaded."
+            raise ValueError(error)
+
+        all_dataobjects = self.dataset.data_objects
+        # cannot use this because boolean are declared as categorical
+        # dataobject_types = {d.name: d.type for d in all_dataobjects}
+
+        dataobject_types = {}
+        for d in all_dataobjects:
+            if isinstance(d, DataInt):
+                dataobject_types[d.name] = "integer"
+            elif isinstance(d, DataReal):
+                dataobject_types[d.name] = "real"
+            elif isinstance(d, DataCategorical):
+                dataobject_types[d.name] = "categorical"
+            elif isinstance(d, DataBool):
+                dataobject_types[d.name] = "boolean"
+            else:
+                dataobject_types[d.name] = "unsupported"
+
+        return {"msg": "", "dataobject_types": dataobject_types}
+
+    def get_design_parameters(self):
+        # TODO: rename
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+        print(self.dataset.design_par)
+        dp = self.dataset.design_par.names_list
+        return dp
+
+    def plot_distrib_attributes(self, dataobjects, output_type):
+        """
+        dataobjects: list of dataobject names
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+
+        if not dataobjects:
+            block = self.dataset.perf_attributes.name  # by default, we're interested in performance attributes here
+        else:
+            block = self.blocknames_from_dataobjects(dataobjects)
+            if len(block) > 1:
+                raise ValueError("Dataobjects are not from the same block.")
+            if len(block) == 0:
+                raise ValueError("Dataobjects are not from any block.")
+
+        plotter = Plotter(self.dataset, output=None)
+        fig = plotter.distrib_attributes(
+            block=block[0], attributes=dataobjects, per_column=True, bottom_top=(0.1, 0.9), downsamp=1, sub_figs=True
+        )
+        return _fig_output(fig, output_type)
+
+    def plot_correlations(self, dataobjects, output_type):
+        """
+        blocks and dataobjects: lists of names
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+
+        if not dataobjects:
+            dataobjects = [d.name for d in self.dataset.data_objects]
+
+        blocks = self.blocknames_from_dataobjects(dataobjects)
+
+        plotter = Plotter(self.dataset, output=None)
+        fig = plotter.correlation(block=blocks, attributes=dataobjects)
+        return _fig_output(fig, output_type)
+
+    def plot_contours(self, dataobjects, output_type):
+        """
+        dataobjects: list of dataobject names
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+        block = self.blocknames_from_dataobjects(dataobjects)[0]
+
+        plotter = Plotter(self.dataset, output=None)
+        fig = plotter.contours2d(block=block, attributes=dataobjects)
+        return _fig_output(fig, output_type)
+
+    def plot_contours_request(self, request, n_samples, output_type):
+        """
+        request:
+            dictionary where keys are the names of dataobjects (usually performance attributes),
+            and values the requested target value(s).
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+        if not self.model:
+            raise ValueError("Model is not loaded.")
+
+        plotter = Plotter(datamodule=self.datamodule, output=None)
+        gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=10)
+        _, detailed_results = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")
+
+        fig = plotter.generation_scatter([detailed_results], n_samples=n_samples)
+        return _fig_output(fig, output_type)
+
+    def model_setup(self, model_type, inputML, outputML, latent_dim, layer_widths, batch_size):
+        # TODO: set defaults here if missing?
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+
+        # TODO: move this check to the resp. datablocks so that
+        # they recognize "design_parameters" and "performance_attributes" as argument?
+        if inputML == ["design_parameters"]:
+            inputML = self.dataset.design_par.names_list
+        if outputML == ["design_parameters"]:
+            outputML = self.dataset.design_par.names_list
+        if inputML == ["performance_attributes"]:
+            inputML = self.dataset.perf_attributes.names_list
+        if outputML == ["performance_attributes"]:
+            outputML = self.dataset.perf_attributes.names_list
+
+        datamodule = DataModule.from_dataset(
+            self.dataset, input_ml_names=inputML, output_ml_names=outputML, batch_size=batch_size
+        )
+        self.datamodule = datamodule
+
+        save_dir = self.dataset_path
+
+        if model_type == "CAE":
+            model = CondAEModel.from_datamodule(
+                datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir
+            )
+        elif model_type == "CVAE":
+            model = CondVAEModel.from_datamodule(
+                datamodule, layer_widths=layer_widths, latent_dim=latent_dim, save_dir=save_dir
+            )
+        else:
+            raise ValueError("Model type not recognized. Choose 'CAE' or 'CVAE'.")
+
+        self.model = model
+        self.model_is_trained = False
+
+        quick_summary = self.model_summary(self.model, max_depth=2)
+        model_dims = self.model_input_output_dimensions()
+        return {"msg": "Model has been set up.", "quick_summary": quick_summary, "model_dims": model_dims}
+
+    def model_train(self, epochs, wb):
+        if not self.model:
+            raise ValueError("Model is not set up. Try setting up a model first.")
+        self.model_is_trained = False
+
+        if not wb:
+            log_wb = False
+        else:
+            log_wb = True
+
+        self.model.fit(
+            self.datamodule,
+            name_run="",
+            max_epochs=epochs,
+            callbacks=[],
+            accelerator="cpu",
+            flag_wandb=log_wb,
+            wandb_entity=wb,
+        )
+        self.model_is_trained = True
+        # TODO: store the best model in controller instead?
+        checkpoint_path = os.path.join(self.model.save_dir, self.model.CHECKPOINT_DIR)
+
+        # TODO: add some callback so that we can have a progress preview in Grasshopper
+        # TODO: still saving the checkpoints in strange locations!!! return path to best checkpoint
+        # TODO: add retrieve and return the name/path of the best checkpoint
+
+        return {"msg": "Training completed!", "path": checkpoint_path, "best_ckpt": None}
+
+    def model_load(self, model_type, checkpoint_path, checkpoint_name):
+        error = None
+        if checkpoint_path not in [None, ""]:
+            if not os.path.exists(checkpoint_path):
+                error = f"The given checkpoint path does not exist: {checkpoint_path}"
+                raise ValueError(error)
+        else:
+            # default to the project path
+            checkpoint_path = os.path.join(self.dataset_path, "checkpoints")
+
+        checkpoint_filepath = os.path.join(checkpoint_path, checkpoint_name + ".ckpt")
+        if not os.path.exists(checkpoint_path):
+            error = f"The given checkpoint path does not exist: {checkpoint_filepath}"
+            raise ValueError(error)
+
+        if model_type == "CAE":
+            model = CondAEModel.load_model_from_checkpoint(checkpoint_filepath)
+        elif model_type == "CVAE":
+            model = CondVAEModel.load_model_from_checkpoint(checkpoint_filepath)
+        else:
+            raise ValueError("Model type not recognized. Choose 'CAE' or 'CVAE'.")
+
+        self.model = model
+        self.model_is_trained = True
+        self.datamodule = self._datamodule_from_dataset()
+        return {"msg": error or f"Model loaded from checkpoint: {checkpoint_filepath}"}
+
+    def _datamodule_from_dataset(self):
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+
+        datamodule = DataModule.from_dataset(
+            self.dataset,
+            input_ml_names=self.model.datamodule_parameters["input_ml_dblock"].names_list,
+            output_ml_names=self.model.datamodule_parameters["output_ml_dblock"].names_list,
+            batch_size=self.model.datamodule_parameters["batch_size"],
+        )
+        return datamodule
+
+    def get_one_sample(self, item):
+        """
+        Returns a single sample from the dataset as a dictionary.
+
+        Parameters
+        ----------
+        item : int >=-1 or None
+            Index of the sample. If None or -1, a random sample will be drawn.
+
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+
+        if item is None or item < 0:
+            n = len(self.dataset.design_par.data)
+            item = random.randint(0, n)
+
+        sample = {"design_parameters": {}, "performance_attributes": {}}
+
+        dct = reformat_dataframeflat_to_dict(self.dataset.design_par.data, self.dataset.design_par.dobj_list)
+        for key, values in dct.items():
+            dct[key] = values[item]
+        sample["design_parameters"] = dct
+
+        dct = reformat_dataframeflat_to_dict(self.dataset.perf_attributes.data, self.dataset.perf_attributes.dobj_list)
+        for key, values in dct.items():
+            dct[key] = values[item]
+        sample["performance_attributes"] = dct
+
+        # for single-value entries, unpack them from a list [123] -> 123
+        for x in sample.keys():
+            for k, v in sample[x].items():
+                if isinstance(v, list):
+                    if len(v) == 1:
+                        sample[x][k] = v[0]
+        return sample
+
+    def request_designs(self, request, n_samples=1):
+        """
+        Parameters
+        ----------
+        n: int
+            number of designs to return
+        request: [Dict]
+            dictionary where keys are the names of dataobjects (usually performance attributes),
+            and values are the requested target values to fulfil
+            Example:
+            request = {"attribute1": 123,"attribute2":[45.0,67.0] }
+
+        Returns
+        -------
+        List[Dict]
+            List containing generated samples. Each sample is represented by a dictionary containing
+            dataobject names as keys and values (requested, generated or predicted)
+
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+        if not self.model:
+            raise ValueError("Model is not loaded.")
+
+        gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=100)
+        new_designs = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")[0]
+
+        # split the result into separate dictionaries for design parameters and performance attributes
+        # assert len(new_designs) == n_samples
+        samples = []
+        for d in new_designs:
+            s = {"design_parameters": {}, "performance_attributes": {}}
+            for k, v in d.items():
+                if k in self.dataset.design_par.names_list:
+                    s["design_parameters"][k] = v
+                if k in self.dataset.perf_attributes.names_list:
+                    s["performance_attributes"][k] = v
+            samples.append(s)
+
+        return {"msg": "", "generated": samples}
+
+    def model_summary(self, model=None, max_depth=-1):
+
+        if not model:
+            model = self.model
+        if not model:
+            raise ValueError("No NN model given or loaded.")
+
+        model.example_input_array = (
+            (
+                torch.zeros(
+                    1,
+                    max([x_dobj.position_index + x_dobj.dim for x_dobj in model.input_ml_dblock.dobj_list_transf]),
+                ),
+                torch.zeros(
+                    1,
+                    max([y_dobj.position_index + y_dobj.dim for y_dobj in model.input_ml_dblock.dobj_list_transf]),
+                ),
+            ),
+        )
+        summary = str(pl.utilities.model_summary.ModelSummary(model, max_depth=max_depth))
+        return {"summary": summary}
+
+    def model_input_output_dimensions(self):
+        if not self.datamodule:
+            raise ValueError("DataModule is not loaded. Try loading a model first.")
+
+        inputdim, outputdim, summary = self.datamodule.summary_input_output_dimensions()
+        return {"msg": "", "summary": summary}
+
+    def all_block_names(self):
+        """
+        Returns all block names in the dataset.
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+
+        datablocks = flatten_dict(self.dataset.data_blocks)
+        names = [db.name for db in datablocks]
+        return names
+
+    def blocknames_from_dataobjects(self, dataobjects):
+        """
+        Returns the name of the block that contains the given dataobjects (given by their name).
+        """
+        datablocks = flatten_dict(self.dataset.data_blocks)  # list of all blocks
+
+        blocknames = []
+        for block in datablocks:
+            for dobjname in dataobjects:
+                if dobjname in block.names_list:
+                    blocknames.append(block.name)
+
+        return list(set(blocknames))
+
+
+# --------------------------------------------------------------
+# helper methods
+# --------------------------------------------------------------
+
+
+def _fig_output(fig, output_type):
+    if not fig:
+        return {"msg": "Plot failed."}
+
+    if output_type == "static":
+        imgstr = _fig_to_str(fig)
+        return {"msg": "Static plot has been created.", "imgstr": imgstr}
+
+    elif output_type == "interactive":
+        fig.show()
+        return {"msg": "Interactive plot has been launched in a new browser window."}
+
+
+def _fig_to_str(fig):
+    """
+    Convert a plotly figure graph to a string-encoded bytes.
+    """
+    img_bytes = base64.b64encode(fig.to_image())
+    img_string = img_bytes.decode("utf-8")
+    return img_string

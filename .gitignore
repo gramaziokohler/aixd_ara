@@ -101,7 +101,7 @@ ENV/
 .mypy_cache/
 
 # ==============================================================================
-# aixd_grasshopper
+# aixd_ara
 # ==============================================================================
 
 *.3dmbak
@@ -116,6 +116,6 @@ temp/**
 .vscode
 
 docs/api/generated/
-src/aixd_grasshopper/components/ghuser/
+src/aixd_ara/components/ghuser/
 
 conda.recipe/

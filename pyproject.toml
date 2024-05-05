@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 120
-extend-exclude = "src/aixd_grasshopper/components"
+extend-exclude = "src/aixd_ara/components"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -21,8 +21,8 @@ force_grid_wrap = 0
 use_parentheses = true
 force_single_line = true
 ensure_newline_before_comments = true
-known_first_party = "aixd_grasshopper"
+known_first_party = "aixd_ara"
 default_section = "THIRDPARTY"
-forced_separate = "test_aixd_grasshopper"
+forced_separate = "test_aixd_ara"
 skip = ["__init__.py"]
 

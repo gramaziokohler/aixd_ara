@@ -11,25 +11,25 @@ Grasshopper plugin for the AIXD toolkit.
 - flask
 
 #### Latest stable version
-Install `aixd_grasshopper` using `pip`
+Install `aixd_ara` using `pip`
 ```
-pip install aixd_grasshopper
+pip install aixd_ara
 ```
 
-Install `aixd_grasshopper` using `conda`:
+Install `aixd_ara` using `conda`:
 ```
-conda install -c conda-forge aixd_grasshopper
+conda install -c conda-forge aixd_ara
 ```
 
 **Note**: It is recommended to use virtual environments to manage the dependencies of your projects. If you are using 
 `conda`, you can create a new environment with `conda create -n myproject python=3.9` and then activate it with
-`conda activate myproject` before installing `aixd_grasshopper`.
+`conda activate myproject` before installing `aixd_ara`.
 
 #### Latest unstable version
 
 Install the latest version using `pip` from the git repository:
 ```
-pip install --upgrade git+https://github.com/gramaziokohler/aixd_grasshopper.git
+pip install --upgrade git+https://github.com/gramaziokohler/aixd_ara.git
 ```
 
 ## Development
@@ -37,8 +37,8 @@ pip install --upgrade git+https://github.com/gramaziokohler/aixd_grasshopper.git
 If you are going to develop on this repository, perform an installation from source:
 
 ```bash
-git clone https://github.com/gramaziokohler/aixd_grasshopper.git
-cd aixd_grasshopper
+git clone https://github.com/gramaziokohler/aixd_ara.git
+cd aixd_ara
 ```
 
 Then, install using conda, to install all the dependencies into a new environment called `aixd_gh`:
@@ -67,7 +67,7 @@ Check the [contribution guidelines](CONTRIBUTING.md) for more details.
 The structure we follow on the current repo is as follows:
 
 * `src` : for all source code.
-    * `src/aixd_grasshopper` : source code of `aixd_grasshopper` plugin.
-    * `src/aixd_grasshopper/components` : source code of the GH components.
-    * `src/aixd_grasshopper/ghuser_manual` : binary components, pre-built.
+    * `src/aixd_ara` : source code of `aixd_ara` plugin.
+    * `src/aixd_ara/components` : source code of the GH components.
+    * `src/aixd_ara/ghuser_manual` : binary components, pre-built.
     * `src/compas_aixd` : source code of the connector to COMPAS infrastructure.

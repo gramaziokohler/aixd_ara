@@ -4,7 +4,7 @@ import compas
 import numpy
 import pytest
 
-import aixd_grasshopper
+import aixd_ara
 
 
 def pytest_ignore_collect(path):
@@ -24,8 +24,8 @@ def add_compas(doctest_namespace):
 
 
 @pytest.fixture(autouse=True)
-def add_aixd_grasshopper(doctest_namespace):
-    doctest_namespace["aixd_grasshopper"] = aixd_grasshopper
+def add_aixd_ara(doctest_namespace):
+    doctest_namespace["aixd_ara"] = aixd_ara
 
 
 @pytest.fixture(autouse=True)
