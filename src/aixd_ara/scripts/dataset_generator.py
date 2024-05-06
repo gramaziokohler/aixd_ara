@@ -65,14 +65,14 @@ def analysis_callback(ghdoc, dp_samples, pa_names):
     # pass design parameters (sample by sample) to Grasshopper model and read the performance attributes
     for sample in dp_samples:
         for dp_name, dp_vals in sample.items():
-            component_name = "GENERATED_{}".format(dp_name)
+            component_name = "DP_{}".format(dp_name)
             component = find_component_by_nickname(ghdoc, component_name)
             ghparam_set_values(component, dp_vals, expire=False)
 
         pa_dict = {k: [] for k in pa_names}
         for pa_name in pa_names:
 
-            component_name = "REAL_{}".format(pa_name)
+            component_name = "PA_{}".format(pa_name)
             component = find_component_by_nickname(ghdoc, component_name)
             pa_vals = ghparam_get_values(component, compute=True)
             if isinstance(pa_vals, list):

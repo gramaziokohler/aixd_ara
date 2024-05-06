@@ -187,7 +187,7 @@ def instantiate_sample(ghdoc, sample_dict):
     """
 
     for dp_name, dp_vals in sample_dict["design_parameters"].items():
-        component_name = "GENERATED_{}".format(dp_name)
+        component_name = "DP_{}".format(dp_name)
         component = find_component_by_nickname(ghdoc, component_name)
 
         if not dp_vals:

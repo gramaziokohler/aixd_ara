@@ -26,8 +26,8 @@ with Grasshopper's **Param** components:
 
 Rename these components:
 
-- for inputs, use the names of the design parameters prefixed with ``GENERATED_``
-- for outputs, use the names of the performance attributes prefixed with ``REAL_``
+- for inputs, use the names of the design parameters prefixed with ``DP_`` (accronym for *Design Parameters*)
+- for outputs, use the names of the performance attributes prefixed with ``PA_`` (accronym for *Performance Attributes*).
 
 
 .. hint::
