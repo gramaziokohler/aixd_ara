@@ -10,7 +10,7 @@ The documentation of **AIXD: AI-eXtended Design** tookit can be found `here <htt
 
 DataBool
 --------
-.. image:: _images/icons/aixd_DataBool.png
+.. image:: _images/icons/ara_DataBool.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -29,7 +29,7 @@ Defines a boolean variable.
 
 DataCategorical
 ---------------
-.. image:: _images/icons/aixd_DataCat.png
+.. image:: _images/icons/ara_DataCat.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -49,7 +49,7 @@ Defines a categorical variable.
 
 DataInt
 -------
-.. image:: _images/icons/aixd_DataInt.png
+.. image:: _images/icons/ara_DataInt.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -69,7 +69,7 @@ Defines an integer-valued variable.
 
 DataObjectsNames
 ----------------
-.. image:: _images/icons/aixd_DataObjectsNames.png
+.. image:: _images/icons/ara_DataObjectsNames.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -84,7 +84,7 @@ Generates panels with list of names of data objects for all or selected data blo
 
 DataReal
 --------
-.. image:: _images/icons/aixd_DataReal.png
+.. image:: _images/icons/ara_DataReal.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -104,7 +104,7 @@ Defines a real-valued variable.
 
 DatasetCreate
 -------------
-.. image:: _images/icons/aixd_DatasetCreate.png
+.. image:: _images/icons/ara_DatasetCreate.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -124,7 +124,7 @@ Creates a dataset object. This defines the structure of the dataset. It does not
 
 DatasetGenerator
 ----------------
-.. image:: _images/icons/aixd_DatasetGenerator.png
+.. image:: _images/icons/ara_DatasetGenerator.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -138,7 +138,7 @@ Provides instructions on how to generate random samples for the dataset.
 
 DatasetLoad
 -----------
-.. image:: _images/icons/aixd_DatasetLoad.png
+.. image:: _images/icons/ara_DatasetLoad.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -156,7 +156,7 @@ Loads an existing dataset from the file system, from the location specified in t
 
 DatasetOneSample
 ----------------
-.. image:: _images/icons/aixd_DatasetOneSample.png
+.. image:: _images/icons/ara_DatasetOneSample.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -175,7 +175,7 @@ Retrieves one sample from the dataset (at a given or random index) and instantia
 
 DatasetSummary
 --------------
-.. image:: _images/icons/aixd_DatasetSummary.png
+.. image:: _images/icons/ara_DatasetSummary.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -193,7 +193,7 @@ Provides a summary of the dataset.
 
 Generator
 ---------
-.. image:: _images/icons/aixd_Generator.png
+.. image:: _images/icons/ara_Generator.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -216,7 +216,7 @@ Runs a generation campaing to create new designs using the trained model.
 
 ModelDimensions
 ---------------
-.. image:: _images/icons/aixd_ModelDims.png
+.. image:: _images/icons/ara_ModelDims.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -234,7 +234,7 @@ Retrieves dimensions of the model's input and output layers.
 
 ModelLoad
 ---------
-.. image:: _images/icons/aixd_ModelLoad.png
+.. image:: _images/icons/ara_ModelLoad.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -255,7 +255,7 @@ Loads an existing, pre-traind neural network model from a checkpoint.
 
 ModelSetup
 ----------
-.. image:: _images/icons/aixd_ModelSetup.png
+.. image:: _images/icons/ara_ModelSetup.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -280,7 +280,7 @@ Sets up an autoencoder model of the specified type with the given parameters.
 
 ModelSummary
 ------------
-.. image:: _images/icons/aixd_ModelSummary.png
+.. image:: _images/icons/ara_ModelSummary.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -299,7 +299,7 @@ Provides a summary of the autoencoder model's architecture.
 
 ModelTrain
 ----------
-.. image:: _images/icons/aixd_ModelTrain.png
+.. image:: _images/icons/ara_ModelTrain.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -320,7 +320,7 @@ Runs a training campaign.
 
 PlotContours
 ------------
-.. image:: _images/icons/aixd_PlotContours.png
+.. image:: _images/icons/ara_PlotContours.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -341,7 +341,7 @@ Plots the distribution contours for each pair of variables from the data in the 
 
 PlotContoursRequest
 -------------------
-.. image:: _images/icons/aixd_PlotContoursRequest.png
+.. image:: _images/icons/ara_PlotContoursRequest.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -362,7 +362,7 @@ Plots the requested and predicted values against the distribution contours for e
 
 PlotCorrelations
 ----------------
-.. image:: _images/icons/aixd_PlotCorrelations.png
+.. image:: _images/icons/ara_PlotCorrelations.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -383,7 +383,7 @@ Plots correlation matrix for the given variables from the data in the dataset.
 
 PlotDistribution
 ----------------
-.. image:: _images/icons/aixd_PlotDistributions.png
+.. image:: _images/icons/ara_PlotDistributions.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -404,7 +404,7 @@ Plots the distribution of the given variables from the data in the dataset.
 
 ProjectSetup
 ------------
-.. image:: _images/icons/aixd_ProjectSetup.png
+.. image:: _images/icons/ara_ProjectSetup.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -425,7 +425,7 @@ Sets up the project in the folder given by `project_root/project_name`.
 
 Reset
 -----
-.. image:: _images/icons/aixd_Reset.png
+.. image:: _images/icons/ara_Reset.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -439,7 +439,7 @@ Resets the current project running in this Grasshopper file.
 
 Server
 ------
-.. image:: _images/icons/aixd_Server.png
+.. image:: _images/icons/ara_Server.png
 	:align: left
 	:height: 24
 	:width: 24
@@ -459,7 +459,7 @@ Starts and stops the app server.
 
 ShowFolder
 ----------
-.. image:: _images/icons/aixd_ShowFolder.png
+.. image:: _images/icons/ara_ShowFolder.png
 	:align: left
 	:height: 24
 	:width: 24
