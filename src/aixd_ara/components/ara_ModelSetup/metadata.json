@@ -1,7 +1,7 @@
 {
     "name": "ModelSetup",
     "nickname": "ModelSetup",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "3 Model",
     "description": "Sets up an autoencoder model of the specified type with the given parameters.",
     "exposure": 2,

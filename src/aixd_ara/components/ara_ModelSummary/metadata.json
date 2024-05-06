@@ -1,7 +1,7 @@
 {
     "name": "ModelSummary",
     "nickname": "ModelSummary",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "3 Model",
     "description": "Provides a summary of the autoencoder model's architecture.",
     "exposure": 4,

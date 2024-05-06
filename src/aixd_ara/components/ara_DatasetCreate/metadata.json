@@ -1,7 +1,7 @@
 {
     "name": "DatasetCreate",
     "nickname": "DatasetCreate",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "2 Dataset",
     "description": "Creates a dataset object. This defines the structure of the dataset. It does not cointain any data.",
     "exposure": 2,

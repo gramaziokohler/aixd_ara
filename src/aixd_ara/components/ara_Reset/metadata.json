@@ -1,7 +1,7 @@
 {
     "name": "Reset",
     "nickname": "Reset",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "0 Main",
     "description": "Resets the current project running in this Grasshopper file.",
     "exposure": 4,

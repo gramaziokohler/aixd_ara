@@ -1,7 +1,7 @@
 {
     "name": "DataCategorical",
     "nickname": "DataCat",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "1 Data",
     "description": "Defines a categorical variable.",
     "exposure": 2,

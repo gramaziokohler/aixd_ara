@@ -1,7 +1,7 @@
 {
     "name": "ProjectSetup",
     "nickname": "ProjectSetup",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "0 Main",
     "description": "Sets up the project in the folder given by `project_root/project_name`.",
     "exposure": 2,

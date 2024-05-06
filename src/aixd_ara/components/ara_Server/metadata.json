@@ -1,7 +1,7 @@
 {
     "name": "Server",
     "nickname": "Server",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "0 Main",
     "description": "Starts and stops the app server.",
     "exposure": 2,

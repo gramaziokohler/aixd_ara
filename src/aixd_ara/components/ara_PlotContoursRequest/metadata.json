@@ -1,7 +1,7 @@
 {
     "name": "PlotContoursRequest",
     "nickname": "PlotContReq",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "5 Plotter",
     "description": "Plots the requested and predicted values against the distribution contours for each pair of the corresponding variables.",
     "exposure": 2,

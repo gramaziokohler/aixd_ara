@@ -1,7 +1,7 @@
 {
     "name": "DataBool",
     "nickname": "DataBool",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "1 Data",
     "description": "Defines a boolean variable.",
     "exposure": 2,

@@ -1,7 +1,7 @@
 {
     "name": "DataObjectsNames",
     "nickname": "DataObjectsNames",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "1 Data",
     "description": "Generates panels with list of names of data objects for all or selected data blocks. Data block names are: 'design_parameters','performance_attributes','inputML','outputML'. " ,
     "exposure": 4,

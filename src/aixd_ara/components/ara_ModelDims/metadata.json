@@ -1,7 +1,7 @@
 {
     "name": "ModelDimensions",
     "nickname": "ModelDims",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "3 Model",
     "description": "Retrieves dimensions of the model's input and output layers.",
     "exposure": 4,

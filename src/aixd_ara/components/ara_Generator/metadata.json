@@ -1,7 +1,7 @@
 {
     "name": "Generator",
     "nickname": "Generator",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "4 Generator",
     "description": "Runs a generation campaing to create new designs using the trained model.",
     "exposure": 2,

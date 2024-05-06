@@ -1,7 +1,7 @@
 {
     "name": "ModelTrain",
     "nickname": "ModelTrain",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "3 Model",
     "description": "Runs a training campaign.",
     "exposure": 2,

@@ -1,7 +1,7 @@
 {
     "name": "ModelLoad",
     "nickname": "ModelLoad",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "3 Model",
     "description": "Loads an existing, pre-traind neural network model from a checkpoint.",
     "exposure": 2,

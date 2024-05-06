@@ -1,7 +1,7 @@
 {
     "name": "PlotDistribution",
     "nickname": "PlotDistribution",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "5 Plotter",
     "description": "Plots the distribution of the given variables from the data in the dataset.",
     "exposure": 2,

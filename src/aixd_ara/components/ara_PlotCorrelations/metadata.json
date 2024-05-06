@@ -1,7 +1,7 @@
 {
     "name": "PlotCorrelations",
     "nickname": "PlotCorrelations",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "5 Plotter",
     "description": "Plots correlation matrix for the given variables from the data in the dataset.",
     "exposure": 2,

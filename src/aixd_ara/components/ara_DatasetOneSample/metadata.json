@@ -1,7 +1,7 @@
 {
     "name": "DatasetOneSample",
     "nickname": "DatasetOneSample",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "2 Dataset",
     "description": "Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.",
     "exposure": 4,

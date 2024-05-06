@@ -1,7 +1,7 @@
 {
     "name": "DatasetGenerator",
     "nickname": "DatasetGen",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "2 Dataset",
     "description": "Provides instructions on how to generate random samples for the dataset.",
     "exposure": 2,

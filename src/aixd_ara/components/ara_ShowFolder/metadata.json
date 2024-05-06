@@ -1,7 +1,7 @@
 {
     "name": "ShowFolder",
     "nickname": "ShowFolder",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "0 Main",
     "description": "Reveals the folder in the file explorer.",
     "exposure": 4,

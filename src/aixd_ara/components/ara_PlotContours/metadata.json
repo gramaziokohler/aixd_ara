@@ -1,7 +1,7 @@
 {
     "name": "PlotContours",
     "nickname": "PlotContours",
-    "category": "AIXD",
+    "category": "ARA",
     "subcategory": "5 Plotter",
     "description": "Plots the distribution contours for each pair of variables from the data in the dataset.",
     "exposure": 2,
