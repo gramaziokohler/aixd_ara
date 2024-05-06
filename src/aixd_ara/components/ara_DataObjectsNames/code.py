@@ -39,12 +39,11 @@ gap = 50
 
 errors = ""
 
-if not datablock:
-    datablock = ["design_parameters", "performance_attributes", "inputML", "outputML"]  # all datablock names
+datablocks = ["design_parameters", "performance_attributes", "inputML", "outputML"]  # all datablock names
 
 if get_names:
 
-    for i, datablock_nickname in enumerate(datablock):
+    for i, datablock_nickname in enumerate(datablocks):
         panel_title = datablock_nickname
         response = get_dataobject_names_from_block(session_id(), datablock_nickname)
         text_items = response["names"]

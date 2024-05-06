@@ -74,12 +74,11 @@ DataObjectsNames
 	:height: 24
 	:width: 24
 
-Generates panels with list of names of data objects for all or selected data blocks. Data block names are: 'design_parameters','performance_attributes','inputML','outputML'. 
+Generates panels with list of names of data objects for all existing data blocks.
 
 
 **Inputs**
 
-- **datablock** *[List of (str)]* -- Name(s) of the datablock(s).
 - **get_names** *(bool)* -- Set to True to run.
 
 DataReal
@@ -266,8 +265,8 @@ Sets up an autoencoder model of the specified type with the given parameters.
 **Inputs**
 
 - **model_type** *(str)* -- Type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.
-- **inputML** *[List of (str)]* -- List of variable names to be used as input to the model.
-- **outputML** *[List of (str)]* -- List of variable names to be used as output from the model.
+- **features** *[List of (str)]* -- List of variable names to be used as input to the model.
+- **targets** *[List of (str)]* -- List of variable names to be used as output from the model.
 - **latent_dim** *(int)* -- Dimension of the latent space.
 - **hidden_layers** *[List of (int)]* -- Width of each hidden layer (list of int).
 - **batch_size** *(int)* -- Size of the training batches

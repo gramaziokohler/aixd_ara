@@ -9,8 +9,8 @@ cid = component_id(session_id(), ghenv.Component, "ModelSetup")
 
 settings = {
     "model_type": model_type,
-    "inputML": inputML,
-    "outputML": outputML,
+    "inputML": features,
+    "outputML": targets,
     "latent_dim": latent_dim,
     "hidden_layers": hidden_layers,
     "batch_size": batch_size,

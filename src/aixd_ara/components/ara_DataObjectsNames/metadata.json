@@ -3,18 +3,12 @@
     "nickname": "DataObjectsNames",
     "category": "ARA",
     "subcategory": "1 Data",
-    "description": "Generates panels with list of names of data objects for all or selected data blocks. Data block names are: 'design_parameters','performance_attributes','inputML','outputML'. " ,
+    "description": "Generates panels with list of names of data objects for all existing data blocks." ,
     "exposure": 4,
     "ghpython": {
         "isAdvancedMode": false,
         "iconDisplay": 0,
         "inputParameters": [
-            {
-                "name": "datablock",
-                "description": "Name(s) of the datablock(s).",
-                "typeHintID": "str",
-                "scriptParamAccess": 1
-            },
             {
                 "name": "get_names",
                 "description": "Set to True to run.",
