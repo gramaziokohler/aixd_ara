@@ -16,13 +16,13 @@
                 "scriptParamAccess": 0
             },
             {
-                "name": "inputML",
+                "name": "features",
                 "description": "List of variable names to be used as input to the model.",
                 "typeHintID": "str",
                 "scriptParamAccess": 1
             },
             {
-                "name": "outputML",
+                "name": "targets",
                 "description": "List of variable names to be used as output from the model.",
                 "typeHintID": "str",
                 "scriptParamAccess": 1
