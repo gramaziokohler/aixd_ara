@@ -1,4 +1,4 @@
-name: aixd_gh
+name: aixd_ara
 channels:
     - conda-forge
 dependencies:

@@ -1,4 +1,4 @@
-# AI-eXtended Design (AIXD): Grasshopper plugin
+# ARA: AIXD Grasshopper plugin
 
 Grasshopper plugin for the AIXD toolkit.
 
@@ -11,14 +11,20 @@ Grasshopper plugin for the AIXD toolkit.
 - flask
 
 #### Latest stable version
+
 Install `aixd_ara` using `pip`
-```
+```bash
 pip install aixd_ara
 ```
 
 Install `aixd_ara` using `conda`:
-```
+```bash
 conda install -c conda-forge aixd_ara
+```
+
+Install the plugin in Rhino/GH using the following command:
+```bash
+python -m compas_rhino.install -v 7.0
 ```
 
 **Note**: It is recommended to use virtual environments to manage the dependencies of your projects. If you are using 
@@ -28,7 +34,7 @@ conda install -c conda-forge aixd_ara
 #### Latest unstable version
 
 Install the latest version using `pip` from the git repository:
-```
+```bash
 pip install --upgrade git+https://github.com/gramaziokohler/aixd_ara.git
 ```
 
@@ -41,7 +47,7 @@ git clone https://github.com/gramaziokohler/aixd_ara.git
 cd aixd_ara
 ```
 
-Then, install using conda, to install all the dependencies into a new environment called `aixd_gh`:
+Then, use conda to install all the dependencies into a new environment called `aixd_ara`:
 ```bash
 conda env create -f environment.yml
 ```
