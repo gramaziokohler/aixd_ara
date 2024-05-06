@@ -17,7 +17,7 @@
             },
             {
                 "name": "project_root",
-                "description": "Path to the project root folder.",
+                "description": "Path to the project root folder. If none is given, the default is the parent folder of this Grasshopper file.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
             },

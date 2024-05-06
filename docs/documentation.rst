@@ -414,7 +414,7 @@ Sets up the project in the folder given by `project_root/project_name`.
 **Inputs**
 
 - **set** *(bool)* -- 
-- **project_root** *(str)* -- Path to the project root folder.
+- **project_root** *(str)* -- Path to the project root folder. If none is given, the default is the parent folder of this Grasshopper file.
 - **project_name** *(str)* -- Any name for the project. It will be used to create a folder with the same name in the project root folder. All files will be later saved here.
 
 **Outputs**
