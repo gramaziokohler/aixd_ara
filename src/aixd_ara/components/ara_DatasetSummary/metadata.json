@@ -1,0 +1,27 @@
+{
+    "name": "DatasetSummary",
+    "nickname": "DatasetSummary",
+    "category": "ARA",
+    "subcategory": "2 Dataset",
+    "description": "Provides a summary of the dataset.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "get",
+                "description": "Set to True to get the summary of the dataset.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "summary",
+                "description": "Summary of the dataset."
+            }
+        ]
+    }
+}

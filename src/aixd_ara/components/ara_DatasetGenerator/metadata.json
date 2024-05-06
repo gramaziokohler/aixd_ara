@@ -1,0 +1,19 @@
+{
+    "name": "DatasetGenerator",
+    "nickname": "DatasetGen",
+    "category": "ARA",
+    "subcategory": "2 Dataset",
+    "description": "Provides instructions on how to generate random samples for the dataset.",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [],
+        "outputParameters": [
+            {
+                "name": "instructions",
+                "description": "Information on how to run the `dataset_generator` script."
+            }
+        ]
+    }
+}

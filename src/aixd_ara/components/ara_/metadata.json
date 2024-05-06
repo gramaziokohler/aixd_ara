@@ -1,0 +1,27 @@
+{
+    "name": "",
+    "nickname": "",
+    "category": "ARA",
+    "subcategory": "",
+    "description": "",
+    "exposure": -1,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "",
+                "description": "",
+                "typeHintID": "none",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "",
+                "description": ""
+            }
+        ]
+    }
+}

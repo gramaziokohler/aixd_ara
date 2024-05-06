@@ -1,0 +1,27 @@
+{
+    "name": "ModelDimensions",
+    "nickname": "ModelDims",
+    "category": "ARA",
+    "subcategory": "3 Model",
+    "description": "Retrieves dimensions of the model's input and output layers.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "get",
+                "description": "Set to True to retrieve input and output dimensions of the model.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "summary",
+                "description": "Summary of the model's input and output dimensions."
+            }
+        ]
+    }
+}

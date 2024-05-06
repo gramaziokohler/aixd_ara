@@ -1,0 +1,39 @@
+{
+    "name": "Server",
+    "nickname": "Server",
+    "category": "ARA",
+    "subcategory": "0 Main",
+    "description": "Starts and stops the app server.",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": true,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "start",
+                "description": "Starts the server.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "stop",
+                "description": "Stops the server.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "show_window",
+                "description": "If True, the server window will be shown. If False, the server window will be hidden. Default: True.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "msg",
+                "description": "Messages or errors."
+            }
+        ]
+    }
+}

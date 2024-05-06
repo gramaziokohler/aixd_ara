@@ -1,0 +1,56 @@
+{
+    "name": "Generator",
+    "nickname": "Generator",
+    "category": "ARA",
+    "subcategory": "4 Generator",
+    "description": "Runs a generation campaing to create new designs using the trained model.",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "requested_values",
+                "description": "List of requested values, each formatted as a string with the following format: 'variable_name:value'.",
+                "typeHintID": "str",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "n_designs",
+                "description": "Number of designs to generate.",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "generate",
+                "description": "Set to True to start the generation process.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "clear",
+                "description": "Forget the previously generated designs.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "pick_previous",
+                "description": "Iterate backward through the list of generated designs, instantiate the previous sample.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "pick_next",
+                "description": "Iterate forward through the list of generated designs, instantiate the next sample.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+        "outputParameters": [
+            {
+                "name": "sample_summary",
+                "description": "Selected sample."
+            }
+        ]
+    }
+}

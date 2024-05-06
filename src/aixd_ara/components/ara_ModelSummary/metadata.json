@@ -1,0 +1,34 @@
+{
+    "name": "ModelSummary",
+    "nickname": "ModelSummary",
+    "category": "ARA",
+    "subcategory": "3 Model",
+    "description": "Provides a summary of the autoencoder model's architecture.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "max_depth",
+                "description": "Sets the depth of the summary. The larger the depth, the more detailed the summary.",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "get",
+                "description": "Retrieves the model information.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+
+        ],
+
+        "outputParameters": [
+            {
+                "name": "summary",
+                "description": "Model summary."
+            }
+        ]
+    }
+}

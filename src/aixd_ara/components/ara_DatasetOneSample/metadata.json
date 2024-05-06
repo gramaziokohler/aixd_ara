@@ -1,0 +1,33 @@
+{
+    "name": "DatasetOneSample",
+    "nickname": "DatasetOneSample",
+    "category": "ARA",
+    "subcategory": "2 Dataset",
+    "description": "Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "item",
+                "description": "Index of the sample in the dataset, optional. If not provided, a random index will be selected.",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "get",
+                "description": "Set to True to retrieve a sample.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "sample_summary",
+                "description": "Summary of the retrieved sample."
+            }
+        ]
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "name": "ShowFolder",
+    "nickname": "ShowFolder",
+    "category": "ARA",
+    "subcategory": "0 Main",
+    "description": "Reveals the folder in the file explorer.",
+    "exposure": 4,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "path",
+                "description": "Path to the (local) folder.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "open",
+                "description": "Set to True to open the folder in the file explorer.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+        ]
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "name": "DatasetCreate",
+    "nickname": "DatasetCreate",
+    "category": "ARA",
+    "subcategory": "2 Dataset",
+    "description": "Creates a dataset object. This defines the structure of the dataset. It does not cointain any data.",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "design_parameters",
+                "description": "Design parameters: list of data objects.",
+                "typeHintID": "none",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "performance_attributes",
+                "description": "Performance attributes: list of data objects.",
+                "typeHintID": "none",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "create",
+                "description": "Set to True to create a dataset object. If a dataset already exists in the project path, nothing will happen. To create a new dataset, change the project path or dataset name or delete the existing dataset.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "msg",
+                "description": "Message or error."
+            }
+        ]
+    }
+}

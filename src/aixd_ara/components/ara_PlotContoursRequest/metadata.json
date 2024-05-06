@@ -1,0 +1,44 @@
+{
+    "name": "PlotContoursRequest",
+    "nickname": "PlotContReq",
+    "category": "ARA",
+    "subcategory": "5 Plotter",
+    "description": "Plots the requested and predicted values against the distribution contours for each pair of the corresponding variables.",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "request",
+                "description": "List of requested values, each formatted as a string with the following format: 'variable_name:value'.",
+                "typeHintID": "str",
+                "scriptParamAccess": 1
+            },
+            {
+                "name": "output_type",
+                "description": "Plot type: 'static' creates a bitmap image, 'interactive' launches an interactive plot in a browser.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "plot",
+                "description": "Set to True to (re-)create the plot.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "scale",
+                "description": "Resize factor for the static plot.",
+                "typeHintID": "float",
+                "scriptParamAccess": 0
+            }
+        ],
+        "outputParameters": [
+            {
+                "name": "img",
+                "description": "Bitmap image if output_type is 'static', otherwise None."
+            }
+        ]
+    }
+}

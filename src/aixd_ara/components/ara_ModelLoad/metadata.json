@@ -1,0 +1,45 @@
+{
+    "name": "ModelLoad",
+    "nickname": "ModelLoad",
+    "category": "ARA",
+    "subcategory": "3 Model",
+    "description": "Loads an existing, pre-traind neural network model from a checkpoint.",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "model_type",
+                "description": "Type of the autoencoder model. Options are: 'CAE' (conditional Autoencoder) and 'CVAE' (conditional Variational Autoencoder). Default: 'CAE'.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "checkpoint_name",
+                "description": "Name of the checkpoint file to load the model from, without the file extension. The file's extension must be .ckpt",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "checkpoint_path",
+                "description": "Path to the directory containing the checkpoint file.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "load",
+                "description": "Set to True to load the model.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "msg",
+                "description": "Confirmation of the model loading, or an error message."
+            }
+        ]
+    }
+}

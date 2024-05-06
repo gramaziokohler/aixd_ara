@@ -1,0 +1,27 @@
+{
+    "name": "DatasetLoad",
+    "nickname": "DatasetLoad",
+    "category": "ARA",
+    "subcategory": "2 Dataset",
+    "description": "Loads an existing dataset from the file system, from the location specified in the project setup. It loads the dataset object and the data into the app.",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "load",
+                "description": "Set to True to load the dataset.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "msg",
+                "description": ""
+            }
+        ]
+    }
+}
