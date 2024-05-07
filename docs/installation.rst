@@ -42,7 +42,7 @@ To install `ara_aixd` using ``pip``, execute the following command:
 
     pip install ara_aixd
 
-And then install the plugin in Rhino/GH using the following command:
+And then install the plugin in Rhino/Grasshopper using the following command:
 
 .. code-block:: bash
 
