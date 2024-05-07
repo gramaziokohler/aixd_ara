@@ -22,7 +22,7 @@ Install `aixd_ara` using `conda`:
 conda install -c conda-forge aixd_ara
 ```
 
-Install the plugin in Rhino/GH using the following command:
+Install the plugin in Rhino/Grasshopper using the following command:
 ```bash
 python -m compas_rhino.install -v 7.0
 ```
