@@ -1,0 +1,997 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <link rel="icon" href="_static/ara_logo.png" sizes="1000x1000" type="image/png">
+    <title>Documentation &#8212; ARA</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/compas.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/ara_style.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'documentation';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/gramaziokohler/aixd_ara/gh-pages/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
+        </script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/ara_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/compas_icon_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">ARA</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <!-- <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="license.html">
+                        License
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="authors.html">
+                        Authors
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul> -->
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      latest  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/gramaziokohler/aixd_ara" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="http://forum.compas-framework.org/" title="Discourse" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-discourse"></i></span>
+            <label class="sr-only">Discourse</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/aixd_ara/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-python"></i></span>
+            <label class="sr-only">PyPI</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <!-- <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="license.html">
+                        License
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="authors.html">
+                        Authors
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul> -->
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      latest  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/gramaziokohler/aixd_ara" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="http://forum.compas-framework.org/" title="Discourse" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-discourse"></i></span>
+            <label class="sr-only">Discourse</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/aixd_ara/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-python"></i></span>
+            <label class="sr-only">PyPI</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="sidebar-primary-item"><div class="sidebar-primary-item">
+    <a href="https://compas.dev" target="_blank">
+        COMPAS.dev <i class="fa fa-external-link" aria-hidden="true"></i>
+    </a>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Documentation</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="documentation">
+<span id="id1"></span><h1>Documentation</h1>
+<p>This is the documentation of the Grasshopper components in <strong>ARA</strong>.</p>
+<p>The documentation of <strong>AIXD: AI-eXtended Design</strong> tookit can be found <a class="reference external" href="https://aixd.ethz.ch/docs/api.html">here</a>.</p>
+<section id="databool">
+<h2>DataBool</h2>
+<a class="reference internal image-reference" href="_images/ara_DataBool.png"><img alt="_images/ara_DataBool.png" class="align-left" src="_images/ara_DataBool.png" style="width: 24px; height: 24px;" /></a>
+<p>Defines a boolean variable.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>name</strong> <em>(str)</em> – Name of the variable.</p></li>
+<li><p><strong>dim</strong> <em>(int)</em> – Dimension of the variable.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>dataobject</strong> – Data object.</p></li>
+</ul>
+</section>
+<section id="datacategorical">
+<h2>DataCategorical</h2>
+<a class="reference internal image-reference" href="_images/ara_DataCat.png"><img alt="_images/ara_DataCat.png" class="align-left" src="_images/ara_DataCat.png" style="width: 24px; height: 24px;" /></a>
+<p>Defines a categorical variable.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>name</strong> <em>(str)</em> – Name of the variable.</p></li>
+<li><p><strong>dim</strong> <em>(int)</em> – Dimension of the variable.</p></li>
+<li><p><strong>options</strong> <em>[List of (str)]</em> – Options: list of possible categories, as strings.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>dataobject</strong> – Data object.</p></li>
+</ul>
+</section>
+<section id="dataint">
+<h2>DataInt</h2>
+<a class="reference internal image-reference" href="_images/ara_DataInt.png"><img alt="_images/ara_DataInt.png" class="align-left" src="_images/ara_DataInt.png" style="width: 24px; height: 24px;" /></a>
+<p>Defines an integer-valued variable.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>name</strong> <em>(str)</em> – Name of the variable.</p></li>
+<li><p><strong>dim</strong> <em>(int)</em> – Dimension of the variable.</p></li>
+<li><p><strong>domain</strong> <em>(interval)</em> – Domain of the variable as an interval.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>dataobject</strong> – Data object.</p></li>
+</ul>
+</section>
+<section id="dataobjectsnames">
+<h2>DataObjectsNames</h2>
+<a class="reference internal image-reference" href="_images/ara_DataObjectsNames.png"><img alt="_images/ara_DataObjectsNames.png" class="align-left" src="_images/ara_DataObjectsNames.png" style="width: 24px; height: 24px;" /></a>
+<p>Generates panels with list of names of data objects for all existing data blocks.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>get_names</strong> <em>(bool)</em> – Set to True to run.</p></li>
+</ul>
+</section>
+<section id="datareal">
+<h2>DataReal</h2>
+<a class="reference internal image-reference" href="_images/ara_DataReal.png"><img alt="_images/ara_DataReal.png" class="align-left" src="_images/ara_DataReal.png" style="width: 24px; height: 24px;" /></a>
+<p>Defines a real-valued variable.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>name</strong> <em>(str)</em> – Name of the variable.</p></li>
+<li><p><strong>dim</strong> <em>(int)</em> – Dimension of the variable.</p></li>
+<li><p><strong>domain</strong> <em>(interval)</em> – Domain of the variable as an interval.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>dataobject</strong> – Data object.</p></li>
+</ul>
+</section>
+<section id="datasetcreate">
+<h2>DatasetCreate</h2>
+<a class="reference internal image-reference" href="_images/ara_DatasetCreate.png"><img alt="_images/ara_DatasetCreate.png" class="align-left" src="_images/ara_DatasetCreate.png" style="width: 24px; height: 24px;" /></a>
+<p>Creates a dataset object. This defines the structure of the dataset. It does not cointain any data.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>design_parameters</strong> <em>[List of (none)]</em> – Design parameters: list of data objects.</p></li>
+<li><p><strong>performance_attributes</strong> <em>[List of (none)]</em> – Performance attributes: list of data objects.</p></li>
+<li><p><strong>create</strong> <em>(bool)</em> – Set to True to create a dataset object. If a dataset already exists in the project path, nothing will happen. To create a new dataset, change the project path or dataset name or delete the existing dataset.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>msg</strong> – Message or error.</p></li>
+</ul>
+</section>
+<section id="datasetgenerator">
+<h2>DatasetGenerator</h2>
+<a class="reference internal image-reference" href="_images/ara_DatasetGenerator.png"><img alt="_images/ara_DatasetGenerator.png" class="align-left" src="_images/ara_DatasetGenerator.png" style="width: 24px; height: 24px;" /></a>
+<p>Provides instructions on how to generate random samples for the dataset.</p>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>instructions</strong> – Information on how to run the <cite>dataset_generator</cite> script.</p></li>
+</ul>
+</section>
+<section id="datasetload">
+<h2>DatasetLoad</h2>
+<a class="reference internal image-reference" href="_images/ara_DatasetLoad.png"><img alt="_images/ara_DatasetLoad.png" class="align-left" src="_images/ara_DatasetLoad.png" style="width: 24px; height: 24px;" /></a>
+<p>Loads an existing dataset from the file system, from the location specified in the project setup. It loads the dataset object and the data into the app.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>load</strong> <em>(bool)</em> – Set to True to load the dataset.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>msg</strong> –</p></li>
+</ul>
+</section>
+<section id="datasetonesample">
+<h2>DatasetOneSample</h2>
+<a class="reference internal image-reference" href="_images/ara_DatasetOneSample.png"><img alt="_images/ara_DatasetOneSample.png" class="align-left" src="_images/ara_DatasetOneSample.png" style="width: 24px; height: 24px;" /></a>
+<p>Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>item</strong> <em>(int)</em> – Index of the sample in the dataset, optional. If not provided, a random index will be selected.</p></li>
+<li><p><strong>get</strong> <em>(bool)</em> – Set to True to retrieve a sample.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>sample_summary</strong> – Summary of the retrieved sample.</p></li>
+</ul>
+</section>
+<section id="datasetsummary">
+<h2>DatasetSummary</h2>
+<a class="reference internal image-reference" href="_images/ara_DatasetSummary.png"><img alt="_images/ara_DatasetSummary.png" class="align-left" src="_images/ara_DatasetSummary.png" style="width: 24px; height: 24px;" /></a>
+<p>Provides a summary of the dataset.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>get</strong> <em>(bool)</em> – Set to True to get the summary of the dataset.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>summary</strong> – Summary of the dataset.</p></li>
+</ul>
+</section>
+<section id="generator">
+<h2>Generator</h2>
+<a class="reference internal image-reference" href="_images/ara_Generator.png"><img alt="_images/ara_Generator.png" class="align-left" src="_images/ara_Generator.png" style="width: 24px; height: 24px;" /></a>
+<p>Runs a generation campaing to create new designs using the trained model.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>requested_values</strong> <em>[List of (str)]</em> – List of requested values, each formatted as a string with the following format: ‘variable_name:value’.</p></li>
+<li><p><strong>n_designs</strong> <em>(int)</em> – Number of designs to generate.</p></li>
+<li><p><strong>generate</strong> <em>(bool)</em> – Set to True to start the generation process.</p></li>
+<li><p><strong>clear</strong> <em>(bool)</em> – Forget the previously generated designs.</p></li>
+<li><p><strong>pick_previous</strong> <em>(bool)</em> – Iterate backward through the list of generated designs, instantiate the previous sample.</p></li>
+<li><p><strong>pick_next</strong> <em>(bool)</em> – Iterate forward through the list of generated designs, instantiate the next sample.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>sample_summary</strong> – Selected sample.</p></li>
+</ul>
+</section>
+<section id="modeldimensions">
+<h2>ModelDimensions</h2>
+<a class="reference internal image-reference" href="_images/ara_ModelDims.png"><img alt="_images/ara_ModelDims.png" class="align-left" src="_images/ara_ModelDims.png" style="width: 24px; height: 24px;" /></a>
+<p>Retrieves dimensions of the model’s input and output layers.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>get</strong> <em>(bool)</em> – Set to True to retrieve input and output dimensions of the model.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>summary</strong> – Summary of the model’s input and output dimensions.</p></li>
+</ul>
+</section>
+<section id="modelload">
+<h2>ModelLoad</h2>
+<a class="reference internal image-reference" href="_images/ara_ModelLoad.png"><img alt="_images/ara_ModelLoad.png" class="align-left" src="_images/ara_ModelLoad.png" style="width: 24px; height: 24px;" /></a>
+<p>Loads an existing, pre-traind neural network model from a checkpoint.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>model_type</strong> <em>(str)</em> – Type of the autoencoder model. Options are: ‘CAE’ (conditional Autoencoder) and ‘CVAE’ (conditional Variational Autoencoder). Default: ‘CAE’.</p></li>
+<li><p><strong>checkpoint_name</strong> <em>(str)</em> – Name of the checkpoint file to load the model from, without the file extension. The file’s extension must be .ckpt</p></li>
+<li><p><strong>checkpoint_path</strong> <em>(str)</em> – Path to the directory containing the checkpoint file.</p></li>
+<li><p><strong>load</strong> <em>(bool)</em> – Set to True to load the model.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>msg</strong> – Confirmation of the model loading, or an error message.</p></li>
+</ul>
+</section>
+<section id="modelsetup">
+<h2>ModelSetup</h2>
+<a class="reference internal image-reference" href="_images/ara_ModelSetup.png"><img alt="_images/ara_ModelSetup.png" class="align-left" src="_images/ara_ModelSetup.png" style="width: 24px; height: 24px;" /></a>
+<p>Sets up an autoencoder model of the specified type with the given parameters.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>model_type</strong> <em>(str)</em> – Type of the autoencoder model. Options are: ‘CAE’ (conditional Autoencoder) and ‘CVAE’ (conditional Variational Autoencoder). Default: ‘CAE’.</p></li>
+<li><p><strong>features</strong> <em>[List of (str)]</em> – List of variable names to be used as input to the model.</p></li>
+<li><p><strong>targets</strong> <em>[List of (str)]</em> – List of variable names to be used as output from the model.</p></li>
+<li><p><strong>latent_dim</strong> <em>(int)</em> – Dimension of the latent space.</p></li>
+<li><p><strong>hidden_layers</strong> <em>[List of (int)]</em> – Width of each hidden layer (list of int).</p></li>
+<li><p><strong>batch_size</strong> <em>(int)</em> – Size of the training batches</p></li>
+<li><p><strong>set</strong> <em>(bool)</em> – Set to True to set up the model.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>quick_summary</strong> – Quick summary of the model.</p></li>
+<li><p><strong>model_dims</strong> – Input and output dimensions of the model.</p></li>
+</ul>
+</section>
+<section id="modelsummary">
+<h2>ModelSummary</h2>
+<a class="reference internal image-reference" href="_images/ara_ModelSummary.png"><img alt="_images/ara_ModelSummary.png" class="align-left" src="_images/ara_ModelSummary.png" style="width: 24px; height: 24px;" /></a>
+<p>Provides a summary of the autoencoder model’s architecture.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>max_depth</strong> <em>(int)</em> – Sets the depth of the summary. The larger the depth, the more detailed the summary.</p></li>
+<li><p><strong>get</strong> <em>(bool)</em> – Retrieves the model information.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>summary</strong> – Model summary.</p></li>
+</ul>
+</section>
+<section id="modeltrain">
+<h2>ModelTrain</h2>
+<a class="reference internal image-reference" href="_images/ara_ModelTrain.png"><img alt="_images/ara_ModelTrain.png" class="align-left" src="_images/ara_ModelTrain.png" style="width: 24px; height: 24px;" /></a>
+<p>Runs a training campaign.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>epochs</strong> <em>(int)</em> – Number of training epochs.</p></li>
+<li><p><strong>wb</strong> <em>(str)</em> – Weights&amp;Biases: username or team name. If not set, W&amp;B will not be used.</p></li>
+<li><p><strong>run</strong> <em>(bool)</em> – Set to True to start training.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>best_ckpt</strong> – Filename of the best performing checkpoint.</p></li>
+<li><p><strong>path</strong> – Path to all checkpoints.</p></li>
+</ul>
+</section>
+<section id="plotcontours">
+<h2>PlotContours</h2>
+<a class="reference internal image-reference" href="_images/ara_PlotContours.png"><img alt="_images/ara_PlotContours.png" class="align-left" src="_images/ara_PlotContours.png" style="width: 24px; height: 24px;" /></a>
+<p>Plots the distribution contours for each pair of variables from the data in the dataset.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>variables</strong> <em>[List of (str)]</em> – List of names of the variables to be plotted.</p></li>
+<li><p><strong>output_type</strong> <em>(str)</em> – Plot type: ‘static’ creates a bitmap image, ‘interactive’ launches an interactive plot in a browser.</p></li>
+<li><p><strong>plot</strong> <em>(bool)</em> – Set to True to (re-)create the plot.</p></li>
+<li><p><strong>scale</strong> <em>(float)</em> – Resize factor for the static plot.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>img</strong> – Bitmap image if output_type is ‘static’, otherwise None.</p></li>
+</ul>
+</section>
+<section id="plotcontoursrequest">
+<h2>PlotContoursRequest</h2>
+<a class="reference internal image-reference" href="_images/ara_PlotContoursRequest.png"><img alt="_images/ara_PlotContoursRequest.png" class="align-left" src="_images/ara_PlotContoursRequest.png" style="width: 24px; height: 24px;" /></a>
+<p>Plots the requested and predicted values against the distribution contours for each pair of the corresponding variables.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>request</strong> <em>[List of (str)]</em> – List of requested values, each formatted as a string with the following format: ‘variable_name:value’.</p></li>
+<li><p><strong>output_type</strong> <em>(str)</em> – Plot type: ‘static’ creates a bitmap image, ‘interactive’ launches an interactive plot in a browser.</p></li>
+<li><p><strong>plot</strong> <em>(bool)</em> – Set to True to (re-)create the plot.</p></li>
+<li><p><strong>scale</strong> <em>(float)</em> – Resize factor for the static plot.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>img</strong> – Bitmap image if output_type is ‘static’, otherwise None.</p></li>
+</ul>
+</section>
+<section id="plotcorrelations">
+<h2>PlotCorrelations</h2>
+<a class="reference internal image-reference" href="_images/ara_PlotCorrelations.png"><img alt="_images/ara_PlotCorrelations.png" class="align-left" src="_images/ara_PlotCorrelations.png" style="width: 24px; height: 24px;" /></a>
+<p>Plots correlation matrix for the given variables from the data in the dataset.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>variables</strong> <em>[List of (str)]</em> – List of names of the variables to be plotted.</p></li>
+<li><p><strong>output_type</strong> <em>(str)</em> – Plot type: ‘static’ creates a bitmap image, ‘interactive’ launches an interactive plot in a browser.</p></li>
+<li><p><strong>plot</strong> <em>(bool)</em> – Set to True to (re-)create the plot.</p></li>
+<li><p><strong>scale</strong> <em>(float)</em> – Resize factor for the static plot.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>img</strong> – Bitmap image if output_type is ‘static’, otherwise None.</p></li>
+</ul>
+</section>
+<section id="plotdistribution">
+<h2>PlotDistribution</h2>
+<a class="reference internal image-reference" href="_images/ara_PlotDistributions.png"><img alt="_images/ara_PlotDistributions.png" class="align-left" src="_images/ara_PlotDistributions.png" style="width: 24px; height: 24px;" /></a>
+<p>Plots the distribution of the given variables from the data in the dataset.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>variables</strong> <em>[List of (str)]</em> – List of names of the variables to be plotted.</p></li>
+<li><p><strong>output_type</strong> <em>(str)</em> – Plot type: ‘static’ creates a bitmap image, ‘interactive’ launches an interactive plot in a browser.</p></li>
+<li><p><strong>plot</strong> <em>(bool)</em> – Set to True to (re-)create the plot.</p></li>
+<li><p><strong>scale</strong> <em>(float)</em> – Resize factor for the static plot.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>img</strong> – Bitmap image if output_type is ‘static’, otherwise None.</p></li>
+</ul>
+</section>
+<section id="projectsetup">
+<h2>ProjectSetup</h2>
+<a class="reference internal image-reference" href="_images/ara_ProjectSetup.png"><img alt="_images/ara_ProjectSetup.png" class="align-left" src="_images/ara_ProjectSetup.png" style="width: 24px; height: 24px;" /></a>
+<p>Sets up the project in the folder given by <cite>project_root/project_name</cite>.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>set</strong> <em>(bool)</em> –</p></li>
+<li><p><strong>project_root</strong> <em>(str)</em> – Path to the project root folder. If none is given, the default is the parent folder of this Grasshopper file.</p></li>
+<li><p><strong>project_name</strong> <em>(str)</em> – Any name for the project. It will be used to create a folder with the same name in the project root folder. All files will be later saved here.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>msg</strong> – Messages and errors.</p></li>
+<li><p><strong>path</strong> – Effective path to the project.</p></li>
+</ul>
+</section>
+<section id="reset">
+<h2>Reset</h2>
+<a class="reference internal image-reference" href="_images/ara_Reset.png"><img alt="_images/ara_Reset.png" class="align-left" src="_images/ara_Reset.png" style="width: 24px; height: 24px;" /></a>
+<p>Resets the current project running in this Grasshopper file.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>reset</strong> <em>(bool)</em> – Set to True to reset.</p></li>
+</ul>
+</section>
+<section id="server">
+<h2>Server</h2>
+<a class="reference internal image-reference" href="_images/ara_Server.png"><img alt="_images/ara_Server.png" class="align-left" src="_images/ara_Server.png" style="width: 24px; height: 24px;" /></a>
+<p>Starts and stops the app server.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>start</strong> <em>(bool)</em> – Starts the server.</p></li>
+<li><p><strong>stop</strong> <em>(bool)</em> – Stops the server.</p></li>
+<li><p><strong>show_window</strong> <em>(bool)</em> – If True, the server window will be shown. If False, the server window will be hidden. Default: True.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>msg</strong> – Messages or errors.</p></li>
+</ul>
+</section>
+<section id="showfolder">
+<h2>ShowFolder</h2>
+<a class="reference internal image-reference" href="_images/ara_ShowFolder.png"><img alt="_images/ara_ShowFolder.png" class="align-left" src="_images/ara_ShowFolder.png" style="width: 24px; height: 24px;" /></a>
+<p>Reveals the folder in the file explorer.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>path</strong> <em>(str)</em> – Path to the (local) folder.</p></li>
+<li><p><strong>open</strong> <em>(bool)</em> – Set to True to open the folder in the file explorer.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#databool">DataBool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datacategorical">DataCategorical</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataint">DataInt</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataobjectsnames">DataObjectsNames</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datareal">DataReal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetcreate">DatasetCreate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetgenerator">DatasetGenerator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetload">DatasetLoad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetonesample">DatasetOneSample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetsummary">DatasetSummary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generator">Generator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeldimensions">ModelDimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelload">ModelLoad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelsetup">ModelSetup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelsummary">ModelSummary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeltrain">ModelTrain</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotcontours">PlotContours</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotcontoursrequest">PlotContoursRequest</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotcorrelations">PlotCorrelations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotdistribution">PlotDistribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projectsetup">ProjectSetup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reset">Reset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#showfolder">ShowFolder</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright Copyright (c) 2023-2024 ETH Zurich, Gramazio Kohler Research.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
