@@ -1,0 +1,36 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: Create Release
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python: ['3.9']
+
+    steps:
+      - uses: compas-dev/compas-actions.build@v3
+        with:
+          python: ${{ matrix.python }}
+          invoke_lint: true
+          check_import: true
+
+  publish:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: compas-dev/compas-actions.publish@v2
+        with:
+          pypi_token: ${{ secrets.PYPI_PASSWORD }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          build_ghpython_components: true
+          gh_source: src/aixd_ara/components
+          gh_target: src/aixd_ara/components/ghuser
+          gh_prefix: ""
+          gh_interpreter: "ironpython"
+          release_name_prefix: ARA
