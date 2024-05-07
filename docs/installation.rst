@@ -18,7 +18,7 @@ for the majority of users.
 Windows Users
 -------------
 
-* Download the ZIP file from [TODO: Insert link to the installer file].
+* Download `the ZIP file <https://github.com/gramaziokohler/aixd_ara/raw/main/install.zip>`_.
 * Extract it to any folder of your preference.
 * Double-click the `install.cmd` file to start the installation.
 
