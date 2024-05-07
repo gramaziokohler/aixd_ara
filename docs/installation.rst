@@ -9,14 +9,30 @@ The following instructions will guide you through each method.
 Alternatively, you can clone the ``aixd_ara`` source code directly from
 our `repository <https://github.com/gramaziokohler/aixd_ara>`_.
 
-One-click installer
-===================
+Installer
+=========
 
-The one-click installer is the easiest way to install the plugin on your system:
+The installer is the easiest way to install the plugin on your system
+for the majority of users.
 
-* Download the ZIP files.
-* Extract them in any forlder.
-* Run the installer file.
+Windows Users
+-------------
+
+* Download the ZIP file from [TODO: Insert link to the installer file].
+* Extract it to any folder of your preference.
+* Double-click the `install.cmd` file to start the installation.
+
+Mac Users
+---------
+
+On Mac, it's not necessary to download the installer. Instead,
+open the Terminal application of your mac, copy & paste the following
+command, and press Enter:
+
+.. code-block:: bash
+
+    curl -s https://github.com/gramaziokohler/aixd_ara/raw/main/install.bash | bash
+
 
 Installation using pip
 ======================
