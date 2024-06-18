@@ -52,11 +52,11 @@ To update ``pip``, run the following command:
 
 **Step 2: Install plugin**
 
-To install `ara_aixd` using ``pip``, execute the following command:
+To install `aixd_ara` using ``pip``, execute the following command:
 
 .. code-block:: bash
 
-    pip install ara_aixd
+    pip install aixd_ara
 
 And then install the plugin in Rhino/Grasshopper using the following command:
 
