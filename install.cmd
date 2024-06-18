@@ -87,14 +87,6 @@ IF %ERRORLEVEL% neq 0 GOTO conda_activate_failed
 <nul set /p"=!BS!!CR![√] Activated virtual environment successfully"
 ECHO.
 
-:pip_install_deps
-<nul set /p"=[ ] Installing pip tools..."
-python -m pip install aixd_ara-0.1.0-py2.py3-none-any.whl -q
-@REM python -m pip install black flake8 isort pytest rhino-stubs -q
-IF %ERRORLEVEL% neq 0 GOTO pip_install_deps_failed
-<nul set /p"=!BS!!CR![√] Installed pip tools successfully"
-ECHO.
-
 :compas_install_to_rhino
 <nul set /p"=[√] Activating environment '%CONDA_ENV_NAME%' for Rhino..."
 ECHO.
@@ -116,11 +108,6 @@ GOTO compas_install
 :conda_activate_failed
 ECHO.
 ECHO Could not activate virtual environment. Exiting.
-GOTO end_of_installer
-
-:pip_install_deps_failed
-ECHO.
-ECHO Could not install development tools. Exiting.
 GOTO end_of_installer
 
 :miniconda_install_failed
