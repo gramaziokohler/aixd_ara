@@ -1,6 +1,12 @@
+"""Reveals the folder in the file explorer."""
 # flake8: noqa
 
-import os
+import compas
+import subprocess
 
 if open:
-    os.startfile(path)
+    command = "open"
+    if compas.is_windows():
+        command = "explorer"
+
+    subprocess.Popen([command, path])
