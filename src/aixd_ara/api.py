@@ -362,6 +362,9 @@ def shutdown():
     print()
     return "Server shuting down"
 
+@app.route("/ping", methods=["GET"])
+def ping():
+    return "Pong!"
 
 def ara_welcome(*args):
     print()
