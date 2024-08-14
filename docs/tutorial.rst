@@ -134,3 +134,6 @@ or an *interactive* plot (opening in browser).
 - ``Plot Contours`` -- plots pair-wise joint distributions of the selected variables as contours
 
 
+.. attention::
+
+   *static* mode is currently not supported on Mac. 
