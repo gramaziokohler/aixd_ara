@@ -229,6 +229,37 @@ class SessionController(object):
             return {"msg": "", "names": self.datamodule.output_ml_dblock.names_list}
         return {"msg": f"Wrong block nickname: {datablock_nickname}.", "names": []}
 
+    def cast_to_python_type(self, dataobject_name, value):
+        """
+        Cast the values (usually coming from a dataframe) to the correct python type.
+        Value can be a single value or a list.
+        """
+        if not self.dataset:
+            raise ValueError("Dataset is not loaded.")
+
+        dobj = self.dataset.get_data_objects_by_name([dataobject_name])[0]
+
+        if not isinstance(value, list):
+            value = [value]
+            single = True
+        else:
+            single = False
+
+        if isinstance(dobj, DataInt):
+            castvalue = [int(v) for v in value]
+        elif isinstance(dobj, DataReal):
+            castvalue = [float(v) for v in value]
+        elif isinstance(dobj, DataBool):
+            castvalue = [bool(v) for v in value]
+        elif isinstance(dobj, DataCategorical):
+            castvalue = [str(v) for v in value]
+        else:
+            raise ValueError(f"Dataobject type not recognized: {dobj.type}")
+
+        if single:
+            castvalue = castvalue[0]
+        return castvalue
+
     def get_dataobject_types(self):
         """
         Returns names of the data types of the dataobjects in the dataset.
@@ -462,12 +493,12 @@ class SessionController(object):
 
         dct = reformat_dataframeflat_to_dict(self.dataset.design_par.data, self.dataset.design_par.dobj_list)
         for key, values in dct.items():
-            dct[key] = values[item]
+            dct[key] = self.cast_to_python_type(key, values[item])
         sample["design_parameters"] = dct
 
         dct = reformat_dataframeflat_to_dict(self.dataset.perf_attributes.data, self.dataset.perf_attributes.dobj_list)
         for key, values in dct.items():
-            dct[key] = values[item]
+            dct[key] = self.cast_to_python_type(key, values[item])
         sample["performance_attributes"] = dct
 
         # for single-value entries, unpack them from a list [123] -> 123
