@@ -1,7 +1,6 @@
 import json
 import os
 import signal
-import sys
 
 from compas.data import DataEncoder
 from flask import Flask
@@ -362,9 +361,11 @@ def shutdown():
     print()
     return "Server shuting down"
 
+
 @app.route("/ping", methods=["GET"])
 def ping():
     return "Pong!"
+
 
 def ara_welcome(*args):
     print()
@@ -376,6 +377,7 @@ def ara_welcome(*args):
     print()
     print()
     print()
+
 
 if __name__ == "__main__":
     import sys
@@ -389,7 +391,7 @@ if __name__ == "__main__":
             print("Invalid port number: ", sys.argv[1], "Setting a default port number {}".format(DEFAULT_PORT))
             port = DEFAULT_PORT
 
-    cli = sys.modules['flask.cli']
+    cli = sys.modules["flask.cli"]
     cli.show_server_banner = ara_welcome
 
     app.run(host="127.0.0.1", port=port, debug=False)

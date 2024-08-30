@@ -71,10 +71,12 @@ class ApiRunner(object):
                     python_command = " ".join(args)
                     apple_script = """
                     tell application "Terminal"
-                        do script "{}" 
+                        do script "{}"
                         activate
                     end tell
-                    """.format(python_command)
+                    """.format(
+                        python_command
+                    )
                     args = ["osascript", "-e", apple_script]
             else:
                 kwargs["stdout"] = PIPE
@@ -82,7 +84,6 @@ class ApiRunner(object):
 
             if self.working_directory:
                 kwargs["cwd"] = self.working_directory
-            
             self._process = Popen(args, **kwargs)
 
     def stop_process(self):
@@ -98,12 +99,13 @@ class ApiRunner(object):
 
         try:
             self._process.terminate()
-        except Exception as e:
+        except Exception:
             pass
         try:
             self._process.kill()
-        except Exception as e:
+        except Exception:
             pass
+
 
 api_path = os.path.dirname(ag.__file__)
 
@@ -113,6 +115,7 @@ print(api_path)
 def create_api_runner_id(component):
     name = "api-runner"
     return "{}_{}".format(name, component.InstanceGuid)
+
 
 class ApiRunnerComponent(component):
 
@@ -137,7 +140,7 @@ class ApiRunnerComponent(component):
         # Attempt gracefully stopping the server
         try:
             urllib2.urlopen("http://127.0.0.1:8765/shutdown", timeout=1)
-        except:
+        except Exception:
             pass
 
         # stop previous API runner if any
