@@ -1,4 +1,6 @@
 import json
+import os
+import signal
 
 from compas.data import DataEncoder
 from flask import Flask
@@ -345,6 +347,38 @@ def model_input_output_dimensions():
     return response
 
 
+@app.route("/shutdown", methods=["GET"])
+def shutdown():
+    os.kill(os.getpid(), signal.SIGINT)
+    print()
+    print()
+    print()
+    print("*********************************************************")
+    print("THIS APP HAS TERMINATED AND THIS WINDOW CAN BE CLOSED NOW")
+    print("*********************************************************")
+    print()
+    print()
+    print()
+    return "Server shuting down"
+
+
+@app.route("/ping", methods=["GET"])
+def ping():
+    return "Pong!"
+
+
+def ara_welcome(*args):
+    print()
+    print()
+    print()
+    print("****************************")
+    print("HELLO! ARA SERVER IS RUNNING")
+    print("****************************")
+    print()
+    print()
+    print()
+
+
 if __name__ == "__main__":
     import sys
 
@@ -356,5 +390,8 @@ if __name__ == "__main__":
         except ValueError:
             print("Invalid port number: ", sys.argv[1], "Setting a default port number {}".format(DEFAULT_PORT))
             port = DEFAULT_PORT
+
+    cli = sys.modules["flask.cli"]
+    cli.show_server_banner = ara_welcome
 
     app.run(host="127.0.0.1", port=port, debug=False)
