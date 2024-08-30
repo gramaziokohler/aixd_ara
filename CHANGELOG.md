@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * Fixed Windows install script trying to install from offline wheels.
+* Fixed issues related to using ARA on Mac.
 
 ### Removed
 
