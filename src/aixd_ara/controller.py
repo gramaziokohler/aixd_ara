@@ -358,7 +358,7 @@ class SessionController(object):
 
         plotter = Plotter(datamodule=self.datamodule, output=None)
         gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=10)
-        _, detailed_results = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")
+        _, detailed_results = gen.generate(request=request, n_samples=n_samples, format_out="dict_list")
 
         fig = plotter.generation_scatter([detailed_results], n_samples=n_samples)
         return _fig_output(fig, output_type)
@@ -534,7 +534,7 @@ class SessionController(object):
             raise ValueError("Model is not loaded.")
 
         gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=100)
-        new_designs = gen.generation(request=request, n_samples=n_samples, format_out="dict_list")[0]
+        new_designs = gen.generate(request=request, n_samples=n_samples, format_out="dict_list")[0]
 
         # split the result into separate dictionaries for design parameters and performance attributes
         # assert len(new_designs) == n_samples
