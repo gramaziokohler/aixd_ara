@@ -325,18 +325,15 @@ PlotContours
 	:width: 24
 
 Plots the distribution contours for each pair of variables from the data in the dataset.
+Launches an interactive plot in a browser.
+Requires a dataset to be loaded.
 
 
 **Inputs**
 
 - **variables** *[List of (str)]* -- List of names of the variables to be plotted.
-- **output_type** *(str)* -- Plot type: 'static' creates a bitmap image, 'interactive' launches an interactive plot in a browser.
 - **plot** *(bool)* -- Set to True to (re-)create the plot.
-- **scale** *(float)* -- Resize factor for the static plot.
 
-**Outputs**
-
-- **img** -- Bitmap image if output_type is 'static', otherwise None.
 
 PlotContoursRequest
 -------------------
@@ -346,18 +343,14 @@ PlotContoursRequest
 	:width: 24
 
 Plots the requested and predicted values against the distribution contours for each pair of the corresponding variables.
+Launches an interactive plot in a browser.
+Requires a trained model to be loaded.
 
 
 **Inputs**
 
 - **request** *[List of (str)]* -- List of requested values, each formatted as a string with the following format: 'variable_name:value'.
-- **output_type** *(str)* -- Plot type: 'static' creates a bitmap image, 'interactive' launches an interactive plot in a browser.
 - **plot** *(bool)* -- Set to True to (re-)create the plot.
-- **scale** *(float)* -- Resize factor for the static plot.
-
-**Outputs**
-
-- **img** -- Bitmap image if output_type is 'static', otherwise None.
 
 PlotCorrelations
 ----------------
@@ -367,18 +360,13 @@ PlotCorrelations
 	:width: 24
 
 Plots correlation matrix for the given variables from the data in the dataset.
-
+Launches an interactive plot in a browser.
+Requires a dataset to be loaded.
 
 **Inputs**
 
 - **variables** *[List of (str)]* -- List of names of the variables to be plotted.
-- **output_type** *(str)* -- Plot type: 'static' creates a bitmap image, 'interactive' launches an interactive plot in a browser.
 - **plot** *(bool)* -- Set to True to (re-)create the plot.
-- **scale** *(float)* -- Resize factor for the static plot.
-
-**Outputs**
-
-- **img** -- Bitmap image if output_type is 'static', otherwise None.
 
 PlotDistribution
 ----------------
@@ -388,18 +376,13 @@ PlotDistribution
 	:width: 24
 
 Plots the distribution of the given variables from the data in the dataset.
-
+Launches an interactive plot in a browser.
+Requires a dataset to be loaded.
 
 **Inputs**
 
 - **variables** *[List of (str)]* -- List of names of the variables to be plotted.
-- **output_type** *(str)* -- Plot type: 'static' creates a bitmap image, 'interactive' launches an interactive plot in a browser.
 - **plot** *(bool)* -- Set to True to (re-)create the plot.
-- **scale** *(float)* -- Resize factor for the static plot.
-
-**Outputs**
-
-- **img** -- Bitmap image if output_type is 'static', otherwise None.
 
 ProjectSetup
 ------------
