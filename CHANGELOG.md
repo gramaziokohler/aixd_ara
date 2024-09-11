@@ -10,6 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
+
+### Removed
+
+
+## [0.10.0] 2024-09-11
+
+### Added
+
+### Changed
+* Pin dependency to AIXD version 0.12.0
 * Updated examples & documentation
 * Fixed domain init in DataInt
 * Changed output options in Plot components.
