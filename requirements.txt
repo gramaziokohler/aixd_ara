@@ -1,4 +1,3 @@
-aixd >=0.10.0
+aixd >=0.11.0
 compas >2,<3
 flask
-kaleido==0.1.0.post1; platform_system == "Windows"

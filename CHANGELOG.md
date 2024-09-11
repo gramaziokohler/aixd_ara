@@ -11,11 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Plot components.
 * Fixed Windows install script trying to install from offline wheels.
 * Fixed issues related to using ARA on Mac.
 
 ### Removed
 
+* Removed option for static plots.
 
 ## [0.9.3] 2024-06-18
 

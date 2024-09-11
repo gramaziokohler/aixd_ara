@@ -125,15 +125,9 @@ Plotters
 --------
 
 Visual analysis of the dataset can give some additional insights on the design space. 
-**ARA** provides a selection of plot methods, which can output either a *static* bitmap image 
-(using ``PrevImg`` component from the `Bitmap+ <https://www.food4rhino.com/en/app/bitmap>`_ plugin) 
-or an *interactive* plot (opening in browser).
+**ARA** provides a selection of plots as interactive graphics in a browser window.
 
-- ``Plot Correlations`` -- produces a correlation matrix of the selected variables
-- ``Plot Distribution`` -- plots distribution of each selected variable
-- ``Plot Contours`` -- plots pair-wise joint distributions of the selected variables as contours
-
-
-.. attention::
-
-   *static* mode is currently not supported on Mac. 
+- ``PlotCorrelations`` -- produces a correlation matrix of the selected variables
+- ``PlotDistribution`` -- plots distribution of each selected variable
+- ``PlotContours`` -- plots pair-wise joint distributions of the selected variables as contours
+- ``PlotContoursRequest`` -- plots the requested and the generated values against the pair-wise joint distributions of the given variables.
