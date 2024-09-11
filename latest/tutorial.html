@@ -637,18 +637,13 @@ Once generated, the designs can be instantiated in the parametric model one by o
 <section id="plotters">
 <h2>Plotters</h2>
 <p>Visual analysis of the dataset can give some additional insights on the design space.
-<strong>ARA</strong> provides a selection of plot methods, which can output either a <em>static</em> bitmap image
-(using <code class="docutils literal notranslate"><span class="pre">PrevImg</span></code> component from the <a class="reference external" href="https://www.food4rhino.com/en/app/bitmap">Bitmap+</a> plugin)
-or an <em>interactive</em> plot (opening in browser).</p>
+<strong>ARA</strong> provides a selection of plots as interactive graphics in a browser window.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Correlations</span></code> – produces a correlation matrix of the selected variables</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Distribution</span></code> – plots distribution of each selected variable</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Contours</span></code> – plots pair-wise joint distributions of the selected variables as contours</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PlotCorrelations</span></code> – produces a correlation matrix of the selected variables</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PlotDistribution</span></code> – plots distribution of each selected variable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PlotContours</span></code> – plots pair-wise joint distributions of the selected variables as contours</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PlotContoursRequest</span></code> – plots the requested and the generated values against the pair-wise joint distributions of the given variables.</p></li>
 </ul>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p><em>static</em> mode is currently not supported on Mac.</p>
-</div>
 </section>
 </section>
 
