@@ -7,6 +7,7 @@ name: Create Release
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
