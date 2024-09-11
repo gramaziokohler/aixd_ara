@@ -16,30 +16,13 @@
                 "scriptParamAccess": 1
             },
             {
-                "name": "output_type",
-                "description": "Plot type: 'static' creates a bitmap image, 'interactive' launches an interactive plot in a browser.",
-                "typeHintID": "str",
-                "scriptParamAccess": 0
-            },
-            {
                 "name": "plot",
                 "description": "Set to True to (re-)create the plot.",
                 "typeHintID": "bool",
                 "scriptParamAccess": 0
-            },
-            {
-                "name": "scale",
-                "description": "Resize factor for the static plot.",
-                "typeHintID": "float",
-                "scriptParamAccess": 0
             }
         ],
 
-        "outputParameters": [
-            {
-                "name": "img",
-                "description": "Bitmap image if output_type is 'static', otherwise None."
-            }
-        ]
+        "outputParameters": []
     }
 }

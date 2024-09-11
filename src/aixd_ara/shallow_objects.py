@@ -29,7 +29,7 @@ def DataInt_from_shallow(shallow_dobj):
     return DataInt(
         name=shallow_dobj["name"],
         dim=shallow_dobj["dim"],
-        domain=Options(shallow_dobj["domain"]) if shallow_dobj["domain"] else None,
+        domain=Interval(*shallow_dobj["domain"]) if shallow_dobj["domain"] else None,
     )
 
 
