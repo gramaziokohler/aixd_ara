@@ -15,7 +15,7 @@ DataBool
 	:height: 24
 	:width: 24
 
-Defines a boolean variable.
+Defines a boolean variable (`True` or `False`).
 
 
 **Inputs**
@@ -34,7 +34,7 @@ DataCategorical
 	:height: 24
 	:width: 24
 
-Defines a categorical variable.
+Defines a categorical variable (for example, represening labels or classes).
 
 
 **Inputs**
@@ -128,8 +128,8 @@ DatasetGenerator
 	:height: 24
 	:width: 24
 
-Provides instructions on how to generate random samples for the dataset.
-
+Provides instructions on how to generate random samples for the dataset by harnessing the parametric model found in the current Grasshopper file.
+See Tutorial for more information on how to prepare the inputs and outputs of the parametric model.
 
 **Outputs**
 
@@ -161,7 +161,7 @@ DatasetOneSample
 	:width: 24
 
 Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.
-
+Requires a dataset to be loaded.
 
 **Inputs**
 
@@ -180,7 +180,7 @@ DatasetSummary
 	:width: 24
 
 Provides a summary of the dataset.
-
+Requires a dataset to be loaded.
 
 **Inputs**
 
@@ -198,7 +198,7 @@ Generator
 	:width: 24
 
 Runs a generation campaing to create new designs using the trained model.
-
+Requires a dataset and a trained model to be loaded.
 
 **Inputs**
 
@@ -221,7 +221,7 @@ ModelDimensions
 	:width: 24
 
 Retrieves dimensions of the model's input and output layers.
-
+Requires that a model has been set up or loaded.
 
 **Inputs**
 
@@ -239,7 +239,7 @@ ModelLoad
 	:width: 24
 
 Loads an existing, pre-traind neural network model from a checkpoint.
-
+Requires a dataset to be loaded.
 
 **Inputs**
 
@@ -260,7 +260,7 @@ ModelSetup
 	:width: 24
 
 Sets up an autoencoder model of the specified type with the given parameters.
-
+Requires a dataset to be loaded.
 
 **Inputs**
 
@@ -285,7 +285,7 @@ ModelSummary
 	:width: 24
 
 Provides a summary of the autoencoder model's architecture.
-
+Requires that a model has been set up or loaded.
 
 **Inputs**
 
@@ -304,7 +304,7 @@ ModelTrain
 	:width: 24
 
 Runs a training campaign.
-
+Requires that a model has been set up (to train from scratch) or loaded (to continue training).
 
 **Inputs**
 
