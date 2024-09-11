@@ -2,16 +2,16 @@
   {
     "name": "Latest",
     "version": "latest",
-    "url": "/latest/"
+    "url": "https://gramaziokohler.github.io/aixd_ara/latest/"
   },
   {
     "name": "0.10.0 (stable)",
     "version": "0.10.0",
-    "url": "/0.10.0/"
+    "url": "https://gramaziokohler.github.io/aixd_ara/0.10.0/"
   },
   {
     "name": "0.9.3",
     "version": "0.9.3",
-    "url": "/0.9.3/"
+    "url": "https://gramaziokohler.github.io/aixd_ara/0.9.3/"
   }
 ]
