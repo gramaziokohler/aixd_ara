@@ -3,8 +3,10 @@ from aixd_ara.scripts import dataset_generator
 path = dataset_generator.__file__
 
 txt = "INSTRUCTIONS\n------------\n"
-txt += "How to generate random samples for a dataset, by harnessing the parametric model defined in this Grasshopper file?\n\n"
-txt += "Prepare the inputs and outputs to/from your parametric model as shown in the online documentation>tutorial at https://gramaziokohler.github.io/aixd_ara/latest/tutorial.html\n\n"
+txt += "How to generate random samples for a dataset, "
+txt += "by harnessing the parametric model defined in this Grasshopper file?\n\n"
+txt += "Prepare the inputs and outputs to/from your parametric model as shown in the online documentation>tutorial at "
+txt += "https://gramaziokohler.github.io/aixd_ara/latest/tutorial.html\n\n"
 txt += "Close all other Grasshopper files in this Rhino app.\n\n"
 txt += "Locate the 'dataset_generator.py' file in:\n\n"
 txt += "{}\n\n".format(path)
