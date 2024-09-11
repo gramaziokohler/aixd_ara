@@ -135,7 +135,7 @@ html_theme_options = {
     "check_switcher": False,
     "logo": {
         "image_light": "_static/ara_logo.png",
-        "image_dark": "_static/compas_icon_white.png",
+        "image_dark": "_static/ara_logo.png",
         "text": project,
     },
     "navigation_depth": 3,

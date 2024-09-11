@@ -16,4 +16,5 @@ jobs:
     steps:
       - uses: compas-dev/compas-actions.docs@v3
         with:
+          doc_url: https://gramaziokohler.github.io/aixd_ara
           github_token: ${{ secrets.GITHUB_TOKEN }}
