@@ -69,8 +69,8 @@ Installation using conda
 ========================
 
 ``conda`` is an open-source package management system and environment
- management system that runs on Windows, macOS, and Linux.
- It’s very popular in the realm of scientific computing.
+management system that runs on Windows, macOS, and Linux.
+It's very popular in the realm of scientific computing.
 
 **Step 1: Create a conda environment (Optional)**
 
