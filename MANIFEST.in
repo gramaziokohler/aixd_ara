@@ -22,4 +22,4 @@ exclude tasks.py
 exclude CONTRIBUTING.md
 exclude conftest.py
 
-global-exclude *.py[cod] __pycache__ *.dylib *.nb[ic] .DS_Store
+global-exclude *.py[cod] __pycache__ *.dylib *.nb[ic] .DS_Store *.log
