@@ -31,7 +31,7 @@ command, and press Enter:
 
 .. code-block:: bash
 
-    curl -s https://github.com/gramaziokohler/aixd_ara/raw/main/install.bash | bash
+    curl -sL https://github.com/gramaziokohler/aixd_ara/raw/main/install.bash | bash
 
 
 Installation using pip
