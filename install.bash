@@ -1,19 +1,28 @@
 #!/usr/bin/env bash
 
-while true; do
-    read -n 1 -p "Select Rhino version (7, 8, or Q to quit):" RHINO_VERSION
-    printf "\n";
-    case $RHINO_VERSION in
-        7* ) break;;
-        8* ) break;;
-        [Qq]* ) exit;;
-        * ) printf "Invalid Rhino version, please choose either 7 or 8.\n";;
-    esac
-done
+if [[ $- != *i* ]]; then
+    RHINO_VERSION=7
+    printf "NOTE: Installation will default to Rhino 7\n"
+    printf "To select a different Rhino version, run this script interactively:\n\n"
+    printf "    curl -sO https://github.com/gramaziokohler/aixd_ara/raw/main/install.bash && bash -i install.bash\n\n"
+else
+    while true; do
+        read -n 1 -p "Select Rhino version (6, 7, 8, or Q to quit): " RHINO_VERSION
+        printf "\n";
+        case $RHINO_VERSION in
+            6* ) break;;
+            7* ) break;;
+            8* ) break;;
+            [Qq]* ) exit;;
+            * ) printf "Invalid Rhino version, please choose either 6, 7 or 8.\n";;
+        esac
+    done
+fi
 
 CONDA_HOME=$HOME/miniconda
 CONDA_BIN=$CONDA_HOME/condabin
 CONDA_ENV_NAME=aixd_ara
+ARCH=$(uname -m)
 
 printf "[√] Starting ARA installation…\n"
 
@@ -24,7 +33,7 @@ then
     printf "\r[x] Conda not found, we will install Miniconda\n"
 	printf "[ ] Installing miniconda (Python distribution)…"
 	# curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o ./miniconda.sh &> /dev/null
-	curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ./miniconda.sh &> /dev/null
+    curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-$ARCH.sh -o ./miniconda.sh &> /dev/null
 	bash ./miniconda.sh -b -u -p $CONDA_HOME &> /dev/null
 	printf "\r[√] Installing miniconda (Python distribution)…\n"
 
