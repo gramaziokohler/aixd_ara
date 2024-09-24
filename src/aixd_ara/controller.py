@@ -39,6 +39,7 @@ class SessionController(object):
         self.datamodule = None
         self.samples_per_file = None
         self.model_is_trained = False
+        self.requested_designs = None, None, None
 
     def reset(self):
         self.project_root = None
@@ -48,6 +49,7 @@ class SessionController(object):
         self.datamodule = None
         self.samples_per_file = None
         self.model_is_trained = False
+        self.requested_designs = None, None, None
 
     @property
     def dataset_path(self):
@@ -345,7 +347,7 @@ class SessionController(object):
         fig = plotter.contours2d(block=block, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
-    def plot_contours_request(self, request, n_samples, output_type):
+    def plot_contours_request(self, output_type):
         """
         request:
             dictionary where keys are the names of dataobjects (usually performance attributes),
@@ -355,10 +357,12 @@ class SessionController(object):
             raise ValueError("Dataset is not loaded.")
         if not self.model:
             raise ValueError("Model is not loaded.")
+        if self.requested_designs == (None, None, None):
+            raise ValueError("No designs have been requested yet.")
 
         plotter = Plotter(datamodule=self.datamodule, output=None)
-        gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=10)
-        _, detailed_results = gen.generate(request=request, n_samples=n_samples, format_out="dict_list")
+        detailed_results = self.requested_designs[2]
+        n_samples = len(self.requested_designs[1])
 
         fig = plotter.generation_scatter([detailed_results], n_samples=n_samples)
         return _fig_output(fig, output_type)
@@ -534,8 +538,8 @@ class SessionController(object):
             raise ValueError("Model is not loaded.")
 
         gen = Generator(model=self.model, datamodule=self.datamodule, over_sample=100)
-        new_designs = gen.generate(request=request, n_samples=n_samples, format_out="dict_list")[0]
-
+        new_designs, detailed_results = gen.generate(request=request, n_samples=n_samples, format_out="dict_list")
+        self.requested_designs = request, new_designs, detailed_results
         # split the result into separate dictionaries for design parameters and performance attributes
         # assert len(new_designs) == n_samples
         samples = []
