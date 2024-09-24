@@ -8,7 +8,7 @@ from aixd_ara.gh_ui_helper import convert_str_to_bitmap
 from aixd_ara.gh_ui_helper import reformat_request
 
 
-cid = component_id(session_id, ghenv.Component, "create_dataset_object")
+cid = component_id(session_id, ghenv.Component, "PlotContoursRequest")
 
 
 if plot:

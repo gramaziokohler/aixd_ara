@@ -10,8 +10,8 @@ from aixd_ara.gh_ui_helper import sample_summary as sample_summary_f
 from aixd_ara.gh_ui_helper import session_id
 from aixd_ara.gh_ui_helper import reformat_request
 
-cid = component_id(session_id(), ghenv.Component, "run_generation")
-item = component_id(session_id(), ghenv.Component, "pick_sample")
+cid = component_id(session_id(), ghenv.Component, "Generator")
+item = component_id(session_id(), ghenv.Component, "GeneratorPickItem")
 
 """
 requested_values: a multiline string with variable_name:values tuples.
