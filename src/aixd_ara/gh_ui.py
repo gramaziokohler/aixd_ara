@@ -60,8 +60,8 @@ def plot_contours(session_id, attributes, output_type):
     return http_post_request(action="plot_contours", data=data)
 
 
-def plot_contours_request(session_id, request, n_samples, output_type):
-    data = {"session_id": session_id, "request": request, "n_samples": n_samples, "output_type": output_type}
+def plot_contours_request(session_id, output_type):
+    data = {"session_id": session_id, "output_type": output_type}
     return http_post_request(action="plot_contours_request", data=data)
 
 

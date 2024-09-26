@@ -342,14 +342,13 @@ PlotContoursRequest
 	:height: 24
 	:width: 24
 
-Plots the requested and predicted values against the distribution contours for each pair of the corresponding variables.
+Plots the predicted values of the requested designs against the distribution contours for each pair of the corresponding variables.
 Launches an interactive plot in a browser.
-Requires a trained model to be loaded.
+Requires that a request has been made and designs have been generated.
 
 
 **Inputs**
 
-- **request** *[List of (str)]* -- List of requested values, each formatted as a string with the following format: 'variable_name:value'.
 - **plot** *(bool)* -- Set to True to (re-)create the plot.
 
 PlotCorrelations

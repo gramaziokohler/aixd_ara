@@ -6,7 +6,7 @@ from aixd_ara.gh_ui_helper import component_id
 from aixd_ara.gh_ui_helper import instantiate_sample, sample_summary
 from aixd_ara.gh_ui_helper import session_id
 
-cid = component_id(session_id(), ghenv.Component, "GetOneSample")
+cid = component_id(session_id(), ghenv.Component, "DatasetOneSample")
 
 
 if not item:

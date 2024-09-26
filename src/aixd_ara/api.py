@@ -226,12 +226,9 @@ def plot_contours_request():
     data = json.loads(data)
     session_id = data["session_id"]
     sc = SessionController.create(session_id)
-
     output_type = data["output_type"]
-    requested_values = data["request"]
-    n_samples = data["n_samples"]
 
-    result = sc.plot_contours_request(request=requested_values, n_samples=n_samples, output_type=output_type)
+    result = sc.plot_contours_request(output_type=output_type)
     response = json.dumps(result, cls=DataEncoder)
     return response
 
