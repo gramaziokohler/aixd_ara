@@ -23,7 +23,7 @@ requirements = read("requirements.txt").split("\n")
 
 setup(
     name="aixd_ara",
-    version="0.10.3",
+    version="0.10.4",
     description="Grasshopper plugin for the AIXD toolkit",
     long_description=long_description,
     long_description_content_type="text/markdown",
