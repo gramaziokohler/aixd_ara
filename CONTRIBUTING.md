@@ -66,13 +66,7 @@ To create a new release, follow these steps:
 
 1. Ensure all changes intended for the release are merged into the **main** branch.
 
-2. Create a new branch from **main** to prepare the release (replace `x.y.z` with the version number you plan to release):
-
-   ```bash
-   git checkout main
-   git pull
-   git checkout -b prepare-release-x.y.z
-   ```
+2. Ensure you have locally checked out the **main** branch.
    
 3. Ensure all checks and tests pass successfully. Use the `invoke check` and `invoke test` commands to verify.
 
@@ -86,7 +80,4 @@ To create a new release, follow these steps:
    ```bash
    invoke release [release_type]
     ```
-6. Create a merge request to merge the branch into **main**. Check the changes and make sure 
-   everything looks good, before merging.
-
-7. Celebrate! 💃
+6. Celebrate! 💃

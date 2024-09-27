@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 name: Create Release
 
@@ -12,28 +12,9 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python: ['3.9']
-    outputs:
-      ready_to_release: ${{ steps.check_version_tag.outputs.version_tag_exists }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Fetch all tags
-        run: git fetch --tags
-      - name: Check for tags
-        id: check_version_tag
-        run: |
-          TAGS=$(git tag --points-at HEAD)
-          if [[ "$TAGS" == *v* ]]; then
-            echo "Version tag found! Building new release: $TAGS"
-            echo "version_tag_exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "No version tag found. Skipping workflow."
-            echo "version_tag_exists=false" >> $GITHUB_OUTPUT
-          fi
-
       - uses: compas-dev/compas-actions.build@v3
-        if: steps.check_version_tag.outputs.version_tag_exists == 'true'
         with:
           python: ${{ matrix.python }}
           invoke_lint: true
@@ -42,7 +23,6 @@ jobs:
   publish:
     needs: build
     runs-on: windows-latest
-    if: needs.build.outputs.ready_to_release == 'true'
     steps:
       - uses: compas-dev/compas-actions.publish@v2
         with:
