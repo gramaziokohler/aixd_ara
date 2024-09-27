@@ -1,7 +1,7 @@
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 
 name: Create Release
 
@@ -16,19 +16,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Fetch main branch
-        run: git fetch origin main
-      - name: Check if the tag is on the main branch
+      - name: Fetch all tags
+        run: git fetch --tags
+      - name: Check for tags
         run: |
-          TAG_COMMIT=$(git rev-parse HEAD)
-
-          # Check if the tag commit is in the main branch history
-          if git merge-base --is-ancestor $TAG_COMMIT origin/main; then
-            echo "Tag has landed on main. Releasing!"
+          TAGS=$(git tag --points-at HEAD)
+          if [[ "$TAGS" == *v* ]]; then
+            echo "Version tag found! Building new release: $TAGS"
           else
-            echo "Tag is not on main yet. Exiting."
-            exit 1
-          fi
+            echo "No version tag found. Skipping workflow."
+            exit 0
 
       - uses: compas-dev/compas-actions.build@v3
         with:
