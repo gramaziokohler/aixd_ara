@@ -19,16 +19,19 @@ jobs:
       - name: Fetch all tags
         run: git fetch --tags
       - name: Check for tags
+        id: check_version_tag
         run: |
           TAGS=$(git tag --points-at HEAD)
           if [[ "$TAGS" == *v* ]]; then
             echo "Version tag found! Building new release: $TAGS"
+            echo "::set-output name=version_tag_exists::true"
           else
             echo "No version tag found. Skipping workflow."
-            exit 0
+            echo "::set-output name=version_tag_exists::false"
           fi
 
       - uses: compas-dev/compas-actions.build@v3
+        if: steps.check_version_tag.outputs.version_tag_exists == 'true'
         with:
           python: ${{ matrix.python }}
           invoke_lint: true
