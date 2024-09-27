@@ -7,7 +7,6 @@ name: Create Release
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/main'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -15,6 +14,22 @@ jobs:
         python: ['3.9']
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Fetch main branch
+        run: git fetch origin main
+      - name: Check if the tag is on the main branch
+        run: |
+          TAG_COMMIT=$(git rev-parse HEAD)
+
+          # Check if the tag commit is in the main branch history
+          if git merge-base --is-ancestor $TAG_COMMIT origin/main; then
+            echo "Tag has landed on main. Releasing!"
+          else
+            echo "Tag is not on main yet. Exiting."
+            exit 1
+          fi
+
       - uses: compas-dev/compas-actions.build@v3
         with:
           python: ${{ matrix.python }}
