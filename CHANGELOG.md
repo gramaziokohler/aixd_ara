@@ -19,33 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
-
-### Removed
-
-
-## [0.10.3] 2024-09-27
-
-### Added
-
-### Changed
-
-### Removed
-
-
-## [0.10.2] 2024-09-27
-
-### Added
-
-### Changed
-
-### Removed
-
-
-## [0.10.1] 2024-09-26
-
-### Added
-
-### Changed
 * Bind to AIXD 0.12.1
 * PlotContoursRequest plots now all the last requested designs
 * Fixed small issues on documentation
