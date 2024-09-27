@@ -26,6 +26,7 @@ jobs:
           else
             echo "No version tag found. Skipping workflow."
             exit 0
+          fi
 
       - uses: compas-dev/compas-actions.build@v3
         with:
