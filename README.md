@@ -5,7 +5,7 @@
 [![pip downloads](https://img.shields.io/pypi/dm/aixd_ara)](https://pypi.python.org/project/aixd_ara)
 [![PyPI Package latest release](https://img.shields.io/pypi/v/aixd_ara.svg)](https://pypi.python.org/pypi/aixd_ara)
 [![Anaconda](https://img.shields.io/conda/vn/conda-forge/aixd_ara.svg)](https://anaconda.org/conda-forge/aixd_ara)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14007759.svg)](https://zenodo.org/badge/latestdoi/14007759)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14007759.svg)](https://zenodo.org/records/14007759)
 
 
 Grasshopper plugin for the AIXD toolkit.
