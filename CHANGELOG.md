@@ -9,9 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-### Changed
-
-### Removed
+* Release without code changes to create a Zenodo DOI
 
 
 ## [0.10.4] 2024-09-28
