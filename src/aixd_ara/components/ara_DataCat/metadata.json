@@ -16,12 +16,6 @@
                 "scriptParamAccess": 0
             },
             {
-                "name": "dim",
-                "description": "Dimension of the variable.",
-                "typeHintID": "int",
-                "scriptParamAccess": 0
-            },
-            {
                 "name": "options",
                 "description": "Options: list of possible categories, as strings.",
                 "typeHintID": "str",

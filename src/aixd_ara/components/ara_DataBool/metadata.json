@@ -14,14 +14,7 @@
                 "description": "Name of the variable.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
-            },
-            {
-                "name": "dim",
-                "description": "Dimension of the variable.",
-                "typeHintID": "int",
-                "scriptParamAccess": 0
             }
-
         ],
 
         "outputParameters": [

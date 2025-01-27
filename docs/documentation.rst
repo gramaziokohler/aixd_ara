@@ -21,7 +21,6 @@ Defines a boolean variable (`True` or `False`).
 **Inputs**
 
 - **name** *(str)* -- Name of the variable.
-- **dim** *(int)* -- Dimension of the variable.
 
 **Outputs**
 
@@ -40,7 +39,6 @@ Defines a categorical variable (for example, represening labels or classes).
 **Inputs**
 
 - **name** *(str)* -- Name of the variable.
-- **dim** *(int)* -- Dimension of the variable.
 - **options** *[List of (str)]* -- Options: list of possible categories, as strings.
 
 **Outputs**
