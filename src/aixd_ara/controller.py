@@ -351,7 +351,7 @@ class SessionController(object):
         blocks = self.blocknames_from_dataobjects(dataobjects)
 
         plotter = Plotter(self.dataset, output=None)
-        fig = plotter.correlation(block=blocks, attributes=dataobjects)
+        fig = plotter.correlation(blocks=blocks, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
     def plot_contours(self, dataobjects, output_type):
@@ -360,10 +360,10 @@ class SessionController(object):
         """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
-        block = self.blocknames_from_dataobjects(dataobjects)[0]
+        blocks = self.blocknames_from_dataobjects(dataobjects)
 
         plotter = Plotter(self.dataset, output=None)
-        fig = plotter.contours2d(block=block, attributes=dataobjects)
+        fig = plotter.contours2d(blocks=blocks, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
     def plot_contours_request(self, output_type):
