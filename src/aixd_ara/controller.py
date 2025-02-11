@@ -155,10 +155,8 @@ class SessionController(object):
             error = "You need to first set the project root path and the dataset name."
             raise ValueError(error)
         try:
-            dataset = Dataset(root_path=self.project_root, name=self.project_name, overwrite=False)
-            dataset.load_dataset_obj()
+            dataset = Dataset.from_dataset_folder(os.path.join(self.project_root, self.project_name))
             dataset.load()
-            dataset.update_obj_domains(flag_only_perfatt=True)
         except:  # noqa: E722
             dataset = None
             error = "Loading dataset failed."
