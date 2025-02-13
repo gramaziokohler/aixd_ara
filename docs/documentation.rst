@@ -15,7 +15,7 @@ DataBool
 	:height: 24
 	:width: 24
 
-Defines a boolean variable (`True` or `False`).
+Defines a boolean variable.
 
 
 **Inputs**
@@ -34,7 +34,7 @@ DataCategorical
 	:height: 24
 	:width: 24
 
-Defines a categorical variable (for example, represening labels or classes).
+Defines a categorical variable.
 
 
 **Inputs**
@@ -128,8 +128,8 @@ DatasetGenerator
 	:height: 24
 	:width: 24
 
-Provides instructions on how to generate random samples for the dataset by harnessing the parametric model found in the current Grasshopper file.
-See Tutorial for more information on how to prepare the inputs and outputs of the parametric model.
+Provides instructions on how to generate random samples for the dataset.
+
 
 **Outputs**
 
@@ -161,7 +161,7 @@ DatasetOneSample
 	:width: 24
 
 Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.
-Requires a dataset to be loaded.
+
 
 **Inputs**
 
@@ -172,6 +172,27 @@ Requires a dataset to be loaded.
 
 - **sample_summary** -- Summary of the retrieved sample.
 
+DatasetsMerge
+-------------
+.. image:: _images/icons/ara_DatasetsMerge.png
+	:align: left
+	:height: 24
+	:width: 24
+
+Merges multiple datasets into a single dataset. Requires that the datasets have the same schema (variable names, types, dimensions).
+
+
+**Inputs**
+
+- **root_folder** *(str)* -- Path to the folder containing the datasets to merge.
+- **new_dataset_name** *(str)* -- Name of the merged dataset. (Optional, default: 'merged_dataset'.)
+- **samples_per_file** *(int)* -- Number of samples to be saved in each file of the new dataset. (Optional, default: 1000.)
+- **merge** *(bool)* -- Triggers the merge process.
+
+**Outputs**
+
+- **msg** -- Message logs.
+
 DatasetSummary
 --------------
 .. image:: _images/icons/ara_DatasetSummary.png
@@ -180,7 +201,7 @@ DatasetSummary
 	:width: 24
 
 Provides a summary of the dataset.
-Requires a dataset to be loaded.
+
 
 **Inputs**
 
@@ -198,7 +219,7 @@ Generator
 	:width: 24
 
 Runs a generation campaing to create new designs using the trained model.
-Requires a dataset and a trained model to be loaded.
+
 
 **Inputs**
 
@@ -221,7 +242,7 @@ ModelDimensions
 	:width: 24
 
 Retrieves dimensions of the model's input and output layers.
-Requires that a model has been set up or loaded.
+
 
 **Inputs**
 
@@ -239,7 +260,7 @@ ModelLoad
 	:width: 24
 
 Loads an existing, pre-traind neural network model from a checkpoint.
-Requires a dataset to be loaded.
+
 
 **Inputs**
 
@@ -260,7 +281,7 @@ ModelSetup
 	:width: 24
 
 Sets up an autoencoder model of the specified type with the given parameters.
-Requires a dataset to be loaded.
+
 
 **Inputs**
 
@@ -285,7 +306,7 @@ ModelSummary
 	:width: 24
 
 Provides a summary of the autoencoder model's architecture.
-Requires that a model has been set up or loaded.
+
 
 **Inputs**
 
@@ -304,7 +325,7 @@ ModelTrain
 	:width: 24
 
 Runs a training campaign.
-Requires that a model has been set up (to train from scratch) or loaded (to continue training).
+
 
 **Inputs**
 
@@ -325,15 +346,12 @@ PlotContours
 	:width: 24
 
 Plots the distribution contours for each pair of variables from the data in the dataset.
-Launches an interactive plot in a browser.
-Requires a dataset to be loaded.
 
 
 **Inputs**
 
 - **variables** *[List of (str)]* -- List of names of the variables to be plotted.
 - **plot** *(bool)* -- Set to True to (re-)create the plot.
-
 
 PlotContoursRequest
 -------------------
@@ -343,8 +361,6 @@ PlotContoursRequest
 	:width: 24
 
 Plots the predicted values of the requested designs against the distribution contours for each pair of the corresponding variables.
-Launches an interactive plot in a browser.
-Requires that a request has been made and designs have been generated.
 
 
 **Inputs**
@@ -359,8 +375,7 @@ PlotCorrelations
 	:width: 24
 
 Plots correlation matrix for the given variables from the data in the dataset.
-Launches an interactive plot in a browser.
-Requires a dataset to be loaded.
+
 
 **Inputs**
 
@@ -375,8 +390,7 @@ PlotDistribution
 	:width: 24
 
 Plots the distribution of the given variables from the data in the dataset.
-Launches an interactive plot in a browser.
-Requires a dataset to be loaded.
+
 
 **Inputs**
 
