@@ -6,6 +6,8 @@ Do not call it from Rhino/Grasshopper (imports will fail in IronPython).
 import base64
 import os
 import random
+import shutil
+import pandas as pd
 
 import pytorch_lightning as pl
 import torch
@@ -607,6 +609,112 @@ class SessionController(object):
                     blocknames.append(block.name)
 
         return list(set(blocknames))
+
+    @staticmethod
+    def merge_datasets(root_folder: str, new_dataset_name: str, samples_per_file: int):
+        """
+        This function merges all datasets in the root_folder into a new dataset with the name new_dataset_name.
+        Prerequisites:
+        - All datasets are stored in subfolders of the root_folder
+        - Each dataset has the same design_parameters and performance_attributes (variable names, types, dimensions)
+
+        Parameters:
+        -----------
+        root_folder: str
+            Path to the root folder containing the datasets.
+        new_dataset_name: str
+            Name of the new dataset. The new dataset will be created in a subfolder with this name. Default is "merged_dataset".
+            If such a folder already exists, it will be overwritten.
+
+        Returns:
+        --------
+        status : str
+            Status of the process: "warning", "error" or None
+        msg : str
+            A message containing information about the process.
+        """
+        # TODO: check what happens with the domains, may need to get a union explicitly.
+
+        status = None
+        msg = ""
+
+        if not os.path.exists(root_folder):
+            txt = f"Folder {root_folder} does not exist.\n"
+            status = "error"
+            return status, txt
+
+        if not new_dataset_name:
+            new_dataset_name = "merged_dataset"
+
+        if os.path.exists(os.path.join(root_folder, new_dataset_name)):
+            txt = f"[WARNING] Folder {new_dataset_name} already exists. It will be overwritten.\n\n"
+            status = "warning"
+            print(txt)
+            msg += txt
+            shutil.rmtree(os.path.join(root_folder, new_dataset_name))
+
+        dataset_names = [
+            name
+            for name in os.listdir(root_folder)
+            if os.path.isdir(os.path.join(root_folder, name)) and name != new_dataset_name
+        ]
+        txt = f"Found following subfolders: {dataset_names}.\n\n"
+        print(txt)
+        msg += txt
+
+        def _load_df(root_folder, dataset_name):
+            # Load old sharded data from pickled dataframes
+
+            # DPs
+            directory = os.path.join(root_folder, dataset_name, "design_parameters")
+            df_dp_all = []
+
+            for filename in os.listdir(directory):
+                if filename.endswith(".pkl"):
+                    filepath = os.path.join(directory, filename)
+                    df = pd.read_pickle(filepath)
+                    df_dp_all.append(df)
+
+            df_dp_all = pd.concat(df_dp_all, axis=0)
+
+            # PAs
+            directory = os.path.join(root_folder, dataset_name, "performance_attributes")
+            df_pa_all = []
+
+            for filename in os.listdir(directory):
+                if filename.endswith(".pkl"):
+                    filepath = os.path.join(directory, filename)
+                    df = pd.read_pickle(filepath)
+                    df_pa_all.append(df)
+
+            df_pa_all = pd.concat(df_pa_all, axis=0)
+            df_all = pd.merge(df_dp_all, df_pa_all, how="inner", on=["uid"])
+            df_all = df_all.drop(columns=["uid"])
+            return df_all
+
+        # load all datasets into a single dataframe
+        dfs = []
+        for dataset_name in dataset_names:
+            df = _load_df(root_folder, dataset_name)
+            dfs.append(df)
+        df_all = pd.concat(dfs)
+
+        # create new Dataset, take one of the old datasets as a template
+        dataset_temp = Dataset.from_dataset_folder(os.path.join(root_folder, dataset_names[0]))
+
+        dataset_new = Dataset(
+            name=new_dataset_name,
+            root_path=root_folder,
+            file_format="json",
+            design_par=dataset_temp.design_par,
+            perf_attributes=dataset_temp.perf_attributes,
+            overwrite=True,
+        )
+
+        # load data
+        dataset_new.import_data_from_df(df_all, samples_perfile=samples_per_file, flag_fromscratch=True)
+        msg += f"New dataset with {len(df_all)} samples has been created in {os.path.join(root_folder, new_dataset_name)}.\n"
+        return {"status": status, "msg": msg}
 
 
 # --------------------------------------------------------------

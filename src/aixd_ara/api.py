@@ -376,6 +376,22 @@ def ara_welcome(*args):
     print()
 
 
+@app.route("/merge_datasets", methods=["POST"])
+def merge_datasets():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.merge_datasets(
+        root_folder=data["root_folder"],
+        new_dataset_name=data["new_dataset_name"],
+        samples_per_file=data["samples_per_file"],
+    )
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
 if __name__ == "__main__":
     import sys
 
