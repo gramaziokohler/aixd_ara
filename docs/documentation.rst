@@ -15,13 +15,12 @@ DataBool
 	:height: 24
 	:width: 24
 
-Defines a boolean variable.
+Defines a boolean variable (`True` or `False`).
 
 
 **Inputs**
 
 - **name** *(str)* -- Name of the variable.
-- **dim** *(int)* -- Dimension of the variable.
 
 **Outputs**
 
@@ -34,13 +33,12 @@ DataCategorical
 	:height: 24
 	:width: 24
 
-Defines a categorical variable.
+Defines a categorical variable (for example, represening labels or classes).
 
 
 **Inputs**
 
 - **name** *(str)* -- Name of the variable.
-- **dim** *(int)* -- Dimension of the variable.
 - **options** *[List of (str)]* -- Options: list of possible categories, as strings.
 
 **Outputs**
@@ -128,7 +126,8 @@ DatasetGenerator
 	:height: 24
 	:width: 24
 
-Provides instructions on how to generate random samples for the dataset.
+Provides instructions on how to generate random samples for the dataset by harnessing the parametric model found in the current Grasshopper file. 
+See Tutorial for more information on how to prepare the inputs and outputs of the parametric model.
 
 
 **Outputs**
@@ -160,7 +159,8 @@ DatasetOneSample
 	:height: 24
 	:width: 24
 
-Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.
+Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model. 
+Requires a dataset to be loaded.
 
 
 **Inputs**
@@ -200,7 +200,8 @@ DatasetSummary
 	:height: 24
 	:width: 24
 
-Provides a summary of the dataset.
+Provides a summary of the dataset. 
+Requires a dataset to be loaded.
 
 
 **Inputs**
@@ -218,7 +219,8 @@ Generator
 	:height: 24
 	:width: 24
 
-Runs a generation campaing to create new designs using the trained model.
+Runs a generation campaing to create new designs using the trained model. 
+Requires a dataset and a trained model to be loaded.
 
 
 **Inputs**
@@ -241,7 +243,8 @@ ModelDimensions
 	:height: 24
 	:width: 24
 
-Retrieves dimensions of the model's input and output layers.
+Retrieves dimensions of the model's input and output layers. 
+Requires that a model has been set up or loaded.
 
 
 **Inputs**
@@ -259,7 +262,8 @@ ModelLoad
 	:height: 24
 	:width: 24
 
-Loads an existing, pre-traind neural network model from a checkpoint.
+Loads an existing, pre-traind neural network model from a checkpoint. 
+Requires a dataset to be loaded.
 
 
 **Inputs**
@@ -280,7 +284,8 @@ ModelSetup
 	:height: 24
 	:width: 24
 
-Sets up an autoencoder model of the specified type with the given parameters.
+Sets up an autoencoder model of the specified type with the given parameters. 
+Requires a dataset to be loaded.
 
 
 **Inputs**
@@ -305,7 +310,8 @@ ModelSummary
 	:height: 24
 	:width: 24
 
-Provides a summary of the autoencoder model's architecture.
+Provides a summary of the autoencoder model's architecture. 
+Requires that a model has been set up or loaded.
 
 
 **Inputs**
@@ -324,7 +330,8 @@ ModelTrain
 	:height: 24
 	:width: 24
 
-Runs a training campaign.
+Runs a training campaign. 
+Requires that a model has been set up (to train from scratch) or loaded (to continue training).
 
 
 **Inputs**
@@ -345,7 +352,9 @@ PlotContours
 	:height: 24
 	:width: 24
 
-Plots the distribution contours for each pair of variables from the data in the dataset.
+Plots the distribution contours for each pair of variables from the data in the dataset. 
+Launches an interactive plot in a browser. 
+Requires a dataset to be loaded.
 
 
 **Inputs**
@@ -360,7 +369,9 @@ PlotContoursRequest
 	:height: 24
 	:width: 24
 
-Plots the predicted values of the requested designs against the distribution contours for each pair of the corresponding variables.
+Plots the predicted values of the requested designs against the distribution contours for each pair of the corresponding variables. 
+Launches an interactive plot in a browser. 
+Requires that a request has been made and designs have been generated.
 
 
 **Inputs**
@@ -374,7 +385,9 @@ PlotCorrelations
 	:height: 24
 	:width: 24
 
-Plots correlation matrix for the given variables from the data in the dataset.
+Plots correlation matrix for the given variables from the data in the dataset. 
+Launches an interactive plot in a browser. 
+Requires a dataset to be loaded.
 
 
 **Inputs**
@@ -389,7 +402,9 @@ PlotDistribution
 	:height: 24
 	:width: 24
 
-Plots the distribution of the given variables from the data in the dataset.
+Plots the distribution of the given variables from the data in the dataset. 
+Launches an interactive plot in a browser. 
+Requires a dataset to be loaded.
 
 
 **Inputs**

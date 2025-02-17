@@ -3,7 +3,7 @@
     "nickname": "DatasetOneSample",
     "category": "ARA",
     "subcategory": "2 Dataset",
-    "description": "Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.",
+    "description": "Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model. \nRequires a dataset to be loaded.",
     "exposure": 4,
     "ghpython": {
         "isAdvancedMode": false,

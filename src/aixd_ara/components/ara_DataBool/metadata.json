@@ -3,7 +3,7 @@
     "nickname": "DataBool",
     "category": "ARA",
     "subcategory": "1 Data",
-    "description": "Defines a boolean variable.",
+    "description": "Defines a boolean variable (`True` or `False`).",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
@@ -14,14 +14,7 @@
                 "description": "Name of the variable.",
                 "typeHintID": "str",
                 "scriptParamAccess": 0
-            },
-            {
-                "name": "dim",
-                "description": "Dimension of the variable.",
-                "typeHintID": "int",
-                "scriptParamAccess": 0
             }
-
         ],
 
         "outputParameters": [

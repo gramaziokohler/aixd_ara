@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 * fixed DataBool (#68)
 * fixed GetOneSample (#68)
+* removed option to specify dimensions in DataBool and DataCategorical components (#60), to align with bug fixes in AIXD
 
 ### Removed
 

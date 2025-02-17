@@ -1,5 +1,6 @@
 # flake8: noqa
 from scriptcontext import sticky as st
+from Grasshopper.Kernel.GH_RuntimeMessageLevel import Warning
 
 from aixd_ara.gh_ui import create_dataset_object
 from aixd_ara.gh_ui_helper import component_id
@@ -17,3 +18,5 @@ if create:
 
 if cid in st.keys():
     msg = st[cid]["msg"]
+    if st[cid]["status"]=="warning":
+        ghenv.Component.AddRuntimeMessage(Warning, msg)

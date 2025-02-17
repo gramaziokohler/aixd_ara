@@ -86,16 +86,29 @@ class SessionController(object):
         if not self.project_root or not self.project_name:
             raise ValueError("You need to first set the project root path and the dataset name.")
 
+        dataset_path = os.path.join(self.project_root, self.project_name)
+        if len(os.listdir(dataset_path)) > 0:
+            msg = f"The folder {os.path.join(self.project_root,self.project_name)} is not empty!"
+            msg += "\nProbably it already contains a Dataset. \nIf yes, if does not need to be defined again."
+            msg += "\nIf you want to define a new Dataset, change the project name or the project path, \
+                or delete the existing Dataset."
+            return {"msg": msg, "status": "warning"}
+
         dp = DesignParameters(name="DP", dobj_list=dataobjects_from_shallow(design_parameters))
         pa = PerformanceAttributes(name="PA", dobj_list=dataobjects_from_shallow(performance_attributes))
 
-        dataset = Dataset(name=self.project_name, design_par=dp, perf_attributes=pa, root_path=self.project_root)
+        # INFO: we need to use overwrite=True here because of AIXD syntax
+        # which only checks for the existence of the folder.
+        # INFO: In ARA this folder is always created before.
+        # We prevent overwriting data by checking above if the folder is empty.
+        dataset = Dataset(
+            name=self.project_name, design_par=dp, perf_attributes=pa, root_path=self.project_root, overwrite=True
+        )
         dataset.save_dataset_obj()
 
-        # TODO: overrides an already assigned dataset - what about the datafiles if they exist?
         self.dataset = dataset
 
-        return {"msg": "Dataset object has been created."}
+        return {"msg": f"Dataset object and default subfolders have been created in {dataset_path}.", "status": "ok"}
 
     def generate_dp_samples(self, n_samples):
         if not self.dataset:
@@ -147,10 +160,8 @@ class SessionController(object):
             error = "You need to first set the project root path and the dataset name."
             raise ValueError(error)
         try:
-            dataset = Dataset(root_path=self.project_root, name=self.project_name, overwrite=False)
-            dataset.load_dataset_obj()
+            dataset = Dataset.from_dataset_folder(os.path.join(self.project_root, self.project_name))
             dataset.load()
-            dataset.update_obj_domains(flag_only_perfatt=True)
         except:  # noqa: E722
             dataset = None
             error = "Loading dataset failed."
@@ -343,7 +354,7 @@ class SessionController(object):
         blocks = self.blocknames_from_dataobjects(dataobjects)
 
         plotter = Plotter(self.dataset, output=None)
-        fig = plotter.correlation(block=blocks, attributes=dataobjects)
+        fig = plotter.correlation(blocks=blocks, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
     def plot_contours(self, dataobjects, output_type):
@@ -352,10 +363,10 @@ class SessionController(object):
         """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
-        block = self.blocknames_from_dataobjects(dataobjects)[0]
+        blocks = self.blocknames_from_dataobjects(dataobjects)
 
         plotter = Plotter(self.dataset, output=None)
-        fig = plotter.contours2d(block=block, attributes=dataobjects)
+        fig = plotter.contours2d(blocks=blocks, attributes=dataobjects)
         return _fig_output(fig, output_type)
 
     def plot_contours_request(self, output_type):
