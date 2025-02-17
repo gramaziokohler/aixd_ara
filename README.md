@@ -8,7 +8,27 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14007759.svg)](https://doi.org/10.5281/zenodo.14007758)
 
 
-Grasshopper plugin for the AIXD toolkit.
+**Grasshopper plugin for data-driven and inverse design methods with generative AI.**
+
+
+**ARA** is a Grasshopper plugin that augments the design process with data-driven and inverse design approach by combining parametric models built in Grasshopper with generative AI models. It enables designers, architects and engineers to efficiently generate design solutions with the assistance of generative neural networks. The inverse design paradigm accelerates design exploration by providing many different design variants that match project objectives.
+
+With **ARA**, you can easily generate a project-specific the dataset from an existing parametric model definition in Grasshopper, and then train and deploy a custom autoencoder model to generate designs that satisfy the requested target values, such as performance metrics or design constraints.
+
+**ARA** also comes with various visualization tools for data analysis and performance evaluation.
+
+**ARA** is open-source and builds on top of the [AIXD: AI-eXtended Design toolkit](https://gitlab.renkulab.io/ai-augmented-design/aixd).
+
+## Getting started
+
+To get started, please have a look at the 
+[Easy Installation](https://gramaziokohler.github.io/aixd_ara/latest/installation.html), 
+[Tutorial](https://gramaziokohler.github.io/aixd_ara/latest/tutorial.html), 
+[Documentation](https://gramaziokohler.github.io/aixd_ara/latest/documentation.html) and 
+[Examples](https://gramaziokohler.github.io/aixd_ara/latest/examples.html),
+as well as our [paper](https://link.springer.com/chapter/10.1007/978-3-031-68275-9_19).
+
+
 
 ## Installation
 
