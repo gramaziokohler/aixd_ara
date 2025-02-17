@@ -89,8 +89,8 @@ class SessionController(object):
         dataset_path = os.path.join(self.project_root, self.project_name)
         if len(os.listdir(dataset_path)) > 0:
             msg = f"The folder {os.path.join(self.project_root,self.project_name)} is not empty!"
-            msg += "\nProbably it already contains a Dataset. \nIf yes, if does not need to be defined again."
-            msg += "\nIf you want to define a new Dataset, change the project name or the project path, \
+            msg += "\n\nProbably it already contains a Dataset. \nIf yes, the Dataset does not need to be defined again."
+            msg += "\n\nIf you want to define a new Dataset, change the project name or the project path, \
                 or delete the existing Dataset."
             return {"msg": msg, "status": "warning"}
 
