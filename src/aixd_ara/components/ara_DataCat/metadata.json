@@ -3,7 +3,7 @@
     "nickname": "DataCat",
     "category": "ARA",
     "subcategory": "1 Data",
-    "description": "Defines a categorical variable.",
+    "description": "Defines a categorical variable (for example, represening labels or classes).",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

@@ -3,7 +3,7 @@
     "nickname": "PlotContReq",
     "category": "ARA",
     "subcategory": "5 Plotter",
-    "description": "Plots the predicted values of the requested designs against the distribution contours for each pair of the corresponding variables.",
+    "description": "Plots the predicted values of the requested designs against the distribution contours for each pair of the corresponding variables. \nLaunches an interactive plot in a browser. \nRequires that a request has been made and designs have been generated.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

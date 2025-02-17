@@ -3,7 +3,7 @@
     "nickname": "ModelDims",
     "category": "ARA",
     "subcategory": "3 Model",
-    "description": "Retrieves dimensions of the model's input and output layers.",
+    "description": "Retrieves dimensions of the model's input and output layers. \nRequires that a model has been set up or loaded.",
     "exposure": 4,
     "ghpython": {
         "isAdvancedMode": false,

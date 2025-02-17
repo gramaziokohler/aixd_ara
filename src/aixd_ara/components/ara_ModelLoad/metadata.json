@@ -3,7 +3,7 @@
     "nickname": "ModelLoad",
     "category": "ARA",
     "subcategory": "3 Model",
-    "description": "Loads an existing, pre-traind neural network model from a checkpoint.",
+    "description": "Loads an existing, pre-traind neural network model from a checkpoint. \nRequires a dataset to be loaded.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

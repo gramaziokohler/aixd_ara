@@ -3,7 +3,7 @@
     "nickname": "ModelSetup",
     "category": "ARA",
     "subcategory": "3 Model",
-    "description": "Sets up an autoencoder model of the specified type with the given parameters.",
+    "description": "Sets up an autoencoder model of the specified type with the given parameters. \nRequires a dataset to be loaded.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

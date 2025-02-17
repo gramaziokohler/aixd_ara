@@ -3,7 +3,7 @@
     "nickname": "Generator",
     "category": "ARA",
     "subcategory": "4 Generator",
-    "description": "Runs a generation campaing to create new designs using the trained model.",
+    "description": "Runs a generation campaing to create new designs using the trained model. \nRequires a dataset and a trained model to be loaded.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

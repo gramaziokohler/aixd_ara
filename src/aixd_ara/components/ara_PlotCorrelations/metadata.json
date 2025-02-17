@@ -3,7 +3,7 @@
     "nickname": "PlotCorrelations",
     "category": "ARA",
     "subcategory": "5 Plotter",
-    "description": "Plots correlation matrix for the given variables from the data in the dataset.",
+    "description": "Plots correlation matrix for the given variables from the data in the dataset. \nLaunches an interactive plot in a browser. \nRequires a dataset to be loaded.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
