@@ -190,10 +190,7 @@ def instantiate_sample(ghdoc, sample_dict):
         component_name = "DP_{}".format(dp_name)
         component = find_component_by_nickname(ghdoc, component_name)
 
-        if not dp_vals:
-            print("No values for {}!".format(dp_name))
-        else:
-            ghparam_set_values(component, dp_vals)
+        ghparam_set_values(component, dp_vals)
 
 
 def convert_str_to_bitmap(base64_imgstr, scale=1.0):

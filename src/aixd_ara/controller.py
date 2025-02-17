@@ -254,7 +254,16 @@ class SessionController(object):
         elif isinstance(dobj, DataReal):
             castvalue = [float(v) for v in value]
         elif isinstance(dobj, DataBool):
-            castvalue = [bool(v) for v in value]
+            castvalue = []
+            for v in value:
+                if isinstance(v, bool):
+                    castvalue.append(v)
+                elif isinstance(v, int):
+                    castvalue.append(bool(v))
+                elif isinstance(v, str):
+                    castvalue.append({"True": True, "False": False}[v])
+                else:
+                    raise ValueError(f"Dataobject type not recognized: {dobj.type}")
         elif isinstance(dobj, DataCategorical):
             castvalue = [str(v) for v in value]
         else:
