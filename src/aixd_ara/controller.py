@@ -623,7 +623,8 @@ class SessionController(object):
         root_folder: str
             Path to the root folder containing the datasets.
         new_dataset_name: str
-            Name of the new dataset. The new dataset will be created in a subfolder with this name. Default is "merged_dataset".
+            Name of the new dataset. The new dataset will be created in a subfolder with this name. \
+                Default is "merged_dataset".
             If such a folder already exists, it will be overwritten.
 
         Returns:
@@ -713,7 +714,8 @@ class SessionController(object):
 
         # load data
         dataset_new.import_data_from_df(df_all, samples_perfile=samples_per_file, flag_fromscratch=True)
-        msg += f"New dataset with {len(df_all)} samples has been created in {os.path.join(root_folder, new_dataset_name)}.\n"
+        msg += f"New dataset with {len(df_all)} samples has been created in \
+            {os.path.join(root_folder, new_dataset_name)}.\n"
         return {"status": status, "msg": msg}
 
 
