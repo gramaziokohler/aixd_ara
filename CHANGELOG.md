@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * added a script and a component to merge datasets (#66)
 
 ### Changed
+* fixed DataBool (#68)
+* fixed GetOneSample (#68)
 
 ### Removed
 
