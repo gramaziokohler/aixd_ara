@@ -3,7 +3,7 @@
     "nickname": "ModelTrain",
     "category": "ARA",
     "subcategory": "3 Model",
-    "description": "Runs a training campaign.",
+    "description": "Runs a training campaign. \nRequires that a model has been set up (to train from scratch) or loaded (to continue training).",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,

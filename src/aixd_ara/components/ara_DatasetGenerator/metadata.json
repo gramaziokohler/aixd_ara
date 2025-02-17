@@ -3,7 +3,7 @@
     "nickname": "DatasetGen",
     "category": "ARA",
     "subcategory": "2 Dataset",
-    "description": "Provides instructions on how to generate random samples for the dataset.",
+    "description": "Provides instructions on how to generate random samples for the dataset by harnessing the parametric model found in the current Grasshopper file. \nSee Tutorial for more information on how to prepare the inputs and outputs of the parametric model.",
     "exposure": 2,
     "ghpython": {
         "isAdvancedMode": false,
