@@ -254,7 +254,16 @@ class SessionController(object):
         elif isinstance(dobj, DataReal):
             castvalue = [float(v) for v in value]
         elif isinstance(dobj, DataBool):
-            castvalue = [bool(v) for v in value]
+            castvalue = []
+            for v in value:
+                if isinstance(v, bool):
+                    castvalue.append(v)
+                elif isinstance(v, int):
+                    castvalue.append(bool(v))
+                elif isinstance(v, str):
+                    castvalue.append({"True": True, "False": False}[v])
+                else:
+                    raise ValueError(f"Dataobject type not recognized: {dobj.type}")
         elif isinstance(dobj, DataCategorical):
             castvalue = [str(v) for v in value]
         else:
@@ -495,24 +504,29 @@ class SessionController(object):
             n = len(self.dataset.design_par.data)
             item = random.randint(0, n)
 
+        dp_df = self.dataset.design_par.data.iloc[item]  # pd.series
+        pa_df = self.dataset.perf_attributes.data.iloc[item]  # pd.series
+
+        def _reduce_list(x):
+            # if the list has only one element, return the element instead of a list
+            if isinstance(x, list):
+                if len(x) == 1:
+                    return x[0]
+            return x
+
         sample = {"design_parameters": {}, "performance_attributes": {}}
+        for name, values in dp_df.items():
+            if name == "uid":
+                continue
+            typed_values = self.cast_to_python_type(name, values)
+            sample["design_parameters"][name] = _reduce_list(typed_values)
 
-        dct = reformat_dataframeflat_to_dict(self.dataset.design_par.data, self.dataset.design_par.dobj_list)
-        for key, values in dct.items():
-            dct[key] = self.cast_to_python_type(key, values[item])
-        sample["design_parameters"] = dct
+        for name, values in pa_df.items():
+            if name in ["uid", "error"]:
+                continue
+            typed_values = self.cast_to_python_type(name, values)
+            sample["performance_attributes"][name] = _reduce_list(typed_values)
 
-        dct = reformat_dataframeflat_to_dict(self.dataset.perf_attributes.data, self.dataset.perf_attributes.dobj_list)
-        for key, values in dct.items():
-            dct[key] = self.cast_to_python_type(key, values[item])
-        sample["performance_attributes"] = dct
-
-        # for single-value entries, unpack them from a list [123] -> 123
-        for x in sample.keys():
-            for k, v in sample[x].items():
-                if isinstance(v, list):
-                    if len(v) == 1:
-                        sample[x][k] = v[0]
         return sample
 
     def request_designs(self, request, n_samples=1):
