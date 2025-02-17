@@ -1,0 +1,45 @@
+{
+    "name": "DatasetsMerge",
+    "nickname": "DatasetsMerge",
+    "category": "ARA",
+    "subcategory": "2 Dataset",
+    "description": "Merges multiple datasets into a single dataset. Requires that the datasets have the same schema (variable names, types, dimensions).",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "root_folder",
+                "description": "Path to the folder containing the datasets to merge.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "new_dataset_name",
+                "description": "Name of the merged dataset. (Optional, default: 'merged_dataset'.)",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "samples_per_file",
+                "description": "Number of samples to be saved in each file of the new dataset. (Optional, default: 1000.)",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "merge",
+                "description": "Triggers the merge process.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+
+        "outputParameters": [
+            {
+                "name": "msg",
+                "description": "Message logs."
+            }
+        ]
+    }
+}

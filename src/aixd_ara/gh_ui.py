@@ -103,3 +103,13 @@ def model_input_output_dimensions(session_id):
 def request_designs(session_id, request, n_designs):
     data = {"session_id": session_id, "requested_values": request, "n_designs": n_designs}
     return http_post_request(action="request_designs", data=data)
+
+
+def merge_datasets(session_id, root_folder, new_dataset_name, samples_per_file):
+    data = {
+        "session_id": session_id,
+        "root_folder": root_folder,
+        "new_dataset_name": new_dataset_name,
+        "samples_per_file": samples_per_file,
+    }
+    return http_post_request(action="merge_datasets", data=data)
