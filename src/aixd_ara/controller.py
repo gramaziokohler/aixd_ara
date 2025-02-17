@@ -513,7 +513,7 @@ class SessionController(object):
                 if len(x) == 1:
                     return x[0]
             return x
-        
+
         sample = {"design_parameters": {}, "performance_attributes": {}}
         for name, values in dp_df.items():
             if name == "uid":
