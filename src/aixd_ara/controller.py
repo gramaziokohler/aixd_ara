@@ -97,8 +97,10 @@ class SessionController(object):
         dp = DesignParameters(name="DP", dobj_list=dataobjects_from_shallow(design_parameters))
         pa = PerformanceAttributes(name="PA", dobj_list=dataobjects_from_shallow(performance_attributes))
 
-        # INFO: we need to use overwrite=True here because of AIXD syntax which only checks for the existence of the folder.
-        # INFO: In ARA this folder is always created before. We prevent overwriting data by checking above if the folder is empty.
+        # INFO: we need to use overwrite=True here because of AIXD syntax
+        # which only checks for the existence of the folder.
+        # INFO: In ARA this folder is always created before.
+        # We prevent overwriting data by checking above if the folder is empty.
         dataset = Dataset(
             name=self.project_name, design_par=dp, perf_attributes=pa, root_path=self.project_root, overwrite=True
         )
