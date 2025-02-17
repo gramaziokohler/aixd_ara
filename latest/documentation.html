@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/css/compas.css?v=617b33e2" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
@@ -553,7 +553,7 @@ document.write(`
 <h2>DataBool</h2>
 <a class="reference internal image-reference" href="_images/ara_DataBool.png"><img alt="_images/ara_DataBool.png" class="align-left" src="_images/ara_DataBool.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Defines a boolean variable (<cite>True</cite> or <cite>False</cite>).</p>
+<p>Defines a boolean variable.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>name</strong> <em>(str)</em> – Name of the variable.</p></li>
@@ -568,7 +568,7 @@ document.write(`
 <h2>DataCategorical</h2>
 <a class="reference internal image-reference" href="_images/ara_DataCat.png"><img alt="_images/ara_DataCat.png" class="align-left" src="_images/ara_DataCat.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Defines a categorical variable (for example, represening labels or classes).</p>
+<p>Defines a categorical variable.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>name</strong> <em>(str)</em> – Name of the variable.</p></li>
@@ -642,8 +642,7 @@ document.write(`
 <h2>DatasetGenerator</h2>
 <a class="reference internal image-reference" href="_images/ara_DatasetGenerator.png"><img alt="_images/ara_DatasetGenerator.png" class="align-left" src="_images/ara_DatasetGenerator.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Provides instructions on how to generate random samples for the dataset by harnessing the parametric model found in the current Grasshopper file.
-See Tutorial for more information on how to prepare the inputs and outputs of the parametric model.</p>
+<p>Provides instructions on how to generate random samples for the dataset.</p>
 <p><strong>Outputs</strong></p>
 <ul class="simple">
 <li><p><strong>instructions</strong> – Information on how to run the <cite>dataset_generator</cite> script.</p></li>
@@ -667,8 +666,7 @@ See Tutorial for more information on how to prepare the inputs and outputs of th
 <h2>DatasetOneSample</h2>
 <a class="reference internal image-reference" href="_images/ara_DatasetOneSample.png"><img alt="_images/ara_DatasetOneSample.png" class="align-left" src="_images/ara_DatasetOneSample.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.
-Requires a dataset to be loaded.</p>
+<p>Retrieves one sample from the dataset (at a given or random index) and instantiates it in the parametric model.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>item</strong> <em>(int)</em> – Index of the sample in the dataset, optional. If not provided, a random index will be selected.</p></li>
@@ -679,12 +677,28 @@ Requires a dataset to be loaded.</p>
 <li><p><strong>sample_summary</strong> – Summary of the retrieved sample.</p></li>
 </ul>
 </section>
+<section id="datasetsmerge">
+<h2>DatasetsMerge</h2>
+<a class="reference internal image-reference" href="_images/ara_DatasetsMerge.png"><img alt="_images/ara_DatasetsMerge.png" class="align-left" src="_images/ara_DatasetsMerge.png" style="width: 24px; height: 24px;" />
+</a>
+<p>Merges multiple datasets into a single dataset. Requires that the datasets have the same schema (variable names, types, dimensions).</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>root_folder</strong> <em>(str)</em> – Path to the folder containing the datasets to merge.</p></li>
+<li><p><strong>new_dataset_name</strong> <em>(str)</em> – Name of the merged dataset. (Optional, default: ‘merged_dataset’.)</p></li>
+<li><p><strong>samples_per_file</strong> <em>(int)</em> – Number of samples to be saved in each file of the new dataset. (Optional, default: 1000.)</p></li>
+<li><p><strong>merge</strong> <em>(bool)</em> – Triggers the merge process.</p></li>
+</ul>
+<p><strong>Outputs</strong></p>
+<ul class="simple">
+<li><p><strong>msg</strong> – Message logs.</p></li>
+</ul>
+</section>
 <section id="datasetsummary">
 <h2>DatasetSummary</h2>
 <a class="reference internal image-reference" href="_images/ara_DatasetSummary.png"><img alt="_images/ara_DatasetSummary.png" class="align-left" src="_images/ara_DatasetSummary.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Provides a summary of the dataset.
-Requires a dataset to be loaded.</p>
+<p>Provides a summary of the dataset.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>get</strong> <em>(bool)</em> – Set to True to get the summary of the dataset.</p></li>
@@ -698,8 +712,7 @@ Requires a dataset to be loaded.</p>
 <h2>Generator</h2>
 <a class="reference internal image-reference" href="_images/ara_Generator.png"><img alt="_images/ara_Generator.png" class="align-left" src="_images/ara_Generator.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Runs a generation campaing to create new designs using the trained model.
-Requires a dataset and a trained model to be loaded.</p>
+<p>Runs a generation campaing to create new designs using the trained model.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>requested_values</strong> <em>[List of (str)]</em> – List of requested values, each formatted as a string with the following format: ‘variable_name:value’.</p></li>
@@ -718,8 +731,7 @@ Requires a dataset and a trained model to be loaded.</p>
 <h2>ModelDimensions</h2>
 <a class="reference internal image-reference" href="_images/ara_ModelDims.png"><img alt="_images/ara_ModelDims.png" class="align-left" src="_images/ara_ModelDims.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Retrieves dimensions of the model’s input and output layers.
-Requires that a model has been set up or loaded.</p>
+<p>Retrieves dimensions of the model’s input and output layers.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>get</strong> <em>(bool)</em> – Set to True to retrieve input and output dimensions of the model.</p></li>
@@ -733,8 +745,7 @@ Requires that a model has been set up or loaded.</p>
 <h2>ModelLoad</h2>
 <a class="reference internal image-reference" href="_images/ara_ModelLoad.png"><img alt="_images/ara_ModelLoad.png" class="align-left" src="_images/ara_ModelLoad.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Loads an existing, pre-traind neural network model from a checkpoint.
-Requires a dataset to be loaded.</p>
+<p>Loads an existing, pre-traind neural network model from a checkpoint.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>model_type</strong> <em>(str)</em> – Type of the autoencoder model. Options are: ‘CAE’ (conditional Autoencoder) and ‘CVAE’ (conditional Variational Autoencoder). Default: ‘CAE’.</p></li>
@@ -751,8 +762,7 @@ Requires a dataset to be loaded.</p>
 <h2>ModelSetup</h2>
 <a class="reference internal image-reference" href="_images/ara_ModelSetup.png"><img alt="_images/ara_ModelSetup.png" class="align-left" src="_images/ara_ModelSetup.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Sets up an autoencoder model of the specified type with the given parameters.
-Requires a dataset to be loaded.</p>
+<p>Sets up an autoencoder model of the specified type with the given parameters.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>model_type</strong> <em>(str)</em> – Type of the autoencoder model. Options are: ‘CAE’ (conditional Autoencoder) and ‘CVAE’ (conditional Variational Autoencoder). Default: ‘CAE’.</p></li>
@@ -773,8 +783,7 @@ Requires a dataset to be loaded.</p>
 <h2>ModelSummary</h2>
 <a class="reference internal image-reference" href="_images/ara_ModelSummary.png"><img alt="_images/ara_ModelSummary.png" class="align-left" src="_images/ara_ModelSummary.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Provides a summary of the autoencoder model’s architecture.
-Requires that a model has been set up or loaded.</p>
+<p>Provides a summary of the autoencoder model’s architecture.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>max_depth</strong> <em>(int)</em> – Sets the depth of the summary. The larger the depth, the more detailed the summary.</p></li>
@@ -789,8 +798,7 @@ Requires that a model has been set up or loaded.</p>
 <h2>ModelTrain</h2>
 <a class="reference internal image-reference" href="_images/ara_ModelTrain.png"><img alt="_images/ara_ModelTrain.png" class="align-left" src="_images/ara_ModelTrain.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Runs a training campaign.
-Requires that a model has been set up (to train from scratch) or loaded (to continue training).</p>
+<p>Runs a training campaign.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>epochs</strong> <em>(int)</em> – Number of training epochs.</p></li>
@@ -807,9 +815,7 @@ Requires that a model has been set up (to train from scratch) or loaded (to cont
 <h2>PlotContours</h2>
 <a class="reference internal image-reference" href="_images/ara_PlotContours.png"><img alt="_images/ara_PlotContours.png" class="align-left" src="_images/ara_PlotContours.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Plots the distribution contours for each pair of variables from the data in the dataset.
-Launches an interactive plot in a browser.
-Requires a dataset to be loaded.</p>
+<p>Plots the distribution contours for each pair of variables from the data in the dataset.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>variables</strong> <em>[List of (str)]</em> – List of names of the variables to be plotted.</p></li>
@@ -820,9 +826,7 @@ Requires a dataset to be loaded.</p>
 <h2>PlotContoursRequest</h2>
 <a class="reference internal image-reference" href="_images/ara_PlotContoursRequest.png"><img alt="_images/ara_PlotContoursRequest.png" class="align-left" src="_images/ara_PlotContoursRequest.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Plots the predicted values of the requested designs against the distribution contours for each pair of the corresponding variables.
-Launches an interactive plot in a browser.
-Requires that a request has been made and designs have been generated.</p>
+<p>Plots the predicted values of the requested designs against the distribution contours for each pair of the corresponding variables.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>plot</strong> <em>(bool)</em> – Set to True to (re-)create the plot.</p></li>
@@ -832,9 +836,7 @@ Requires that a request has been made and designs have been generated.</p>
 <h2>PlotCorrelations</h2>
 <a class="reference internal image-reference" href="_images/ara_PlotCorrelations.png"><img alt="_images/ara_PlotCorrelations.png" class="align-left" src="_images/ara_PlotCorrelations.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Plots correlation matrix for the given variables from the data in the dataset.
-Launches an interactive plot in a browser.
-Requires a dataset to be loaded.</p>
+<p>Plots correlation matrix for the given variables from the data in the dataset.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>variables</strong> <em>[List of (str)]</em> – List of names of the variables to be plotted.</p></li>
@@ -845,9 +847,7 @@ Requires a dataset to be loaded.</p>
 <h2>PlotDistribution</h2>
 <a class="reference internal image-reference" href="_images/ara_PlotDistributions.png"><img alt="_images/ara_PlotDistributions.png" class="align-left" src="_images/ara_PlotDistributions.png" style="width: 24px; height: 24px;" />
 </a>
-<p>Plots the distribution of the given variables from the data in the dataset.
-Launches an interactive plot in a browser.
-Requires a dataset to be loaded.</p>
+<p>Plots the distribution of the given variables from the data in the dataset.</p>
 <p><strong>Inputs</strong></p>
 <ul class="simple">
 <li><p><strong>variables</strong> <em>[List of (str)]</em> – List of names of the variables to be plotted.</p></li>
@@ -940,6 +940,7 @@ Requires a dataset to be loaded.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetgenerator">DatasetGenerator</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetload">DatasetLoad</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetonesample">DatasetOneSample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetsmerge">DatasetsMerge</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasetsummary">DatasetSummary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generator">Generator</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeldimensions">ModelDimensions</a></li>
