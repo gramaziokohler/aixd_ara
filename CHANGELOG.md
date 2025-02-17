@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 * added a script and a component to merge datasets (#66)
+* reference to ARA paper
 
 ### Changed
 * fixed DataBool (#68)

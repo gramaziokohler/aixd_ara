@@ -32,7 +32,6 @@ such as performance metrics or design constraints.
 
 **ARA** is open-source and builds on top of the `AIXD: AI-eXtended Design <https://aixd.ethz.ch>`_ toolkit. 
 
-
 .. attention::
 
    **ARA** was developed for Rhino 7 on Windows. It was not tested on other versions of Rhino or other operating systems.
@@ -53,7 +52,9 @@ In *inverse* design, the process is reversed: the designer specifies the desired
 In many cases, this is a one-to-many mapping, meaning that there are multiple design solutions that satisfy the target values. 
 Being able to obtain multiple equivalent solutions may be a valuable asset in the design process to explore different design alternatives.
 In **ARA**, the inverse design process is achieved by training a conditional (variational) autoencoder model - 
-a type of deep neural network (more details can be found `here <https://aixd.ethz.ch/docs/userguide/model.html>`_).
+a type of deep neural network (more details can be found `here <https://aixd.ethz.ch/docs/stable/userguide/model.html>`_).
+
+
 
 
 ----
