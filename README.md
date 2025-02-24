@@ -33,8 +33,8 @@ as well as our [paper](https://link.springer.com/chapter/10.1007/978-3-031-68275
 ## Installation
 
 #### Requirements:
-
 - Python >= 3.9
+- axid == 0.13.0
 - compas > 2.0
 - flask
 
@@ -101,7 +101,10 @@ Check the [contribution guidelines](CONTRIBUTING.md) for more details.
 The structure we follow on the current repo is as follows:
 
 * `src` : for all source code.
-    * `src/aixd_ara` : source code of `aixd_ara` plugin.
-    * `src/aixd_ara/components` : source code of the GH components.
-    * `src/aixd_ara/ghuser_manual` : binary components, pre-built.
+    * `src/aixd_ara` : source code of the ARA plugin.
+    * `src/aixd_ara/components` : source code of ARA's Grasshopper components.
+    * `src/aixd_ara/scripts` : ARA scripts to run in Rhino's Python Editor.
     * `src/compas_aixd` : source code of the connector to COMPAS infrastructure.
+* `examples` : example files.
+* `scripts` : additional scipts.
+* `docs` : documentation's source code.
