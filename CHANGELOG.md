@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * reference to ARA paper
 
 ### Changed
+* pinned dependency to AIXD version 0.13.0
 * fixed DataBool (#68)
 * fixed GetOneSample (#68)
 * updates induced by AIXD: dataset loading, plots 
