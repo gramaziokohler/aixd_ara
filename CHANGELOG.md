@@ -12,17 +12,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * reference to ARA paper
 
 ### Changed
+* pinned dependency to AIXD version 0.13.0
 * fixed DataBool (#68)
 * fixed GetOneSample (#68)
-* removed option to specify dimensions in DataBool and DataCategorical components (#60), to align with bug fixes in AIXD
+* updates induced by AIXD: dataset loading, plots 
+* updated examples
 
 ### Removed
-
+* removed option to specify dimensions in DataBool and DataCategorical components (#60), to align with bug fixes in AIXD
 
 ## [0.10.5] 2024-10-29
 
 ### Added
-
 * Release without code changes to create a Zenodo DOI
 
 
@@ -43,7 +44,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
-
 * Pin dependency to AIXD version 0.12.0
 * Updated examples & documentation
 * Fixed domain init in DataInt
@@ -52,7 +52,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed issues related to using ARA on Mac.
 
 ### Removed
-
 * Removed option for static plots.
 
 ## [0.9.3] 2024-06-18
