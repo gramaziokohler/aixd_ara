@@ -118,6 +118,14 @@ class SessionController(object):
             raise ValueError("Dataset is not defined. Load or create a Dataset object first.")
 
         samples_dictlist = self.dataset.get_samples(n_samples=n_samples, format_out="dict_list")
+        for sample in samples_dictlist:
+            for key, values in sample.items():
+                castvalues = (
+                    [self.cast_to_python_type(key, value) for value in values]
+                    if isinstance(values, list)
+                    else self.cast_to_python_type(key, values)
+                )
+                sample[key] = castvalues
         return samples_dictlist
 
     def save_samples(self, samples, samples_per_file):
@@ -250,41 +258,39 @@ class SessionController(object):
     def cast_to_python_type(self, dataobject_name, value):
         """
         Cast the values (usually coming from a dataframe) to the correct python type.
-        Value can be a single value or a list.
+        Value should be a single value, not a list.
         """
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
 
         dobj = self.dataset.get_data_objects_by_name([dataobject_name])[0]
-
-        if not isinstance(value, list):
-            value = [value]
-            single = True
-        else:
-            single = False
+        if isinstance(value, list):
+            raise ValueError("Value should be a single value, not a list. Got: {dataobject_name} - {value}")
 
         if isinstance(dobj, DataInt):
-            castvalue = [int(v) for v in value]
+            castvalue = int(value)
         elif isinstance(dobj, DataReal):
-            castvalue = [float(v) for v in value]
+            castvalue = float(value)
         elif isinstance(dobj, DataBool):
-            castvalue = []
-            for v in value:
-                if isinstance(v, bool):
-                    castvalue.append(v)
-                elif isinstance(v, int):
-                    castvalue.append(bool(v))
-                elif isinstance(v, str):
-                    castvalue.append({"True": True, "False": False}[v])
-                else:
-                    raise ValueError(f"Dataobject type not recognized: {dobj.type}")
+            if isinstance(value, bool):
+                castvalue = value
+            elif isinstance(value, int):
+                castvalue.append(bool(value))
+            elif isinstance(value, str):
+                castvalue = {"True": True, "False": False}[value]
+            else:
+                raise ValueError(
+                    f"Values in '{dobj.name}' do not match the data type! \
+                    Expected: {dobj.type}/'DataBool', but got: {type(value)}"
+                )
         elif isinstance(dobj, DataCategorical):
-            castvalue = [str(v) for v in value]
+            castvalue = str(value)
         else:
-            raise ValueError(f"Dataobject type not recognized: {dobj.type}")
+            raise ValueError(
+                f"Data type not recognized! \
+                Data object: '{dobj.name}', dataobject type: {dobj.type}, values: {type(value)}"
+            )
 
-        if single:
-            castvalue = castvalue[0]
         return castvalue
 
     def get_dataobject_types(self):
@@ -318,7 +324,7 @@ class SessionController(object):
         # TODO: rename
         if not self.dataset:
             raise ValueError("Dataset is not loaded.")
-        print(self.dataset.design_par)
+
         dp = self.dataset.design_par.names_list
         return dp
 
@@ -518,28 +524,24 @@ class SessionController(object):
             n = len(self.dataset.design_par.data)
             item = random.randint(0, n)
 
-        dp_df = self.dataset.design_par.data.iloc[item]  # pd.series
-        pa_df = self.dataset.perf_attributes.data.iloc[item]  # pd.series
+        dp_df = self.dataset.design_par.data.iloc[[item]]  # pd.series
+        pa_df = self.dataset.perf_attributes.data.iloc[[item]]  # pd.series
 
-        def _reduce_list(x):
-            # if the list has only one element, return the element instead of a list
-            if isinstance(x, list):
-                if len(x) == 1:
-                    return x[0]
-            return x
+        dp_dict = reformat_dataframeflat_to_dict(dp_df, self.dataset.design_par.dobj_list, listwrap=True)
+        pa_dict = reformat_dataframeflat_to_dict(pa_df, self.dataset.perf_attributes.dobj_list, listwrap=True)
 
         sample = {"design_parameters": {}, "performance_attributes": {}}
-        for name, values in dp_df.items():
-            if name == "uid":
-                continue
-            typed_values = self.cast_to_python_type(name, values)
-            sample["design_parameters"][name] = _reduce_list(typed_values)
+        for key, values in dp_dict.items():
+            castvalues = [
+                self.cast_to_python_type(key, value) for value in values[0]
+            ]  # values are double-wrapped in a list, that's why we need [0] to shed the outer list
+            castvalues = castvalues[0] if len(castvalues) == 1 else castvalues
+            sample["design_parameters"][key] = castvalues
 
-        for name, values in pa_df.items():
-            if name in ["uid", "error"]:
-                continue
-            typed_values = self.cast_to_python_type(name, values)
-            sample["performance_attributes"][name] = _reduce_list(typed_values)
+        for key, values in pa_dict.items():
+            castvalues = [self.cast_to_python_type(key, value) for value in values[0]]
+            castvalues = castvalues[0] if len(castvalues) == 1 else castvalues
+            sample["performance_attributes"][key] = castvalues
 
         return sample
 
