@@ -524,24 +524,28 @@ class SessionController(object):
             n = len(self.dataset.design_par.data)
             item = random.randint(0, n)
 
-        dp_df = self.dataset.design_par.data.iloc[[item]]  # pd.series
-        pa_df = self.dataset.perf_attributes.data.iloc[[item]]  # pd.series
+        dp_df = self.dataset.design_par.data.iloc[item]  # pd.series
+        pa_df = self.dataset.perf_attributes.data.iloc[item]  # pd.series
 
-        dp_dict = reformat_dataframeflat_to_dict(dp_df, self.dataset.design_par.dobj_list, listwrap=True)
-        pa_dict = reformat_dataframeflat_to_dict(pa_df, self.dataset.perf_attributes.dobj_list, listwrap=True)
+        def _reduce_list(x):
+            # if the list has only one element, return the element instead of a list
+            if isinstance(x, list):
+                if len(x) == 1:
+                    return x[0]
+            return x
 
         sample = {"design_parameters": {}, "performance_attributes": {}}
-        for key, values in dp_dict.items():
-            castvalues = [
-                self.cast_to_python_type(key, value) for value in values[0]
-            ]  # values are double-wrapped in a list, that's why we need [0] to shed the outer list
-            castvalues = castvalues[0] if len(castvalues) == 1 else castvalues
-            sample["design_parameters"][key] = castvalues
+        for dobj in self.dataset.design_par.dobj_list:
+            name = dobj.name
+            values = _reduce_list(dp_df[dobj.columns_df].values.tolist())
+            typed_values = self.cast_to_python_type(name, values)
+            sample["design_parameters"][name] = typed_values
 
-        for key, values in pa_dict.items():
-            castvalues = [self.cast_to_python_type(key, value) for value in values[0]]
-            castvalues = castvalues[0] if len(castvalues) == 1 else castvalues
-            sample["performance_attributes"][key] = castvalues
+        for dobj in self.dataset.perf_attributes.dobj_list:
+            name = dobj.name
+            values = _reduce_list(pa_df[dobj.columns_df].values.tolist())
+            typed_values = self.cast_to_python_type(name, values)
+            sample["performance_attributes"][name] = typed_values
 
         return sample
 
