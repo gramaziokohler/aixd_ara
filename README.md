@@ -1,4 +1,4 @@
-# ARA: AIXD Grasshopper plugin
+# ARA: Grasshopper plugin for AIXD toolbox for AI-eXtended Design
 
 [![License](https://img.shields.io/github/license/gramaziokohler/aixd_ara.svg)](https://pypi.python.org/pypi/aixd_ara)
 [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/aixd_ara)](https://anaconda.org/conda-forge/aixd_ara)
