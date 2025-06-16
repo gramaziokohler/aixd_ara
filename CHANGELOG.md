@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
-* fixed get1sample (#73)
+* fixed get_one_sample (#73)
 
 ### Removed
 
