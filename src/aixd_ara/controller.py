@@ -507,7 +507,7 @@ class SessionController(object):
         )
         return datamodule
 
-    def get_one_sample(self, item):
+        def get_one_sample(self, item):
         """
         Returns a single sample from the dataset as a dictionary.
 
@@ -524,6 +524,7 @@ class SessionController(object):
             n = len(self.dataset.design_par.data)
             item = random.randint(0, n)
 
+        #TODO: instead of iloc, use the exact uid
         dp_df = self.dataset.design_par.data.iloc[item]  # pd.series
         pa_df = self.dataset.perf_attributes.data.iloc[item]  # pd.series
 
@@ -537,14 +538,14 @@ class SessionController(object):
         sample = {"design_parameters": {}, "performance_attributes": {}}
         for dobj in self.dataset.design_par.dobj_list:
             name = dobj.name
-            values = _reduce_list(dp_df[dobj.columns_df].values.tolist())
-            typed_values = self.cast_to_python_type(name, values)
+            values = dp_df[dobj.columns_df].values.tolist()
+            typed_values = _reduce_list([self.cast_to_python_type(name, v) for v in values])
             sample["design_parameters"][name] = typed_values
 
         for dobj in self.dataset.perf_attributes.dobj_list:
             name = dobj.name
-            values = _reduce_list(pa_df[dobj.columns_df].values.tolist())
-            typed_values = self.cast_to_python_type(name, values)
+            values = pa_df[dobj.columns_df].values.tolist()
+            typed_values = _reduce_list([self.cast_to_python_type(name, v) for v in values])
             sample["performance_attributes"][name] = typed_values
 
         return sample
