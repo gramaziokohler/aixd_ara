@@ -507,7 +507,7 @@ class SessionController(object):
         )
         return datamodule
 
-        def get_one_sample(self, item):
+    def get_one_sample(self, item):
         """
         Returns a single sample from the dataset as a dictionary.
 
@@ -524,7 +524,7 @@ class SessionController(object):
             n = len(self.dataset.design_par.data)
             item = random.randint(0, n)
 
-        #TODO: instead of iloc, use the exact uid
+        # TODO: instead of iloc, use the exact uid
         dp_df = self.dataset.design_par.data.iloc[item]  # pd.series
         pa_df = self.dataset.perf_attributes.data.iloc[item]  # pd.series
 
