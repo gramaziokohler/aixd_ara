@@ -848,6 +848,32 @@ Requires a dataset to be loaded.</p>
 <li><p><strong>plot</strong> <em>(bool)</em> – Set to True to (re-)create the plot.</p></li>
 </ul>
 </section>
+<section id="plotglobalsensitivity">
+<h2>PlotGlobalSensitivity</h2>
+<a class="reference internal image-reference" href="_images/ara_PlotGlobalSensitivity.png"><img alt="_images/ara_PlotGlobalSensitivity.png" class="align-left" src="_images/ara_PlotGlobalSensitivity.png" style="width: 24px; height: 24px;" /></a>
+<p>Calculates and plots the global sensitivity of a given target (performance attribute) w.r.t. a batch of data samples.
+Requires a dataset and a trained model to be loaded.
+Global sensitivity can be slow to compute for large datasets, so it is recommended to subsample using <cite>n_samples</cite>.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>target_name</strong> <em>(str)</em> – Name of a target performance attribute.</p></li>
+<li><p><strong>set_name</strong> <em>(str)</em> – Name of the dataset-subset to be used (‘train’, ‘val’ or ‘test’). Dafault: ‘val’.</p></li>
+<li><p><strong>n_samples</strong> <em>(int)</em> – Number of samples to be drawn from the selected dataset-subset. Optional. If not provided, all samples from the selected dataset-subset are used.</p></li>
+<li><p><strong>plot</strong> <em>(bool)</em> – Set to True to calculate and plot the local sensitivity.</p></li>
+</ul>
+</section>
+<section id="plotlocalsensitivity">
+<h2>PlotLocalSensitivity</h2>
+<a class="reference internal image-reference" href="_images/ara_PlotLocalSensitivity.png"><img alt="_images/ara_PlotLocalSensitivity.png" class="align-left" src="_images/ara_PlotLocalSensitivity.png" style="width: 24px; height: 24px;" /></a>
+<p>Calculates and plots the local sensitivity of a given target (performance attribute) w.r.t. a specific design (sample).
+Requires a dataset and a trained model to be loaded.</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><strong>target_name</strong> <em>(str)</em> – Name of a target performance attribute.</p></li>
+<li><p><strong>sample</strong> <em>[List of (str)]</em> – List of design parameters for a single sample, each formatted as a string with the following format: ‘variable_name:value’.</p></li>
+<li><p><strong>plot</strong> <em>(bool)</em> – Set to True to calculate and plot the local sensitivity.</p></li>
+</ul>
+</section>
 <section id="projectsetup">
 <h2>ProjectSetup</h2>
 <a class="reference internal image-reference" href="_images/ara_ProjectSetup.png"><img alt="_images/ara_ProjectSetup.png" class="align-left" src="_images/ara_ProjectSetup.png" style="width: 24px; height: 24px;" /></a>
@@ -942,6 +968,8 @@ Requires a dataset to be loaded.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotcontoursrequest">PlotContoursRequest</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotcorrelations">PlotCorrelations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotdistribution">PlotDistribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotglobalsensitivity">PlotGlobalSensitivity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotlocalsensitivity">PlotLocalSensitivity</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projectsetup">ProjectSetup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reset">Reset</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server">Server</a></li>
