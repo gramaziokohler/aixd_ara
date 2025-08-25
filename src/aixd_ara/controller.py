@@ -8,6 +8,7 @@ import os
 import random
 import shutil
 import pandas as pd
+import numpy as np
 
 import pytorch_lightning as pl
 import torch
@@ -752,6 +753,70 @@ class SessionController(object):
         msg += f"New dataset with {len(df_all)} samples has been created in \
             {os.path.join(root_folder, new_dataset_name)}.\n"
         return {"status": status, "msg": msg}
+
+    def local_sensitivity(self, test_point, performance_attribute_name):
+        """
+        Plots a local sensitivity of the given performance attribute with respect to inputs, at the given test point. 
+        By inputs we mean variables declared as features/inputs to the ML model, typically design parameters. 
+        A test point is a particular set of input values, i.e. features of one sample.
+
+        Parameters:
+        -----------
+        test_point: dict
+            Dictionary where keys are feature names and values are the corresponding values.
+        performance_attribute_name: str
+            Name of the performance attribute for which the sensitivity is calculated.
+
+        """
+
+        from aixd.mlmodel.sensitivity.sensitivities import LocalSensitivity
+        self.model.eval()
+        local_sensitivity = LocalSensitivity(self.model)
+
+        x_dim = self.datamodule.x.shape[-1]
+
+        x_arr = np.empty(shape=(1, x_dim))
+
+        for dobj in self.model.input_ml_dblock.dobj_list:
+            start, end = dobj.position_index, (dobj.position_index + dobj.dim)
+            values = test_point[dobj.name]
+            x_arr[..., start:end] = values
+
+        x_transformed = self.datamodule.transform_x(x_arr)
+        x_torch = torch.tensor(x_transformed, dtype=torch.float)
+
+        local_sensitivity.plot(data=x_torch, features=[performance_attribute_name], renderer='browser')
+
+    def global_sensitivity(self, performance_attribute_name, set_name, n_samples):
+        """
+        Plots a global sensitivity of the given performance attribute with respect to inputs, at the given test point. 
+        By inputs we mean variables declared as features/inputs to the ML model, typically design parameters. 
+        A test point is a particular set of input values, i.e. features of one sample.
+
+        Parameters:
+        -----------
+        performance_attribute_name: str
+            Name of the performance attribute for which the sensitivity is calculated.
+        set_name: str
+            Name of the dataset split to use. Can be "train", "val" or "test".
+        n_samples: int
+            Number of samples to use from the given set. If None or 0, all samples will be used.
+            Global sensitivity can be slow to compute, so using a smaller number of samples is recommended.
+        """
+
+        from aixd.mlmodel.sensitivity.sensitivities import GlobalSensitivity
+        self.model.eval()
+        global_sensitivity = GlobalSensitivity(self.model)
+
+        data = self.datamodule.__getattribute__(f"x_{set_name}")
+
+        if n_samples:
+            n_samples = min(n_samples, data.shape[0])
+            indices = np.random.choice(data.shape[0], n_samples, replace=False)
+            data = data[indices, :]
+
+        x_tensor = torch.tensor(data, dtype=torch.float)
+        global_sensitivity.plot(data=x_tensor, features=[performance_attribute_name], renderer='browser')
 
 
 # --------------------------------------------------------------

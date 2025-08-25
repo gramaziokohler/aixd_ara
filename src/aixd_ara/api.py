@@ -344,6 +344,55 @@ def model_input_output_dimensions():
     return response
 
 
+@app.route("/merge_datasets", methods=["POST"])
+def merge_datasets():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.merge_datasets(
+        root_folder=data["root_folder"],
+        new_dataset_name=data["new_dataset_name"],
+        samples_per_file=data["samples_per_file"],
+    )
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
+@app.route("/local_sensitivity", methods=["POST"])
+def local_sensitivity():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.local_sensitivity(
+        test_point=data["test_point"],
+        performance_attribute_name=data["performance_attribute_name"],
+    )
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
+@app.route("/global_sensitivity", methods=["POST"])
+def global_sensitivity():
+    data = request.data
+    data = json.loads(data)
+    session_id = data["session_id"]
+    sc = SessionController.create(session_id)
+
+    result = sc.global_sensitivity(
+        performance_attribute_name=data["performance_attribute_name"],
+        set_name=data["set_name"],
+        n_samples=data["n_samples"],
+    )
+    response = json.dumps(result, cls=DataEncoder)
+    return response
+
+
+# --- server routes ---
+
 @app.route("/shutdown", methods=["GET"])
 def shutdown():
     os.kill(os.getpid(), signal.SIGINT)
@@ -374,22 +423,6 @@ def ara_welcome(*args):
     print()
     print()
     print()
-
-
-@app.route("/merge_datasets", methods=["POST"])
-def merge_datasets():
-    data = request.data
-    data = json.loads(data)
-    session_id = data["session_id"]
-    sc = SessionController.create(session_id)
-
-    result = sc.merge_datasets(
-        root_folder=data["root_folder"],
-        new_dataset_name=data["new_dataset_name"],
-        samples_per_file=data["samples_per_file"],
-    )
-    response = json.dumps(result, cls=DataEncoder)
-    return response
 
 
 if __name__ == "__main__":

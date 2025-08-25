@@ -113,3 +113,22 @@ def merge_datasets(session_id, root_folder, new_dataset_name, samples_per_file):
         "samples_per_file": samples_per_file,
     }
     return http_post_request(action="merge_datasets", data=data)
+
+
+def local_sensitivity(session_id, test_point, performance_attribute_name):
+    data = {
+        "session_id": session_id,
+        "test_point": test_point,
+        "performance_attribute_name": performance_attribute_name,
+    }
+    return http_post_request(action="local_sensitivity", data=data)
+
+
+def global_sensitivity(session_id, performance_attribute_name, set_name, n_samples):
+    data = {
+        "session_id": session_id,
+        "performance_attribute_name": performance_attribute_name,
+        "set_name": set_name,
+        "n_samples": n_samples,
+    }
+    return http_post_request(action="global_sensitivity", data=data)
