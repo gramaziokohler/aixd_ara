@@ -1,5 +1,5 @@
+# flake8: noqa
 from scriptcontext import sticky as st
-
 from aixd_ara.gh_ui import global_sensitivity
 from aixd_ara.gh_ui_helper import component_id
 from aixd_ara.gh_ui_helper import session_id

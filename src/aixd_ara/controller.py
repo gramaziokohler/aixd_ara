@@ -756,8 +756,8 @@ class SessionController(object):
 
     def local_sensitivity(self, test_point, performance_attribute_name):
         """
-        Plots a local sensitivity of the given performance attribute with respect to inputs, at the given test point. 
-        By inputs we mean variables declared as features/inputs to the ML model, typically design parameters. 
+        Plots a local sensitivity of the given performance attribute with respect to inputs, at the given test point.
+        By inputs we mean variables declared as features/inputs to the ML model, typically design parameters.
         A test point is a particular set of input values, i.e. features of one sample.
 
         Parameters:
@@ -770,6 +770,7 @@ class SessionController(object):
         """
 
         from aixd.mlmodel.sensitivity.sensitivities import LocalSensitivity
+
         self.model.eval()
         local_sensitivity = LocalSensitivity(self.model)
 
@@ -785,12 +786,12 @@ class SessionController(object):
         x_transformed = self.datamodule.transform_x(x_arr)
         x_torch = torch.tensor(x_transformed, dtype=torch.float)
 
-        local_sensitivity.plot(data=x_torch, features=[performance_attribute_name], renderer='browser')
+        local_sensitivity.plot(data=x_torch, features=[performance_attribute_name], renderer="browser")
 
     def global_sensitivity(self, performance_attribute_name, set_name, n_samples):
         """
-        Plots a global sensitivity of the given performance attribute with respect to inputs, at the given test point. 
-        By inputs we mean variables declared as features/inputs to the ML model, typically design parameters. 
+        Plots a global sensitivity of the given performance attribute with respect to inputs, at the given test point.
+        By inputs we mean variables declared as features/inputs to the ML model, typically design parameters.
         A test point is a particular set of input values, i.e. features of one sample.
 
         Parameters:
@@ -805,6 +806,7 @@ class SessionController(object):
         """
 
         from aixd.mlmodel.sensitivity.sensitivities import GlobalSensitivity
+
         self.model.eval()
         global_sensitivity = GlobalSensitivity(self.model)
 
@@ -816,7 +818,7 @@ class SessionController(object):
             data = data[indices, :]
 
         x_tensor = torch.tensor(data, dtype=torch.float)
-        global_sensitivity.plot(data=x_tensor, features=[performance_attribute_name], renderer='browser')
+        global_sensitivity.plot(data=x_tensor, features=[performance_attribute_name], renderer="browser")
 
 
 # --------------------------------------------------------------
