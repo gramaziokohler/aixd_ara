@@ -1,0 +1,39 @@
+{
+    "name": "PlotGlobalSensitivity",
+    "nickname": "PlotGlobalSensitivity",
+    "category": "ARA",
+    "subcategory": "5 Plotter",
+    "description": "Calculates and plots the global sensitivity of a given target (performance attribute) w.r.t. a batch of data samples. \nRequires a dataset and a trained model to be loaded. \nGlobal sensitivity can be slow to compute for large datasets, so it is recommended to subsample using `n_samples`.",
+    "exposure": 2,
+    "ghpython": {
+        "isAdvancedMode": false,
+        "iconDisplay": 0,
+        "inputParameters": [
+            {
+                "name": "target_name",
+                "description": "Name of a target performance attribute.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "set_name",
+                "description": "Name of the dataset-subset to be used ('train', 'val' or 'test'). Dafault: 'val'.",
+                "typeHintID": "str",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "n_samples",
+                "description": "Number of samples to be drawn from the selected dataset-subset. Optional. If not provided, all samples from the selected dataset-subset are used.",
+                "typeHintID": "int",
+                "scriptParamAccess": 0
+            },
+            {
+                "name": "plot",
+                "description": "Set to True to calculate and plot the local sensitivity.",
+                "typeHintID": "bool",
+                "scriptParamAccess": 0
+            }
+        ],
+        "outputParameters": []
+    }
+}

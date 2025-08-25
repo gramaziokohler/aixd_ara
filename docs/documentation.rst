@@ -412,6 +412,42 @@ Requires a dataset to be loaded.
 - **variables** *[List of (str)]* -- List of names of the variables to be plotted.
 - **plot** *(bool)* -- Set to True to (re-)create the plot.
 
+PlotGlobalSensitivity
+---------------------
+.. image:: _images/icons/ara_PlotGlobalSensitivity.png
+	:align: left
+	:height: 24
+	:width: 24
+
+Calculates and plots the global sensitivity of a given target (performance attribute) w.r.t. a batch of data samples. 
+Requires a dataset and a trained model to be loaded. 
+Global sensitivity can be slow to compute for large datasets, so it is recommended to subsample using `n_samples`.
+
+
+**Inputs**
+
+- **target_name** *(str)* -- Name of a target performance attribute.
+- **set_name** *(str)* -- Name of the dataset-subset to be used ('train', 'val' or 'test'). Dafault: 'val'.
+- **n_samples** *(int)* -- Number of samples to be drawn from the selected dataset-subset. Optional. If not provided, all samples from the selected dataset-subset are used.
+- **plot** *(bool)* -- Set to True to calculate and plot the local sensitivity.
+
+PlotLocalSensitivity
+--------------------
+.. image:: _images/icons/ara_PlotLocalSensitivity.png
+	:align: left
+	:height: 24
+	:width: 24
+
+Calculates and plots the local sensitivity of a given target (performance attribute) w.r.t. a specific design (sample). 
+Requires a dataset and a trained model to be loaded.
+
+
+**Inputs**
+
+- **target_name** *(str)* -- Name of a target performance attribute.
+- **sample** *[List of (str)]* -- List of design parameters for a single sample, each formatted as a string with the following format: 'variable_name:value'.
+- **plot** *(bool)* -- Set to True to calculate and plot the local sensitivity.
+
 ProjectSetup
 ------------
 .. image:: _images/icons/ara_ProjectSetup.png
