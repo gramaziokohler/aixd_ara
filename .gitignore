@@ -117,5 +117,7 @@ temp/**
 
 docs/api/generated/
 src/aixd_ara/components/ghuser/
+**/wandb/**
+**/lightning_logs/**
 
 conda.recipe/
