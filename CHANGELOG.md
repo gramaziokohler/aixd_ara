@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 * Examples: Vase (toy design problem)
+* Examples: pre-generated datasets and pre-trained models (#79)
 * Local and Global Sensitivity plots from AIXD (#62)
 
 ### Changed
