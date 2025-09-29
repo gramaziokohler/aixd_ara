@@ -1,4 +1,5 @@
 # this code is copied from compas_rhino.install https://github.com/compas-dev/compas/blob/main/src/compas_rhino/install.py
+# and adapted to support installation for Rhino 8 using the old IronPython as in Rhino 7
 
 from __future__ import absolute_import
 from __future__ import division
@@ -49,10 +50,7 @@ def install(version=None, packages=None, clean=False):
     # instead of directly as IPy module.
     # scripts_path = compas_rhino._get_rhino_scripts_path(version)
 
-    if version == "8.0":
-        raise ValueError("Installing to Rhino8 using this script is no longer supported. See https://compas.dev/compas/latest/userguide/cad.rhino8.html")
-    else:
-        installation_path = compas_rhino._get_rhino_scripts_path(version)
+    installation_path = compas_rhino._get_rhino_scripts_path(version)
 
     # This is for old installs
     ipylib_path = compas_rhino._get_rhino_ironpython_lib_path(version)
