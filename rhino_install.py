@@ -11,8 +11,9 @@ import os
 import sys
 
 import compas._os
-import compas.plugins
 import compas_rhino
+from compas_rhino.install import after_rhino_install
+from compas_rhino.install import installable_rhino_packages
 
 
 def install(version=None, packages=None, clean=False):
