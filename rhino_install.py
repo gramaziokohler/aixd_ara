@@ -21,7 +21,7 @@ def install(version=None, packages=None, clean=False):
 
     Parameters
     ----------
-    version : {'5.0', '6.0', '7.0'}, optional
+    version : {'5.0', '6.0', '7.0', '8.0'}, optional
         The version number of Rhino.
         Default is ``'7.0'``.
     packages : list of str, optional
