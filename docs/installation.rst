@@ -58,11 +58,11 @@ To install `aixd_ara` using ``pip``, execute the following command:
 
     pip install aixd_ara
 
-And then install the plugin in Rhino/Grasshopper using the following command:
+And then install the plugin in Rhino/Grasshopper using the following command, specifying your Rhino version (e.g., 7.0, 8.0) as needed:
 
 .. code-block:: bash
 
-    python -m compas_rhino.install -v 7.0
+    python -m aixd_ara.rhino_install -v 7.0
 
 
 Installation using conda

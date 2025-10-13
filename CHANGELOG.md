@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 * fixed get_one_sample (#73)
+* Modified installation to support Rhino 8.0 (#81)
 
 ### Removed
 

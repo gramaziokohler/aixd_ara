@@ -1,5 +1,6 @@
-# this code is copied from compas_rhino.install https://github.com/compas-dev/compas/blob/main/src/compas_rhino/install.py
-# and adapted to support installation for Rhino 8 using the old IronPython as in Rhino 7
+# this code is copied from compas_rhino.install
+# https://github.com/compas-dev/compas/blob/main/src/compas_rhino/install.py
+# and adapted to support installation of ARA for Rhino 8, to run ARA using IronPython as in Rhino 7
 
 from __future__ import absolute_import
 from __future__ import division
@@ -16,12 +17,19 @@ from compas_rhino.install import after_rhino_install
 from compas_rhino.install import installable_rhino_packages
 
 
+SUPPORTED_VERSIONS = ["7.0", "8.0"]
+DEFAULT_VERSION = "7.0"
+
+compas_rhino.SUPPORTED_VERSIONS = SUPPORTED_VERSIONS
+compas_rhino.DEFAULT_VERSION = DEFAULT_VERSION
+
+
 def install(version=None, packages=None, clean=False):
-    """Install COMPAS for Rhino.
+    f"""Install COMPAS for Rhino.
 
     Parameters
     ----------
-    version : {'5.0', '6.0', '7.0', '8.0'}, optional
+    version : {SUPPORTED_VERSIONS}, optional
         The version number of Rhino.
         Default is ``'7.0'``.
     packages : list of str, optional
@@ -36,15 +44,12 @@ def install(version=None, packages=None, clean=False):
     --------
     .. code-block:: bash
 
-        python -m aixd_ara.rhino_install
+        python -m aixd_ara.rhino_install -v 7.0
 
     """
     version = compas_rhino._check_rhino_version(version)
 
-    # We install COMPAS packages in the scripts folder
-    # instead of directly as IPy module.
-    # scripts_path = compas_rhino._get_rhino_scripts_path(version)
-
+    # We install COMPAS packages in the scripts folder instead of directly as IPy module.
     installation_path = compas_rhino._get_rhino_scripts_path(version)
 
     # This is for old installs
@@ -144,6 +149,7 @@ def install(version=None, packages=None, clean=False):
 
     # Handle legacy bootstrapper
     # Again, only if possible...
+    print(f"ipylib_path={ipylib_path} ")
     if ipylib_path:
         if not compas_rhino._try_remove_bootstrapper(ipylib_path):
             results.append(
@@ -236,7 +242,9 @@ def _run_post_execution_steps(steps_generator):
                     all_steps_succeeded = False
                 print("   {} {}: {}".format(package.ljust(20), status, message))
             except ValueError:
-                post_execution_errors.append(ValueError("Step ran without errors but result is wrongly formatted: {}".format(str(item))))
+                post_execution_errors.append(
+                    ValueError("Step ran without errors but result is wrongly formatted: {}".format(str(item)))
+                )
 
     if post_execution_errors:
         print("\nOne or more errors occurred:\n")
@@ -246,8 +254,6 @@ def _run_post_execution_steps(steps_generator):
         all_steps_succeeded = False
 
     return all_steps_succeeded
-
-
 
 
 def _update_bootstrapper(install_path, packages):
@@ -287,14 +293,6 @@ def _filter_installable_packages(version, packages):
     return packages
 
 
-# =============================================================================
-# =============================================================================
-# =============================================================================
-# Main
-# =============================================================================
-# =============================================================================
-# =============================================================================
-
 if __name__ == "__main__":
     import argparse
 
@@ -305,7 +303,7 @@ if __name__ == "__main__":
         "--version",
         choices=compas_rhino.SUPPORTED_VERSIONS,
         default=compas_rhino.DEFAULT_VERSION,
-        help="The version of Rhino to install the packages in.",
+        help=f"The version of Rhino to install the packages in. Default {compas_rhino.DEFAULT_VERSION}.",
     )
     parser.add_argument("-p", "--packages", nargs="+", help="The packages to install.")
     parser.add_argument("-c", "--clean", default=False, action="store_true", help="Clean up the installation directory")
