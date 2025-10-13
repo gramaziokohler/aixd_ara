@@ -34,15 +34,9 @@ def install(version=None, packages=None, clean=False):
 
     Examples
     --------
-    .. code-block:: python
-
-        import compas_rhino.install
-
-        compas_rhino.install.install()
-
     .. code-block:: bash
 
-        python -m compas_rhino.install
+        python -m aixd_ara.rhino_install
 
     """
     version = compas_rhino._check_rhino_version(version)
@@ -254,66 +248,6 @@ def _run_post_execution_steps(steps_generator):
     return all_steps_succeeded
 
 
-@compas.plugins.plugin(category="install", pluggable_name="installable_rhino_packages", tryfirst=True)
-def default_installable_rhino_packages():
-    # While this list could obviously be hard-coded, I think
-    # eating our own dogfood and using plugins to define this, just like
-    # any other extension/plugin would be is a better way to ensure consistent behavior.
-    return ["compas", "compas_rhino"]
-
-
-@compas.plugins.pluggable(category="install", selector="collect_all")
-def installable_rhino_packages():
-    """Provide a list of packages to make available inside Rhino.
-
-    Extensions providing Rhino or Grasshopper features
-    can implement this pluggable interface to automatically
-    have their packages made available inside Rhino when
-    COMPAS is installed into it.
-
-    Examples
-    --------
-    >>> import compas.plugins
-    >>> @compas.plugins.plugin(category="install")
-    ... def installable_rhino_packages():
-    ...     return ["compas_fab"]
-
-    Returns
-    -------
-    :obj:`list` of :obj:`str`
-        List of package names to make available inside Rhino.
-    """
-    pass
-
-
-@compas.plugins.pluggable(category="install", selector="collect_all")
-def after_rhino_install(installed_packages):
-    """Allows extensions to execute actions after install to Rhino is done.
-
-    Extensions providing Rhino or Grasshopper features
-    can implement this pluggable interface to perform
-    additional steps after an installation to Rhino has
-    been completed.
-
-    Parameters
-    ----------
-    installed_packages : :obj:`list` of :obj:`str`
-        List of packages that have been installed successfully.
-
-    Examples
-    --------
-    >>> import compas.plugins
-    >>> @compas.plugins.plugin(category="install")
-    ... def after_rhino_install(installed_packages):
-    ...     # Do something after package is installed to Rhino, eg, copy components, etc
-    ...     return [("compas_ghpython", "GH Components installed", True)]
-
-    Returns
-    -------
-    :obj:`list` of 3-tuple (str, str, bool)
-        List containing a 3-tuple with component name, message and True/False success flag.
-    """
-    pass
 
 
 def _update_bootstrapper(install_path, packages):
