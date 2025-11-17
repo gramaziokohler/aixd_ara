@@ -7,14 +7,13 @@ if [[ $- != *i* ]]; then
     printf "    curl -sO https://github.com/gramaziokohler/aixd_ara/raw/main/install.bash && bash -i install.bash\n\n"
 else
     while true; do
-        read -n 1 -p "Select Rhino version (6, 7, 8, or Q to quit): " RHINO_VERSION
+        read -n 1 -p "Select Rhino version (7, 8, or Q to quit): " RHINO_VERSION
         printf "\n";
         case $RHINO_VERSION in
-            6* ) break;;
             7* ) break;;
             8* ) break;;
             [Qq]* ) exit;;
-            * ) printf "Invalid Rhino version, please choose either 6, 7 or 8.\n";;
+            * ) printf "Invalid Rhino version, please choose either 7 or 8.\n";;
         esac
     done
 fi
@@ -61,5 +60,5 @@ source $CONDA_HOME/bin/activate $CONDA_ENV_NAME
 printf "\r[√] Activated virtual environment successfully\n"
 
 printf "[√] Activating environment '$CONDA_ENV_NAME' for Rhino…\n"
-python -m compas_rhino.install -v $RHINO_VERSION.0
+python -m aixd_ara.rhino_install -v $RHINO_VERSION.0
 printf "\r[√] Successfully installed ARA on Rhino\n"

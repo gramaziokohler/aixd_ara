@@ -1,0 +1,309 @@
+# this code is copied from compas_rhino.install
+# https://github.com/compas-dev/compas/blob/main/src/compas_rhino/install.py
+# and adapted to support installation of ARA for Rhino 8, to run ARA using IronPython as in Rhino 7
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import importlib
+import itertools
+import os
+import sys
+
+import compas._os
+import compas_rhino
+from compas_rhino.install import after_rhino_install
+from compas_rhino.install import installable_rhino_packages
+
+
+SUPPORTED_VERSIONS = ["7.0", "8.0"]
+DEFAULT_VERSION = "7.0"
+
+compas_rhino.SUPPORTED_VERSIONS = SUPPORTED_VERSIONS
+compas_rhino.DEFAULT_VERSION = DEFAULT_VERSION
+
+
+def install(version=None, clean=False):
+    f"""Install COMPAS for Rhino.
+
+    Parameters
+    ----------
+    version : {SUPPORTED_VERSIONS}, optional
+        The version number of Rhino.
+        Default is ``'7.0'``.
+    clean : bool, optional
+        If True, this will clean up the entire scripts folder and remove
+        also existing symlinks that are not importable in the current environment.
+
+    Examples
+    --------
+    .. code-block:: bash
+
+        python -m aixd_ara.rhino_install -v 7.0
+
+    """
+    version = compas_rhino._check_rhino_version(version)
+
+    # We install COMPAS packages in the scripts folder instead of directly as IPy module.
+    installation_path = compas_rhino._get_rhino_scripts_path(version)
+
+    # This is for old installs
+    ipylib_path = compas_rhino._get_rhino_ironpython_lib_path(version)
+
+    # Filter the provided list of packages
+    # If no packages are provided
+    # this first collects all installable packages from the environment.
+    packages = _filter_installable_packages(version, packages=None)  # we don't provide any extra packages
+
+    results = []
+    symlinks_to_install = []
+    symlinks_to_uninstall = []
+    exit_code = 0
+
+    # check all installable packages
+    # add the packages that can't be imported from the current env to the list of symlinks to uninstall
+    # and remove the package name from the list of installable packages
+    # make a copy of the list to avoid problems with removing items
+    # note: perhaps this should already happen in the filter function...
+    for name in packages[:]:
+        try:
+            importlib.import_module(name)
+        except ImportError:
+            path = os.path.join(installation_path, name)
+            symlinks_to_uninstall.append(dict(name=name, link=path))
+            packages.remove(name)
+
+    # Also remove all broken symlinks from the scripts folder
+    # because ... they're broken!
+    # If it is an actual folder or a file, leave it alone
+    # because probably someone put it there on purpose.
+    for name in os.listdir(installation_path):
+        path = os.path.join(installation_path, name)
+        if os.path.islink(path):
+            if not os.path.exists(path):
+                symlinks_to_uninstall.append(dict(name=name, link=path))
+                try:
+                    importlib.import_module(name)
+                except ImportError:
+                    pass
+                else:
+                    if name not in packages:
+                        packages.append(name)
+
+    # If the scripts folder is supposed to be cleaned
+    # also remove all existing symlinks that cannot be imported
+    # and reinstall symlinks that can be imported
+    if clean:
+        for name in os.listdir(installation_path):
+            path = os.path.join(installation_path, name)
+            if os.path.islink(path):
+                if os.path.exists(path):
+                    try:
+                        importlib.import_module(name)
+                    except ImportError:
+                        path = os.path.join(installation_path, name)
+                        symlinks_to_uninstall.append(dict(name=name, link=path))
+                    else:
+                        if name not in packages:
+                            packages.append(name)
+
+    # add all of the packages in the list of installable packages
+    # to the list of symlinks to uninstall
+    # and to the list of symlinks to install
+    for package in packages:
+        symlink_path = os.path.join(installation_path, package)
+        symlinks_to_uninstall.append(dict(name=package, link=symlink_path))
+
+        package_path = compas_rhino._get_package_path(importlib.import_module(package))
+        symlinks_to_install.append(dict(name=package, source_path=package_path, link=symlink_path))
+
+        # Handle legacy install location
+        # This does not always work,
+        # and especially not in cases where it is not necessary :)
+        if ipylib_path:
+            legacy_path = os.path.join(ipylib_path, package)
+            if os.path.exists(legacy_path):
+                symlinks_to_uninstall.append(dict(name=package, link=legacy_path))
+
+    # -------------------------
+    # Uninstall first
+    # -------------------------
+
+    symlinks = [link["link"] for link in symlinks_to_uninstall]
+    uninstall_results = compas._os.remove_symlinks(symlinks)
+
+    # Let the user know if some symlinks could not be removed.
+    for uninstall_data, success in zip(symlinks_to_uninstall, uninstall_results):
+        if not success:
+            results.append(
+                (
+                    uninstall_data["name"],
+                    "ERROR: Cannot remove symlink, try to run as administrator.",
+                )
+            )
+
+    # Handle legacy bootstrapper
+    # Again, only if possible...
+    if ipylib_path:
+        if not compas_rhino._try_remove_bootstrapper(ipylib_path):
+            results.append(
+                (
+                    "compas_bootstrapper",
+                    "ERROR: Cannot remove legacy compas_bootstrapper, try to run as administrator.",
+                )
+            )
+
+    # -------------------------
+    # Ready to start installing
+    # -------------------------
+
+    # create new symlinks and register the results
+    symlinks = [(link["source_path"], link["link"]) for link in symlinks_to_install]
+    install_results = compas._os.create_symlinks(symlinks)
+
+    # set the exit code based on the installation results
+    if not all(install_results):
+        exit_code = -1
+
+    # make a list of installed packages
+    # based on the installation results
+    # and update the general results list
+    installed_packages = []
+    for install_data, success in zip(symlinks_to_install, install_results):
+        if success:
+            installed_packages.append(install_data["name"])
+            result = "OK"
+        else:
+            result = "ERROR: Cannot create symlink, try to run as administrator."
+        results.append((install_data["name"], result))
+
+    # finalize the general results list with info about the bootstrapper
+    if exit_code == -1:
+        results.append(
+            (
+                "compas_bootstrapper",
+                "WARNING: One or more packages failed, will not install bootstrapper, try uninstalling first",
+            )
+        )
+    else:
+        try:
+            _update_bootstrapper(installation_path, packages)
+            results.append(("compas_bootstrapper", "OK"))
+        except:  # noqa: E722
+            results.append(
+                (
+                    "compas_bootstrapper",
+                    "ERROR: Could not create compas_bootstrapper to auto-determine Python environment",
+                )
+            )
+
+    # output the outcome of the installation process
+    # perhaps we should more info here
+    print("\nInstalling COMPAS packages to Rhino {0} scripts folder:".format(version))
+    print("{}\n".format(installation_path))
+
+    for package, status in results:
+        print("   {} {}".format(package.ljust(20), status))
+        if status != "OK":
+            exit_code = -1
+
+    if exit_code == 0 and len(installed_packages):
+        print("\nRunning post-installation steps...\n")
+        if not _run_post_execution_steps(after_rhino_install(installed_packages)):
+            exit_code = -1
+
+    print("\nInstall completed.")
+    if exit_code != 0:
+        sys.exit(exit_code)
+
+    compas_rhino.INSTALLED_VERSION = version
+
+
+def _run_post_execution_steps(steps_generator):
+    all_steps_succeeded = True
+    post_execution_errors = []
+
+    for result in steps_generator:
+        if isinstance(result, Exception):
+            post_execution_errors.append(result)
+            continue
+
+        for item in result:
+            try:
+                package, message, success = item
+                status = "OK" if success else "ERROR"
+                if not success:
+                    all_steps_succeeded = False
+                print("   {} {}: {}".format(package.ljust(20), status, message))
+            except ValueError:
+                post_execution_errors.append(
+                    ValueError("Step ran without errors but result is wrongly formatted: {}".format(str(item)))
+                )
+
+    if post_execution_errors:
+        print("\nOne or more errors occurred:\n")
+        for error in post_execution_errors:
+            print("   - {}".format(repr(error)))
+
+        all_steps_succeeded = False
+
+    return all_steps_succeeded
+
+
+def _update_bootstrapper(install_path, packages):
+    # Take either the CONDA environment directory or the current Python executable's directory
+    python_directory = os.environ.get("CONDA_PREFIX", None) or os.path.dirname(sys.executable)
+    environment_name = os.environ.get("CONDA_DEFAULT_ENV", "")
+    conda_exe = os.environ.get("CONDA_EXE", "")
+
+    compas_bootstrapper = compas_rhino._get_bootstrapper_path(install_path)
+
+    bootstrapper_data = compas_rhino._get_bootstrapper_data(compas_bootstrapper)
+    installed_packages = bootstrapper_data.get("INSTALLED_PACKAGES", [])
+    installed_packages = list(set(installed_packages + list(packages)))
+
+    with open(compas_bootstrapper, "w") as f:
+        f.write('ENVIRONMENT_NAME = r"{}"\n'.format(environment_name))
+        f.write('PYTHON_DIRECTORY = r"{}"\n'.format(python_directory))
+        f.write('CONDA_EXE = r"{}"\n'.format(conda_exe))
+        f.write("INSTALLED_PACKAGES = {}".format(repr(installed_packages)))
+
+
+def _filter_installable_packages(version, packages):
+    ghpython_incompatible = False
+
+    if compas.OSX and version == 5.0:
+        ghpython_incompatible = True
+
+    if not packages:
+        # Flatten list of results (resulting from collect_all pluggable)
+        packages = sorted(set(itertools.chain.from_iterable(installable_rhino_packages())))  # type: ignore
+    elif "compas_ghpython" in packages and ghpython_incompatible:
+        print("Skipping installation of compas_ghpython since it's not supported for Rhino 5 for Mac")
+
+    if ghpython_incompatible:
+        packages.remove("compas_ghpython")
+
+    return packages
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "-v",
+        "--version",
+        choices=compas_rhino.SUPPORTED_VERSIONS,
+        default=compas_rhino.DEFAULT_VERSION,
+        help=f"The version of Rhino to install the packages in. Default {compas_rhino.DEFAULT_VERSION}.",
+    )
+    parser.add_argument("-c", "--clean", default=False, action="store_true", help="Clean up the installation directory")
+
+    args = parser.parse_args()
+    print(f"args={args} ")
+    compas_rhino.INSTALLATION_ARGUMENTS = args
+
+    install(version=args.version, clean=args.clean)

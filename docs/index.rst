@@ -34,7 +34,7 @@ such as performance metrics or design constraints.
 
 .. attention::
 
-   **ARA** was developed for Rhino 7 on Windows. It was not tested on other versions of Rhino or other operating systems.
+   **ARA** was developed for Rhino 7 on Windows. It was minimally tested on other versions of Rhino (8.0) or other operating systems (Mac).
 
 
 
