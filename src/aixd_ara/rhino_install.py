@@ -24,7 +24,7 @@ compas_rhino.SUPPORTED_VERSIONS = SUPPORTED_VERSIONS
 compas_rhino.DEFAULT_VERSION = DEFAULT_VERSION
 
 
-def install(version=None, packages=None, clean=False):
+def install(version=None, clean=False):
     f"""Install COMPAS for Rhino.
 
     Parameters
@@ -32,10 +32,6 @@ def install(version=None, packages=None, clean=False):
     version : {SUPPORTED_VERSIONS}, optional
         The version number of Rhino.
         Default is ``'7.0'``.
-    packages : list of str, optional
-        List of packages to install or None to use default package list.
-        Default is the result of ``installable_rhino_packages``,
-        which collects all installable packages in the current environment.
     clean : bool, optional
         If True, this will clean up the entire scripts folder and remove
         also existing symlinks that are not importable in the current environment.
@@ -58,7 +54,7 @@ def install(version=None, packages=None, clean=False):
     # Filter the provided list of packages
     # If no packages are provided
     # this first collects all installable packages from the environment.
-    packages = _filter_installable_packages(version, packages)
+    packages = _filter_installable_packages(version, packages=None)  # we don't provide any extra packages
 
     results = []
     symlinks_to_install = []
@@ -149,7 +145,6 @@ def install(version=None, packages=None, clean=False):
 
     # Handle legacy bootstrapper
     # Again, only if possible...
-    print(f"ipylib_path={ipylib_path} ")
     if ipylib_path:
         if not compas_rhino._try_remove_bootstrapper(ipylib_path):
             results.append(
@@ -305,10 +300,10 @@ if __name__ == "__main__":
         default=compas_rhino.DEFAULT_VERSION,
         help=f"The version of Rhino to install the packages in. Default {compas_rhino.DEFAULT_VERSION}.",
     )
-    parser.add_argument("-p", "--packages", nargs="+", help="The packages to install.")
     parser.add_argument("-c", "--clean", default=False, action="store_true", help="Clean up the installation directory")
 
     args = parser.parse_args()
+    print(f"args={args} ")
     compas_rhino.INSTALLATION_ARGUMENTS = args
 
-    install(version=args.version, packages=args.packages, clean=args.clean)
+    install(version=args.version, clean=args.clean)
